@@ -15,6 +15,7 @@
         "lint": "standard src/**/*.ts *.js"
     },
     "dependencies": {
+        "buefy": "^0.7.0",
         "register-service-worker": "^1.0.0",
         "vue": "^2.5.17",
         "vue2-storage": "^3.3.0"

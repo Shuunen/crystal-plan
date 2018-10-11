@@ -1,8 +1,10 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <hello-world />
-  </div>
+  <section class="section">
+    <div class="container has-text-centered">
+      <h1 class="title">Crystal Plan</h1>
+      <hello-world />
+    </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -18,12 +20,12 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.line {
+  display: flex;
+  justify-content: center;
+}
+.col {
+  display: flex;
+  flex-direction: column;
 }
 </style>

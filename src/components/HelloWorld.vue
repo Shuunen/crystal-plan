@@ -1,10 +1,14 @@
 <template>
-  <div class="hello">
-    <h1>Hello {{ name }} !</h1>
-    <input type="text" v-model="newName" @change="setDraft" placeholder="new name">
-    <p :class="[draftStatus]">Status of new name : {{ draftStatus }}</p>
-    <button @click="applyDraft">Apply</button>
-    <button @click="clearDraft">Clear</button>
+  <div class="columns">
+    <div class="hello column is-one-third is-offset-one-third">
+      <h2 class="subtitle">Hello {{ name }} !</h2>
+      <input class="input" type="text" v-model="newName" @change="setDraft" placeholder="new name">
+      <p :class="[draftStatus]">Status of new name : {{ draftStatus }}</p>
+      <div class="line">
+        <button class="button is-primary" @click="applyDraft">Apply</button>
+        <button class="button is-danger is-outlined" @click="clearDraft">Clear</button>
+      </div>
+    </div>
   </div>
 </template>
 
