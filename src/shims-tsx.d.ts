@@ -1,3 +1,4 @@
+/* global JSX, Element, ElementClass, IntrinsicElements, elem */
 import Vue, { VNode } from 'vue'
 
 declare global {

@@ -1,26 +1,22 @@
-# crystal-plan
+# Crystal Plan
 
-## Project setup
-```
-yarn install
-```
+> A web application displaying interactive chart
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+## Prerequisites
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+* Node : version 8 ans above
+* Npm : version 5 and above
+* Install dependencies : `yarn`
 
-### Run your tests
-```
-yarn run test
-```
+## Usage
 
-### Lints and fixes files
-```
-yarn run lint
+``` bash
+# Build for dev
+yarn start
+
+# Build for production
+yarn build
+
+# Commit using standard format
+yarn commit
 ```
