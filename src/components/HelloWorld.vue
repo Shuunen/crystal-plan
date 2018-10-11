@@ -11,6 +11,12 @@
 <script lang="ts">
 import Vue from 'vue'
 
+declare module 'vue/types/vue' {
+  interface VueConstructor {
+    $storage: any
+  }
+}
+
 export default Vue.extend({
   name: 'hello-world',
   data() {
