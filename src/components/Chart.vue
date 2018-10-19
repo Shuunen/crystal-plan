@@ -2,22 +2,14 @@
   <div class="chart">
     <div class="line">
       <div class="col">
-          <bubble />
-          <bubble />
-          <bubble />
-          <bubble />
+          <bubble v-for="data in bubblesLeft" :key="data.text" />
       </div>
       <div class="col rays left">
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col crystal">
           <div class="line">
-            <bubble />
-            <bubble />
-          </div>
-          <div class="line">
-            <bubble />
-            <bubble />
+            <bubble v-for="data in bubblesCenter" :key="data.text" />
           </div>
           <div class="crystal-shape"></div>
       </div>
@@ -25,19 +17,18 @@
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col">
-          <bubble />
-          <bubble />
-          <bubble />
-          <bubble />
+          <bubble v-for="data in bubblesRight" :key="data.text" />
       </div>
     </div>
     <em>Edit is {{ editMode ? 'active' : 'inactive' }}</em>
+    <BubbleForm />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Bubble from './Bubble.vue'
+import BubbleForm from './BubbleForm.vue'
 
 export default Vue.extend({
    props: {
@@ -48,10 +39,14 @@ export default Vue.extend({
   },
   components: {
     Bubble,
+    BubbleForm,
   },
   data() {
     return {
-      active: false
+      active: false,
+      bubblesLeft: [{text: "One"}, {text:"Two"}, {text:"Three"}, {text:"Four"}],
+      bubblesCenter: [{text: "Five"}, {text:"Six"}, {text:"Seven"}, {text:"Height"}],
+      bubblesRight: [{text: "Nine"}, {text:"Ten"}, {text:"Eleven"}, {text:"Twelve"}],
     }
   },
   created: function() {
@@ -80,8 +75,18 @@ $color: orangered;
   .line {
     position: relative;
     z-index: 10;
-    & > div:first-child {
-      margin-right: $size/5;
+    flex-wrap: wrap;
+    & > div:nth-child(1) {
+      margin: 0 1rem 1rem -1rem;
+    }
+    & > div:nth-child(2) {
+      margin: 0 -1rem 1rem 1rem;
+    }
+    & > div:nth-child(3) {
+      margin: 2rem 1rem 0 -1rem;
+    }
+    & > div:nth-child(4) {
+      margin: 2rem -1rem 0 1rem;
     }
   }
   .crystal-shape {

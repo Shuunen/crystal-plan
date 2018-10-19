@@ -4,7 +4,6 @@
       <h1 class="title">Crystal Plan</h1>
       <edit-toggle v-on:editMode="setEditMode" />
       <chart :editMode="editMode" />
-      <hello-world />
     </div>
   </section>
 </template>
@@ -18,7 +17,6 @@ import Chart from './components/Chart.vue';
 export default Vue.extend({
   name: 'app',
   components: {
-    HelloWorld,
     Chart,
     EditToggle,
   },
