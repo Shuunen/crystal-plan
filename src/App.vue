@@ -40,9 +40,22 @@ export default Vue.extend({
 .line {
   display: flex;
   justify-content: center;
+  &.start {
+    justify-content: flex-start;
+  }
+  &.end {
+    justify-content: flex-end;
+  }
 }
 .col {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  &.start {
+    align-items: flex-start;
+  }
+  &.end {
+    align-items: flex-end;
+  }
 }
 </style>

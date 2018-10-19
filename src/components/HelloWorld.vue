@@ -22,7 +22,6 @@ declare module 'vue/types/vue' {
 }
 
 export default Vue.extend({
-  name: 'hello-world',
   data() {
     return {
       name: '',
