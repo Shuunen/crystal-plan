@@ -10,6 +10,7 @@
     },
     "scripts": {
         "commit": "gitmoji -c",
+        "dev": "vue-cli-service serve",
         "start": "vue-cli-service serve",
         "build": "vue-cli-service build",
         "lint": "standard src/**/*.ts *.js"

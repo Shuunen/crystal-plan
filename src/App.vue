@@ -2,7 +2,7 @@
   <section class="section">
     <div class="container has-text-centered">
       <h1 class="title">Crystal Plan</h1>
-      <edit-toggle v-on:editMode="setEditMode" />
+      <edit-toggle @editMode="setEditMode" />
       <chart :editMode="editMode" />
     </div>
   </section>

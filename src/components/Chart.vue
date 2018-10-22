@@ -2,14 +2,14 @@
   <div class="chart">
     <div class="line">
       <div class="col">
-          <bubble v-for="data in bubblesLeft" :key="data.text" />
+          <bubble :data="data" :editMode="editMode" @click.native="editBubble(data)" v-for="data in bubblesLeft" :key="data.text" />
       </div>
       <div class="col rays left">
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col crystal">
           <div class="line">
-            <bubble v-for="data in bubblesCenter" :key="data.text" />
+            <bubble :data="data" :editMode="editMode" @click.native="editBubble(data)" v-for="data in bubblesCenter" :key="data.text" />
           </div>
           <div class="crystal-shape"></div>
       </div>
@@ -17,17 +17,19 @@
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col">
-          <bubble v-for="data in bubblesRight" :key="data.text" />
+          <bubble :data="data" :editMode="editMode" @click.native="editBubble(data)" v-for="data in bubblesRight" :key="data.text" />
       </div>
     </div>
     <em>Edit is {{ editMode ? 'active' : 'inactive' }}</em>
-    <BubbleForm />
+    <b-modal :active.sync="editFormOpened" has-modal-card>
+      <BubbleForm v-bind="editFormData" @updateData="updateBubble" />
+    </b-modal>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import Bubble from './Bubble.vue'
+import { default as Bubble, BubbleData } from './Bubble.vue'
 import BubbleForm from './BubbleForm.vue'
 
 export default Vue.extend({
@@ -44,9 +46,11 @@ export default Vue.extend({
   data() {
     return {
       active: false,
-      bubblesLeft: [{text: "One"}, {text:"Two"}, {text:"Three"}, {text:"Four"}],
-      bubblesCenter: [{text: "Five"}, {text:"Six"}, {text:"Seven"}, {text:"Height"}],
-      bubblesRight: [{text: "Nine"}, {text:"Ten"}, {text:"Eleven"}, {text:"Twelve"}],
+      editFormOpened: false,
+      editFormData: { data: {} },
+      bubblesLeft:   [{id:11, text: "One"} , {id:12, text:"Two"}, {id:13, text:"Three"} , {id:14, text:"Four"}],
+      bubblesCenter: [{id:21, text: "Five"}, {id:22, text:"Six"}, {id:23, text:"Seven"} , {id:24, text:"Height"}],
+      bubblesRight:  [{id:31, text: "Nine"}, {id:32, text:"Ten"}, {id:33, text:"Eleven"}, {id:34, text:"Twelve"}],
     }
   },
   created: function() {
@@ -59,6 +63,15 @@ export default Vue.extend({
       Vue.$storage.set('edit-mode', active)
       this.$emit('edit-mode', active)
       this.active = active
+    },
+    editBubble(data:BubbleData) {
+      console.log(`user wants to edit bubble ${data.id}`)
+      this.editFormData.data = data
+      this.editFormOpened = true
+    },
+    updateBubble(data:BubbleData) {
+      console.log(`user wants to update bubble ${data.id}`)
+
     },
   }
 });
