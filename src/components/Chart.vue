@@ -2,14 +2,14 @@
   <div class="chart">
     <div class="line">
       <div class="col">
-          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubblesLeft" :key="data.id" />
+          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.left" :key="data.id" />
       </div>
       <div class="col rays left">
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col crystal">
           <div class="line">
-            <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubblesCenter" :key="data.id" />
+            <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.center" :key="data.id" />
           </div>
           <div class="crystal-shape"></div>
       </div>
@@ -17,12 +17,11 @@
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col">
-          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubblesRight" :key="data.id" />
+          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.right" :key="data.id" />
       </div>
     </div>
-    <em>Edit is {{ editMode ? 'active' : 'inactive' }}</em>
     <b-modal :active.sync="editFormOpened" has-modal-card>
-      <BubbleForm v-bind="editFormData" @close="editFormOpened = false" />
+      <BubbleForm v-bind="editFormData" @close="closeForm" />
     </b-modal>
   </div>
 </template>
@@ -31,13 +30,15 @@
 import Vue from "vue";
 import { default as Bubble, BubbleData } from "./Bubble.vue";
 import BubbleForm from "./BubbleForm.vue";
-const selected = false
-const shaded = false
 
 export default Vue.extend({
   props: {
     editMode: {
       type: Boolean,
+      required: true
+    },
+    bubbles: {
+      type: Object,
       required: true
     }
   },
@@ -47,40 +48,11 @@ export default Vue.extend({
   },
   data() {
     return {
-      active: false,
       editFormOpened: false,
-      editFormData: { data: {} },
-      bubblesLeft: [
-        { id: 11, selected, shaded, text: "One" },
-        { id: 12, selected, shaded, text: "Two" },
-        { id: 13, selected, shaded, text: "Three" },
-        { id: 14, selected, shaded, text: "Four" }
-      ],
-      bubblesCenter: [
-        { id: 21, selected, shaded, text: "Five" },
-        { id: 22, selected, shaded, text: "Six" },
-        { id: 23, selected, shaded, text: "Seven" },
-        { id: 24, selected, shaded, text: "Height" }
-      ],
-      bubblesRight: [
-        { id: 31, selected, shaded, text: "Nine" },
-        { id: 32, selected, shaded, text: "Ten" },
-        { id: 33, selected, shaded, text: "Eleven" },
-        { id: 34, selected, shaded, text: "Twelve" }
-      ]
+      editFormData: { data: {} }
     };
   },
-  created: function() {
-    this.active = Vue.$storage.get("edit-mode", false);
-  },
   methods: {
-    toggleActive() {
-      const active = !this.active;
-      console.log("edit mode now", (active ? "" : "in-") + "active");
-      Vue.$storage.set("edit-mode", active);
-      this.$emit("edit-mode", active);
-      this.active = active;
-    },
     clickBubble(data: BubbleData) {
       if (this.editMode) {
         console.log(`user wants to edit bubble ${data.id}`);
@@ -91,26 +63,33 @@ export default Vue.extend({
         this.selectOneBubble(data);
       }
     },
+    closeForm(dataUpdated: boolean) {
+      if (dataUpdated) {
+        // console.log('emitting bubblesUpdate')
+        this.$emit("bubblesUpdate", this.bubbles);
+      }
+      this.editFormOpened = false;
+    },
     findAssociatedBubbles(bubble: BubbleData): BubbleData[] {
       const group = bubble.id.toString().substr(0, 1);
       console.log("detected group :", group);
       if (group === "1") {
-        return this.bubblesLeft;
+        return this.bubbles.left;
       } else if (group === "2") {
-        return this.bubblesCenter;
+        return this.bubbles.center;
       } else if (group === "3") {
-        return this.bubblesRight;
+        return this.bubbles.right;
       } else {
         console.error("group id not handled");
         return [];
       }
     },
     selectOneBubble(bubble: BubbleData) {
-      const focusMode = !!!bubble.selected
+      const focusMode = !!!bubble.selected;
       this.findAssociatedBubbles(bubble).map(b => {
-        if(focusMode){
+        if (focusMode) {
           // only focus one bubble
-          const goodOne = b.id === bubble.id
+          const goodOne = b.id === bubble.id;
           b.selected = goodOne;
           b.shaded = !goodOne;
         } else {
