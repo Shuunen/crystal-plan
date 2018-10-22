@@ -2,14 +2,14 @@
   <div class="chart">
     <div class="line">
       <div class="col">
-          <bubble :data="data" :editMode="editMode" @click.native="editBubble(data)" v-for="data in bubblesLeft" :key="data.text" />
+          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubblesLeft" :key="data.id" />
       </div>
       <div class="col rays left">
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col crystal">
           <div class="line">
-            <bubble :data="data" :editMode="editMode" @click.native="editBubble(data)" v-for="data in bubblesCenter" :key="data.text" />
+            <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubblesCenter" :key="data.id" />
           </div>
           <div class="crystal-shape"></div>
       </div>
@@ -17,69 +17,116 @@
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col">
-          <bubble :data="data" :editMode="editMode" @click.native="editBubble(data)" v-for="data in bubblesRight" :key="data.text" />
+          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubblesRight" :key="data.id" />
       </div>
     </div>
     <em>Edit is {{ editMode ? 'active' : 'inactive' }}</em>
     <b-modal :active.sync="editFormOpened" has-modal-card>
-      <BubbleForm v-bind="editFormData" @updateData="updateBubble" />
+      <BubbleForm v-bind="editFormData" @close="editFormOpened = false" />
     </b-modal>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { default as Bubble, BubbleData } from './Bubble.vue'
-import BubbleForm from './BubbleForm.vue'
+import Vue from "vue";
+import { default as Bubble, BubbleData } from "./Bubble.vue";
+import BubbleForm from "./BubbleForm.vue";
+const selected = false
+const shaded = false
 
 export default Vue.extend({
-   props: {
+  props: {
     editMode: {
       type: Boolean,
-      required: true,
+      required: true
     }
   },
   components: {
     Bubble,
-    BubbleForm,
+    BubbleForm
   },
   data() {
     return {
       active: false,
       editFormOpened: false,
       editFormData: { data: {} },
-      bubblesLeft:   [{id:11, text: "One"} , {id:12, text:"Two"}, {id:13, text:"Three"} , {id:14, text:"Four"}],
-      bubblesCenter: [{id:21, text: "Five"}, {id:22, text:"Six"}, {id:23, text:"Seven"} , {id:24, text:"Height"}],
-      bubblesRight:  [{id:31, text: "Nine"}, {id:32, text:"Ten"}, {id:33, text:"Eleven"}, {id:34, text:"Twelve"}],
-    }
+      bubblesLeft: [
+        { id: 11, selected, shaded, text: "One" },
+        { id: 12, selected, shaded, text: "Two" },
+        { id: 13, selected, shaded, text: "Three" },
+        { id: 14, selected, shaded, text: "Four" }
+      ],
+      bubblesCenter: [
+        { id: 21, selected, shaded, text: "Five" },
+        { id: 22, selected, shaded, text: "Six" },
+        { id: 23, selected, shaded, text: "Seven" },
+        { id: 24, selected, shaded, text: "Height" }
+      ],
+      bubblesRight: [
+        { id: 31, selected, shaded, text: "Nine" },
+        { id: 32, selected, shaded, text: "Ten" },
+        { id: 33, selected, shaded, text: "Eleven" },
+        { id: 34, selected, shaded, text: "Twelve" }
+      ]
+    };
   },
   created: function() {
-    this.active = Vue.$storage.get('edit-mode', false)
+    this.active = Vue.$storage.get("edit-mode", false);
   },
   methods: {
-    toggleActive(){
-      const active = !this.active
-      console.log('edit mode now', (active ? '' : 'in-') + 'active')
-      Vue.$storage.set('edit-mode', active)
-      this.$emit('edit-mode', active)
-      this.active = active
+    toggleActive() {
+      const active = !this.active;
+      console.log("edit mode now", (active ? "" : "in-") + "active");
+      Vue.$storage.set("edit-mode", active);
+      this.$emit("edit-mode", active);
+      this.active = active;
     },
-    editBubble(data:BubbleData) {
-      console.log(`user wants to edit bubble ${data.id}`)
-      this.editFormData.data = data
-      this.editFormOpened = true
+    clickBubble(data: BubbleData) {
+      if (this.editMode) {
+        console.log(`user wants to edit bubble ${data.id}`);
+        this.editFormData.data = data;
+        this.editFormOpened = true;
+      } else {
+        console.log(`user wants to select bubble ${data.id}`);
+        this.selectOneBubble(data);
+      }
     },
-    updateBubble(data:BubbleData) {
-      console.log(`user wants to update bubble ${data.id}`)
-
+    findAssociatedBubbles(bubble: BubbleData): BubbleData[] {
+      const group = bubble.id.toString().substr(0, 1);
+      console.log("detected group :", group);
+      if (group === "1") {
+        return this.bubblesLeft;
+      } else if (group === "2") {
+        return this.bubblesCenter;
+      } else if (group === "3") {
+        return this.bubblesRight;
+      } else {
+        console.error("group id not handled");
+        return [];
+      }
     },
+    selectOneBubble(bubble: BubbleData) {
+      const focusMode = !!!bubble.selected
+      this.findAssociatedBubbles(bubble).map(b => {
+        if(focusMode){
+          // only focus one bubble
+          const goodOne = b.id === bubble.id
+          b.selected = goodOne;
+          b.shaded = !goodOne;
+        } else {
+          // reset values of all bubbles
+          b.selected = false;
+          b.shaded = false;
+        }
+      });
+    }
   }
 });
 </script>
 
 <style lang="scss">
 $size: 12rem;
-$thick: .2rem;
+$thick: 0.2rem;
 $color: orangered;
 .col.crystal {
   width: $size;
@@ -90,16 +137,16 @@ $color: orangered;
     z-index: 10;
     flex-wrap: wrap;
     & > div:nth-child(1) {
-      margin: 0 1rem 1rem -1rem;
+      margin: 0 1rem 0 -1rem;
     }
     & > div:nth-child(2) {
-      margin: 0 -1rem 1rem 1rem;
+      margin: 0 -1rem 0 1rem;
     }
     & > div:nth-child(3) {
-      margin: 2rem 1rem 0 -1rem;
+      margin: 1rem 1rem 0 -1rem;
     }
     & > div:nth-child(4) {
-      margin: 2rem -1rem 0 1rem;
+      margin: 1rem -1rem 0 1rem;
     }
   }
   .crystal-shape {
@@ -126,41 +173,49 @@ $color: orangered;
   $small-y: 2.2rem;
   $small-scale: 1.1;
   &.left {
-    margin-left: $size * .1;
-    margin-right: $size * .2;
+    margin-left: $size * 0.1;
+    margin-right: $size * 0.2;
     & > div:nth-child(1) {
-      transform: rotate($large-rotation) translate($large-x, $large-y) scaleX($large-scale);
+      transform: rotate($large-rotation) translate($large-x, $large-y)
+        scaleX($large-scale);
     }
     & > div:nth-child(2) {
-      transform: rotate($small-rotation) translate($small-x, $small-y) scaleX($small-scale);
+      transform: rotate($small-rotation) translate($small-x, $small-y)
+        scaleX($small-scale);
     }
     & > div:nth-child(3) {
-      transform: rotate(-$small-rotation) translate($small-x, -$small-y) scaleX($small-scale);
+      transform: rotate(-$small-rotation) translate($small-x, -$small-y)
+        scaleX($small-scale);
     }
     & > div:nth-child(4) {
-      transform: rotate(-$large-rotation) translate($large-x, -$large-y) scaleX($large-scale);
+      transform: rotate(-$large-rotation) translate($large-x, -$large-y)
+        scaleX($large-scale);
     }
   }
   &.right {
-    margin-right: $size * .1;
-    margin-left: $size * .2;
+    margin-right: $size * 0.1;
+    margin-left: $size * 0.2;
     & > div:nth-child(1) {
-      transform: rotate(-$large-rotation) translate(-$large-x, $large-y) scaleX($large-scale);
+      transform: rotate(-$large-rotation) translate(-$large-x, $large-y)
+        scaleX($large-scale);
     }
     & > div:nth-child(2) {
-      transform: rotate(-$small-rotation) translate($small-x, $small-y) scaleX($small-scale);
+      transform: rotate(-$small-rotation) translate($small-x, $small-y)
+        scaleX($small-scale);
     }
     & > div:nth-child(3) {
-      transform: rotate($small-rotation) translate($small-x, -$small-y) scaleX($small-scale);
+      transform: rotate($small-rotation) translate($small-x, -$small-y)
+        scaleX($small-scale);
     }
     & > div:nth-child(4) {
-      transform: rotate($large-rotation) translate(-$large-x, -$large-y) scaleX($large-scale);
+      transform: rotate($large-rotation) translate(-$large-x, -$large-y)
+        scaleX($large-scale);
     }
   }
   .ray {
     display: block;
     height: $thick;
-    width: $size * .8;
+    width: $size * 0.8;
     background-color: $color;
   }
 }

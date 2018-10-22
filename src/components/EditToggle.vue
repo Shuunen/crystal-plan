@@ -42,9 +42,12 @@ a.button-edit-mode {
   padding: 20px 15px;
   display: flex;
   justify-content: center;
+  transform: scale(1) rotate(0deg);
+  transition: color 0.3s, transform 0.3s;
   &.active {
     color: white;
     background: green;
+    transform: scale(1.2) rotate(20deg);
   }
 }
 </style>
