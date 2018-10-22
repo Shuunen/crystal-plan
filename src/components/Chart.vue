@@ -111,21 +111,22 @@ $color: orangered;
   width: $size;
   position: relative;
   justify-content: center;
+  flex-shrink: 0;
   .line {
     position: relative;
     z-index: 10;
     flex-wrap: wrap;
     & > div:nth-child(1) {
-      margin: 0 1rem 0 -1rem;
+      margin: 0 1rem 1rem -1rem;
     }
     & > div:nth-child(2) {
-      margin: 0 -1rem 0 1rem;
+      margin: 0 -1rem 1rem 1rem;
     }
     & > div:nth-child(3) {
-      margin: 1rem 1rem 0 -1rem;
+      margin: 1.5rem 1rem 0 -1rem;
     }
     & > div:nth-child(4) {
-      margin: 1rem -1rem 0 1rem;
+      margin: 1.5rem -1rem 0 1rem;
     }
   }
   .crystal-shape {

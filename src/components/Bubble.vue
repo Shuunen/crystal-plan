@@ -2,7 +2,7 @@
   <div class="bubble-wrapper col" :class="{ editable: editMode, selected: data.selected, shaded: data.shaded }">
     <div class="bubble-image" />
     <div class="bubble-id" v-show="editMode">{{ data.id }}</div>
-    <div class="bubble-text">{{ data.text }}</div>
+    <div class="bubble-text ellipsis">{{ data.text }}</div>
   </div>
 </template>
 
@@ -35,6 +35,9 @@ $thick: 0.2rem;
 .bubble-wrapper {
   position: relative;
   color: rebeccapurple;
+  filter: grayscale(0);  
+  transition: color 0.4s, opacity 0.4s, filter .4s;
+  margin: $size/4 0;
   &:hover {
     color: orangered;
     & + .bubble-id {
@@ -47,6 +50,7 @@ $thick: 0.2rem;
   }
   &.shaded {
     opacity: .5;
+    filter: grayscale(100%);
   }
 }
 .bubble-image {
@@ -57,14 +61,11 @@ $thick: 0.2rem;
   height: $size;
   width: $size;
   cursor: pointer;
-  transition: color 0.4s, opacity 0.4s;
 }
 .bubble-id {
   z-index: 5;
   position: absolute;
-  top: -1.15rem;
   top: -$size/4;
-  right: -0.8rem;
   right: -$size/5;
   border: $thick * 0.6 solid;
   border-radius: 50%;
@@ -78,8 +79,10 @@ $thick: 0.2rem;
 }
 .bubble-text {
   font-weight: bold;
-  margin-bottom: $size/4;
   background-color: #ffffffe6;
   padding: 0 5px;
+  position: absolute;
+  bottom: -$size/3.5;
+  max-width: $size*1.5;
 }
 </style>

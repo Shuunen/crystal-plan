@@ -41,6 +41,12 @@ const DEFAULTS = {
   }
 };
 
+declare module 'vue/types/vue' {	
+  interface VueConstructor {	
+    $storage: any	
+  }	
+}
+
 interface Bubbles {
   left: BubbleData[];
   center: BubbleData[];
@@ -101,5 +107,10 @@ export default Vue.extend({
   &.end {
     align-items: flex-end;
   }
+}
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 </style>
