@@ -1,6 +1,6 @@
 <template>
   <div class="bubble-wrapper col" :class="{ editable: editMode, selected: data.selected, shaded: data.shaded }">
-    <div class="bubble-image" />
+    <div class="bubble-image" :style="backgroundStyle" />
     <div class="bubble-id" v-show="editMode">{{ data.id }}</div>
     <div class="bubble-text ellipsis">{{ data.text }}</div>
   </div>
@@ -17,12 +17,36 @@ export default Vue.extend({
       required: true
     },
     editMode: Boolean
+  },
+  computed: {
+    image() {
+      let path = "https://image.flaticon.com/icons/svg/234/234618.svg";
+      if (!this.data) {
+        console.warn("data not available, using default image...");
+        return path;
+      }
+      if (this.data.image && this.data.image.length) {
+        path = this.data.image;
+      } else {
+        console.warn("image not available, using default one...");
+      }
+      return path;
+    }
+  },
+  data() {
+    return {
+      backgroundStyle: {}
+    };
+  },
+  created() {
+    this.backgroundStyle = { backgroundImage: "url(" + this.image + ")" };
   }
 });
 
 export interface BubbleData {
   id: number;
   text: string;
+  image: string;
   selected: boolean;
   shaded: boolean;
 }
@@ -35,8 +59,8 @@ $thick: 0.2rem;
 .bubble-wrapper {
   position: relative;
   color: rebeccapurple;
-  filter: grayscale(0);  
-  transition: color 0.4s, opacity 0.4s, filter .4s;
+  filter: grayscale(0);
+  transition: color 0.4s, opacity 0.4s, filter 0.4s;
   margin: $size/4 0;
   &:hover {
     color: orangered;
@@ -49,7 +73,7 @@ $thick: 0.2rem;
     color: forestgreen;
   }
   &.shaded {
-    opacity: .5;
+    opacity: 0.5;
     filter: grayscale(100%);
   }
 }
@@ -83,6 +107,6 @@ $thick: 0.2rem;
   padding: 0 5px;
   position: absolute;
   bottom: -$size/3.5;
-  max-width: $size*1.5;
+  max-width: $size * 1.5;
 }
 </style>
