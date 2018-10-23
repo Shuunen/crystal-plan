@@ -1,12 +1,19 @@
 <template>
-  <section class="section">
-    <background />
-    <div class="container has-text-centered">
-      <h1 class="title">Crystal Plan.</h1>
-      <edit-toggle @click.native="toggleEditMode" :editMode="editMode" />
-      <chart v-if="bubbles.length" :bubbles="bubbles" @bubblesUpdate="updateBubbles" :editMode="editMode" />
-    </div>
-  </section>
+  <div class="app">
+    <section class="section">
+      <background />
+      <div class="container chart has-text-centered">
+        <h1 class="title">Crystal Plan.</h1>
+        <edit-toggle @click.native="toggleEditMode" :editMode="editMode" />
+        <chart v-if="bubbles.length" :bubbles="bubbles" @bubblesUpdate="updateBubbles" :editMode="editMode" />
+      </div>
+    </section>
+    <section class="section">
+      <div class="container description">
+        <description :content="description" @descriptionUpdate="updateDescription" :editMode="editMode" />
+      </div>
+    </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,18 +22,21 @@ import Chance from "chance";
 import Background from "./components/Background.vue";
 import EditToggle from "./components/EditToggle.vue";
 import Chart from "./components/Chart.vue";
+import Description from "./components/Description.vue";
 import { BubbleData, Sections } from "./components/Bubble.vue";
 const chance = new Chance();
 
 const DEFAULTS = {
   editMode: false,
   bubbles: [] as BubbleData[],
-  bubblesPerSection: 4
+  bubblesPerSection: 4,
+  descriptions: {}
 };
 
 declare module "vue/types/vue" {
   interface VueConstructor {
     $storage: any;
+    pell: any;
   }
 }
 
@@ -35,12 +45,15 @@ export default Vue.extend({
   components: {
     Background,
     Chart,
-    EditToggle
+    EditToggle,
+    Description
   },
   data() {
     return {
       editMode: DEFAULTS.editMode,
       bubbles: DEFAULTS.bubbles,
+      descriptions: DEFAULTS.descriptions,
+      description: '',
       showChart: false
     };
   },
@@ -53,6 +66,7 @@ export default Vue.extend({
     restoreState() {
       this.editMode = Vue.$storage.get("edit-mode", DEFAULTS.editMode);
       this.bubbles = Vue.$storage.get("bubbles", DEFAULTS.bubbles);
+      this.descriptions = Vue.$storage.get("descriptions", DEFAULTS.descriptions);
     },
     checkDataIntegrity() {
       if (this.bubbles.length <= 0) {
@@ -81,6 +95,10 @@ export default Vue.extend({
     updateBubbles(bubbles: BubbleData[]) {
       console.log("saving bubbles to storage...");
       Vue.$storage.set("bubbles", this.bubbles);
+    },
+    updateDescription(description:string) {
+      console.log("saving updated description to storage...", description);
+      this.description = description
     }
   }
 });

@@ -4,14 +4,15 @@ import './registerServiceWorker'
 import Vue2Storage from 'vue2-storage'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
-
-Vue.use(Buefy)
+import VuePellEditor from 'vue-pell-editor'
 
 Vue.use(Vue2Storage, {
   prefix: 'crystalplan_',
   driver: 'local',
   ttl: 60 * 60 * 24 * 1000 * 360
 })
+Vue.use(Buefy)
+Vue.use(VuePellEditor)
 
 Vue.config.productionTip = false
 

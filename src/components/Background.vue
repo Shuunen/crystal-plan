@@ -15,7 +15,8 @@
   }
 }
 @keyframes bg-zoom {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0 0;
   }
   30% {
@@ -24,6 +25,9 @@
   60% {
     background-position: 40px 40px;
   }
+}
+.section {
+  position: relative;
 }
 .background {
   position: absolute;
@@ -37,7 +41,7 @@
   background-size: 400%; */
   animation: bg-zoom 20s ease infinite;
   background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/sayagata-400px.png");
-  background-image:url("https://www.toptal.com/designers/subtlepatterns/patterns/confectionary.png");
+  background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/confectionary.png");
 }
 </style>
 
