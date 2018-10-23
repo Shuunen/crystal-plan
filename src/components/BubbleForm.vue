@@ -2,6 +2,7 @@
   <form action="#">
     <div class="modal-card" style="width: auto">
         <section class="modal-card-body">
+          <b-input autofocus v-model="data.id" placeholder="Id" required />
           <b-input autofocus v-model="data.text" placeholder="Text" required />
         </section>
         <footer class="modal-card-foot">
@@ -22,7 +23,7 @@ const DATA_UPDATE = {
 
 export default Vue.extend({
   props: {
-    data: Object
+    data: Object as () => BubbleData
   },
   data() {
     return {
@@ -35,6 +36,7 @@ export default Vue.extend({
   methods: {
     cancelEdit() {
       console.log(`user just canceled bubble edit`);
+      this.data.id = this.originalData.id;
       this.data.text = this.originalData.text;
       this.$emit("close", DATA_UPDATE.OFF);
     },

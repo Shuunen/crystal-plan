@@ -91,6 +91,9 @@ $size: 5rem;
       color: white;
       background-color: orangered;
     }
+    .bubble-id {
+      display: none;
+    }
   }
   &.shaded {
     opacity: 0.5;
