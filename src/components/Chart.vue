@@ -68,6 +68,7 @@ export default Vue.extend({
       if (dataUpdated) {
         // console.log('emitting bubblesUpdate')
         this.$emit("bubblesUpdate", this.bubbles);
+        this.emitSelection();
       }
       this.editFormOpened = false;
     },
@@ -85,11 +86,14 @@ export default Vue.extend({
           b.shaded = false;
         }
       });
-      this.emitSelection()
+      this.emitSelection();
     },
-    emitSelection(){
-      const selection = this.bubbles.filter(b => b.selected).map(b => b.id).join('-')
-      this.$emit('selectionUpdate', selection)
+    emitSelection() {
+      const selection = this.bubbles
+        .filter(b => b.selected)
+        .map(b => b.id)
+        .join("-");
+      this.$emit("selectionUpdate", selection);
     }
   }
 });
