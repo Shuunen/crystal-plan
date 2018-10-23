@@ -2,14 +2,14 @@
   <div class="chart">
     <div class="line">
       <div class="col">
-          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.left" :key="data.id" />
+          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.filter(b => b.section === Sections.left)" :key="data.id" />
       </div>
       <div class="col rays left">
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col crystal">
           <div class="line">
-            <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.center" :key="data.id" />
+            <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.filter(b => b.section === Sections.center)" :key="data.id" />
           </div>
           <div class="crystal-shape"></div>
       </div>
@@ -17,7 +17,7 @@
           <div class="ray" v-for="i in 4" :key="i" />
       </div>
        <div class="col">
-          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.right" :key="data.id" />
+          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.filter(b => b.section === Sections.right)" :key="data.id" />
       </div>
     </div>
     <b-modal :active.sync="editFormOpened" has-modal-card>
@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { default as Bubble, BubbleData } from "./Bubble.vue";
+import { default as Bubble, BubbleData, Sections } from "./Bubble.vue";
 import BubbleForm from "./BubbleForm.vue";
 
 export default Vue.extend({
@@ -38,7 +38,7 @@ export default Vue.extend({
       required: true
     },
     bubbles: {
-      type: Object,
+      type: Array as () => BubbleData[],
       required: true
     }
   },
@@ -48,6 +48,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      Sections,
       editFormOpened: false,
       editFormData: { data: {} }
     };
@@ -70,23 +71,9 @@ export default Vue.extend({
       }
       this.editFormOpened = false;
     },
-    findAssociatedBubbles(bubble: BubbleData): BubbleData[] {
-      const group = bubble.id.toString().substr(0, 1);
-      console.log("detected group :", group);
-      if (group === "1") {
-        return this.bubbles.left;
-      } else if (group === "2") {
-        return this.bubbles.center;
-      } else if (group === "3") {
-        return this.bubbles.right;
-      } else {
-        console.error("group id not handled");
-        return [];
-      }
-    },
     selectOneBubble(bubble: BubbleData) {
       const focusMode = !!!bubble.selected;
-      this.findAssociatedBubbles(bubble).map(b => {
+      this.bubbles.filter(b => b.section === bubble.section).map(b => {
         if (focusMode) {
           // only focus one bubble
           const goodOne = b.id === bubble.id;

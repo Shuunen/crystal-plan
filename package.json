@@ -17,11 +17,15 @@
     },
     "dependencies": {
         "buefy": "^0.7.0",
+        "chance": "^1.0.16",
         "register-service-worker": "^1.0.0",
+        "speakingurl": "^14.0.1",
         "vue": "^2.5.17",
         "vue2-storage": "^3.3.0"
     },
     "devDependencies": {
+        "@types/chance": "^1.0.1",
+        "@types/speakingurl": "^13.0.2",
         "@vue/cli-plugin-babel": "^3.0.4",
         "@vue/cli-plugin-pwa": "^3.0.4",
         "@vue/cli-plugin-typescript": "^3.0.4",

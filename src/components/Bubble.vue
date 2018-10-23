@@ -2,13 +2,14 @@
   <div class="bubble-wrapper col" :class="{ editable: editMode, selected: data.selected, shaded: data.shaded }">
     <div class="bubble-image" :style="backgroundStyle" />
     <div class="bubble-id" v-show="editMode">{{ data.id }}</div>
-    <div class="bubble-text ellipsis">{{ data.text }}</div>
+    <div class="bubble-text text ellipsis">{{ data.text }}</div>
   </div>
 </template>
 
 
 <script lang="ts">
 import Vue from "vue";
+import getSlug from 'speakingurl';
 
 export default Vue.extend({
   props: {
@@ -43,34 +44,47 @@ export default Vue.extend({
   }
 });
 
-export interface BubbleData {
-  id: number;
-  text: string;
-  image: string;
-  selected: boolean;
-  shaded: boolean;
+enum Sections {
+  left = 'left',
+  center = 'center',
+  right = 'right'
 }
+
+class BubbleData {
+  id?: string;
+  text?: string;
+  section?: Sections;
+  image?: string;
+  selected?: boolean = false;
+  shaded?: boolean = false;
+  constructor(data: BubbleData) {    
+    this.text = data.text || "Default text";
+    this.id = data.id || getSlug(this.text);
+    this.section = data.section || Sections.left
+    this.image = data.image || 'https://picsum.photos/80/80/?random'
+  }
+  /* Component methods can be declared as instance methods
+  onClick(): void {
+    window.alert(this.message);
+  }*/
+}
+
+export { Sections, BubbleData }
 </script>
 
 
 <style lang="scss">
 $size: 5rem;
-$thick: 0.2rem;
 .bubble-wrapper {
   position: relative;
-  color: rebeccapurple;
   filter: grayscale(0);
   transition: color 0.4s, opacity 0.4s, filter 0.4s;
   margin: $size/4 0;
   &:hover {
     color: orangered;
-    & + .bubble-id {
-      color: forestgreen;
-      opacity: 1;
-    }
   }
   &.selected {
-    color: forestgreen;
+    color: orangered;
   }
   &.shaded {
     opacity: 0.5;
@@ -80,8 +94,8 @@ $thick: 0.2rem;
 .bubble-image {
   z-index: 10;
   border-radius: 50%;
-  border: $thick solid currentColor;
   background-color: white;
+  background-size: cover;
   height: $size;
   width: $size;
   cursor: pointer;
@@ -91,22 +105,21 @@ $thick: 0.2rem;
   position: absolute;
   top: -$size/4;
   right: -$size/5;
-  border: $thick * 0.6 solid;
+  border: 3px solid currentColor;
   border-radius: 50%;
   width: $size/2;
   height: $size/2;
   line-height: $size/2.4;
   color: grey;
-  opacity: 0.6;
   background-color: white;
   transition: color 0.4s, opacity 0.4s;
 }
 .bubble-text {
-  font-weight: bold;
+  font-size: 110%;
   background-color: #ffffffe6;
   padding: 0 5px;
   position: absolute;
-  bottom: -$size/3.5;
+  bottom: -$size/3;
   max-width: $size * 1.5;
 }
 </style>
