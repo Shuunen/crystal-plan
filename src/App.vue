@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+    <global-events @keydown.prevent.tab="toggleEditMode" />
     <section class="section">
       <background />
       <div class="container chart has-text-centered">
@@ -19,11 +20,14 @@
 <script lang="ts">
 import Vue from "vue";
 import Chance from "chance";
+import GlobalEvents from "vue-global-events";
+
 import Background from "./components/Background.vue";
 import EditToggle from "./components/EditToggle.vue";
 import Chart from "./components/Chart.vue";
 import Description from "./components/Description.vue";
 import { BubbleData, Sections } from "./components/Bubble.vue";
+
 const chance = new Chance();
 
 const DEFAULTS = {
@@ -45,16 +49,17 @@ export default Vue.extend({
   components: {
     Background,
     Chart,
+    Description,
     EditToggle,
-    Description
+    GlobalEvents
   },
   data() {
     return {
       editMode: DEFAULTS.editMode,
       bubbles: DEFAULTS.bubbles,
       descriptions: DEFAULTS.descriptions,
-      description: '',
-      selection: '',
+      description: "",
+      selection: "",
       showChart: false
     };
   },
@@ -67,7 +72,10 @@ export default Vue.extend({
     restoreState() {
       this.editMode = Vue.$storage.get("edit-mode", DEFAULTS.editMode);
       this.bubbles = Vue.$storage.get("bubbles", DEFAULTS.bubbles);
-      this.descriptions = Vue.$storage.get("descriptions", DEFAULTS.descriptions);
+      this.descriptions = Vue.$storage.get(
+        "descriptions",
+        DEFAULTS.descriptions
+      );
     },
     checkDataIntegrity() {
       if (this.bubbles.length <= 0) {
@@ -97,21 +105,21 @@ export default Vue.extend({
       console.log("saving bubbles to storage...");
       Vue.$storage.set("bubbles", this.bubbles);
     },
-    updateDescription(description:string) {
-      console.log("saving updated description to storage...", description);
-      this.description = description
-      this.descriptions[this.selection] = description      
+    updateDescription(description: string) {
+      console.log("saving updated description to storage...");
+      this.description = description;
+      this.descriptions[this.selection] = description;
       Vue.$storage.set("descriptions", this.descriptions);
     },
     updateSelection(selection: string) {
-      console.log('detected selection :', selection)
-      this.selection = selection
-      if(this.descriptions.hasOwnProperty(selection)){
-        this.description = this.descriptions[selection]
-      } else if (selection === '') {
-        this.description = 'Please make a selection in the above bubbles.'
+      console.log("detected selection :", selection);
+      this.selection = selection;
+      if (selection === "") {
+        this.description = "Please make a selection in the above bubbles.";
+      } else if (this.descriptions.hasOwnProperty(selection)) {
+        this.description = this.descriptions[selection];
       } else {
-        this.description = `<h1 class="title">${selection}</h1><br>No content <i>yet</i> for this selection.`
+        this.description = `<h1 class="title">${selection}</h1><br>No content <i>yet</i> for this selection.`;
       }
     }
   }
