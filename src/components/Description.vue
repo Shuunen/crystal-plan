@@ -91,6 +91,8 @@ export default Vue.extend({
 
 <style lang="scss">
 .description {
+  max-width: 970px;
+  margin: auto;
   .text {
     margin: 3rem 6rem;
     min-height: 300px;
