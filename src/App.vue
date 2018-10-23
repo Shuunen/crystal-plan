@@ -1,7 +1,8 @@
 <template>
   <section class="section">
+    <background />
     <div class="container has-text-centered">
-      <h1 class="title">Crystal Plan</h1>
+      <h1 class="title">Crystal Plan.</h1>
       <edit-toggle @click.native="toggleEditMode" :editMode="editMode" />
       <chart v-if="bubbles.length" :bubbles="bubbles" @bubblesUpdate="updateBubbles" :editMode="editMode" />
     </div>
@@ -11,7 +12,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Chance from "chance";
-import HelloWorld from "./components/HelloWorld.vue";
+import Background from "./components/Background.vue";
 import EditToggle from "./components/EditToggle.vue";
 import Chart from "./components/Chart.vue";
 import { BubbleData, Sections } from "./components/Bubble.vue";
@@ -32,6 +33,7 @@ declare module "vue/types/vue" {
 export default Vue.extend({
   name: "app",
   components: {
+    Background,
     Chart,
     EditToggle
   },
@@ -87,6 +89,14 @@ export default Vue.extend({
 <style lang="scss">
 @import url("https://use.fontawesome.com/releases/v5.2.0/css/all.css");
 @import url("https://fonts.googleapis.com/css?family=Nunito|Roboto:500");
+html,
+body {
+  height: 100%;
+}
+h1.title {
+  border-bottom: 2px solid #bbb;
+  display: inline-block;
+}
 body {
   .title {
     font-family: "Nunito", sans-serif;

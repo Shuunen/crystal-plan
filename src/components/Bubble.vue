@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import getSlug from 'speakingurl';
+import getSlug from "speakingurl";
 
 export default Vue.extend({
   props: {
@@ -45,9 +45,9 @@ export default Vue.extend({
 });
 
 enum Sections {
-  left = 'left',
-  center = 'center',
-  right = 'right'
+  left = "left",
+  center = "center",
+  right = "right"
 }
 
 class BubbleData {
@@ -57,11 +57,11 @@ class BubbleData {
   image?: string;
   selected?: boolean = false;
   shaded?: boolean = false;
-  constructor(data: BubbleData) {    
+  constructor(data: BubbleData) {
     this.text = data.text || "Default text";
     this.id = data.id || getSlug(this.text);
-    this.section = data.section || Sections.left
-    this.image = data.image || 'https://picsum.photos/80/80/?random'
+    this.section = data.section || Sections.left;
+    this.image = data.image || "https://picsum.photos/80/80/?random";
   }
   /* Component methods can be declared as instance methods
   onClick(): void {
@@ -69,7 +69,7 @@ class BubbleData {
   }*/
 }
 
-export { Sections, BubbleData }
+export { Sections, BubbleData };
 </script>
 
 
@@ -78,13 +78,19 @@ $size: 5rem;
 .bubble-wrapper {
   position: relative;
   filter: grayscale(0);
-  transition: color 0.4s, opacity 0.4s, filter 0.4s;
+  transition: all 0.4s;
   margin: $size/4 0;
-  &:hover {
-    color: orangered;
+  transform: scale(1);
+  &:hover .bubble-text {
+    color: white;
+    background-color: darkslategray;
   }
   &.selected {
-    color: orangered;
+    transform: scale(1.2);
+    .bubble-text {
+      color: white;
+      background-color: orangered;
+    }
   }
   &.shaded {
     opacity: 0.5;
@@ -103,16 +109,9 @@ $size: 5rem;
 .bubble-id {
   z-index: 5;
   position: absolute;
-  top: -$size/4;
-  right: -$size/5;
-  border: 3px solid currentColor;
-  border-radius: 50%;
-  width: $size/2;
-  height: $size/2;
-  line-height: $size/2.4;
+  bottom: -2.5rem;
   color: grey;
-  background-color: white;
-  transition: color 0.4s, opacity 0.4s;
+  font-style: italic;
 }
 .bubble-text {
   font-size: 110%;
@@ -121,5 +120,6 @@ $size: 5rem;
   position: absolute;
   bottom: -$size/3;
   max-width: $size * 1.5;
+  transition: all 0.4s;
 }
 </style>
