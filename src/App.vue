@@ -5,7 +5,7 @@
       <div class="container chart has-text-centered">
         <h1 class="title">Crystal Plan.</h1>
         <edit-toggle @click.native="toggleEditMode" :editMode="editMode" />
-        <chart v-if="bubbles.length" :bubbles="bubbles" @bubblesUpdate="updateBubbles" :editMode="editMode" />
+        <chart v-if="bubbles.length" :bubbles="bubbles" @selectionUpdate="updateSelection" @bubblesUpdate="updateBubbles" :editMode="editMode" />
       </div>
     </section>
     <section class="section">
@@ -30,7 +30,7 @@ const DEFAULTS = {
   editMode: false,
   bubbles: [] as BubbleData[],
   bubblesPerSection: 4,
-  descriptions: {}
+  descriptions: {} as any
 };
 
 declare module "vue/types/vue" {
@@ -54,6 +54,7 @@ export default Vue.extend({
       bubbles: DEFAULTS.bubbles,
       descriptions: DEFAULTS.descriptions,
       description: '',
+      selection: '',
       showChart: false
     };
   },
@@ -99,6 +100,19 @@ export default Vue.extend({
     updateDescription(description:string) {
       console.log("saving updated description to storage...", description);
       this.description = description
+      this.descriptions[this.selection] = description      
+      Vue.$storage.set("descriptions", this.descriptions);
+    },
+    updateSelection(selection: string) {
+      console.log('detected selection :', selection)
+      this.selection = selection
+      if(this.descriptions.hasOwnProperty(selection)){
+        this.description = this.descriptions[selection]
+      } else if (selection === '') {
+        this.description = 'Please make a selection in the above bubbles.'
+      } else {
+        this.description = `<h1 class="title">${selection}</h1><br>No content <i>yet</i> for this selection.`
+      }
     }
   }
 });
