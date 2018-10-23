@@ -93,7 +93,10 @@ export default Vue.extend({
 .description {
   .text {
     margin: 3rem 6rem;
-    min-height: 330px;
+    min-height: 300px;
+  }
+  .vp-editor {
+    margin: 2rem 6rem;
   }
 }
 </style>

@@ -1,7 +1,11 @@
 <template>
-  <a class="button button-edit-mode" :class="{active: editMode}">
-    <b-icon pack="fas" icon="pencil-alt"></b-icon>
-  </a>
+  <div class="toggle-wrapper">
+    <b-tooltip label="You can also use TAB key" position="is-left">
+      <a class="button button-edit-mode" :class="{active: editMode}">
+        <b-icon pack="fas" icon="pencil-alt"></b-icon>
+      </a>
+    </b-tooltip>
+  </div>
 </template>
 
 <script lang="ts">
@@ -18,10 +22,18 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-a.button-edit-mode {
+.toggle-wrapper {
   position: fixed;
   top: 2rem;
   right: 2rem;
+  .tooltip.is-primary:after {
+    background: gray;
+  }
+  .tooltip.is-left.is-primary:before {
+    border-left: 0;
+  }
+}
+a.button-edit-mode {
   border-radius: 50%;
   outline: none;
   padding: 20px 15px;
