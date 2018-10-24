@@ -4,7 +4,7 @@
     <section class="section">
       <background />
       <div class="container chart has-text-centered">
-        <h1 class="title">Crystal Plan.</h1>
+        <app-header :content="header" @headerUpdate="updateHeader" :editMode="editMode" />
         <edit-toggle @click.native="toggleEditMode" :editMode="editMode" />
         <chart v-if="bubbles.length" :bubbles="bubbles" @selectionUpdate="updateSelection" @bubblesUpdate="updateBubbles" :editMode="editMode" />
       </div>
@@ -23,6 +23,7 @@ import Chance from "chance";
 import GlobalEvents from "vue-global-events";
 
 import Background from "./components/Background.vue";
+import { default as Header, HeaderData } from "./components/Header.vue";
 import EditToggle from "./components/EditToggle.vue";
 import Chart from "./components/Chart.vue";
 import Description from "./components/Description.vue";
@@ -39,10 +40,11 @@ const DEFAULTS = {
   descriptions: {} as any,
   noSelectionDescription: "Please make a selection in the above bubbles.",
   noContentDescription:
-    '<h1 class="title">Great title</h1><br>No content yet for this selection.'
+    '<h1 class="title">Great title</h1><br>No content yet for this selection.',
+  header: { text: "Crystal Plan." } as HeaderData
 };
 // 3 sections x 4 bubbles = 12 by default
-DEFAULTS.bubblesCount *= DEFAULTS.bubblesPerSection
+DEFAULTS.bubblesCount *= DEFAULTS.bubblesPerSection;
 
 declare module "vue/types/vue" {
   interface VueConstructor {
@@ -58,7 +60,8 @@ export default Vue.extend({
     Chart,
     Description,
     EditToggle,
-    GlobalEvents
+    GlobalEvents,
+    AppHeader: Header // header is reserved
   },
   data() {
     return {
@@ -67,7 +70,8 @@ export default Vue.extend({
       descriptions: DEFAULTS.descriptions,
       description: "",
       selection: "",
-      showChart: false
+      showChart: false,
+      header: DEFAULTS.header
     };
   },
   created() {
@@ -78,6 +82,7 @@ export default Vue.extend({
   methods: {
     restoreState() {
       this.editMode = Vue.$storage.get("edit-mode", DEFAULTS.editMode);
+      this.header = Vue.$storage.get("header", DEFAULTS.header);
       this.bubbles = Vue.$storage.get("bubbles", DEFAULTS.bubbles);
       this.descriptions = Vue.$storage.get(
         "descriptions",
@@ -87,13 +92,13 @@ export default Vue.extend({
     checkDataIntegrity() {
       if (this.bubbles.length <= 0) {
         this.addRandomBubbles();
-      } else if (this.bubbles.length < DEFAULTS.bubblesCount){
+      } else if (this.bubbles.length < DEFAULTS.bubblesCount) {
         this.addMissingBubbles();
       }
     },
-    addMissingBubbles(){
-      console.log('missing bubbles detected')
-      console.log('but this feature is not developed yet')
+    addMissingBubbles() {
+      console.log("missing bubbles detected");
+      console.log("but this feature is not developed yet");
     },
     addRandomBubbles() {
       console.log("generating bubbles...");
@@ -137,6 +142,11 @@ export default Vue.extend({
       } else {
         this.description = DEFAULTS.noContentDescription;
       }
+    },
+    updateHeader(header: HeaderData) {
+      console.log("saving updated header to storage...", header);
+      this.header = header;
+      Vue.$storage.set("header", this.header);
     }
   }
 });
