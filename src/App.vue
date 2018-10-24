@@ -9,8 +9,8 @@
         <chart v-if="bubbles.length" :bubbles="bubbles" @selectionUpdate="updateSelection" @bubblesUpdate="updateBubbles" :editMode="editMode" />
       </div>
     </section>
-    <section class="section">
-      <div class="container description">
+    <section class="section description">
+      <div class="container">
         <description :content="description" @descriptionUpdate="updateDescription" :editMode="editMode" />
       </div>
     </section>

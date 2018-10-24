@@ -7,8 +7,8 @@ body {
   height: 100%;
 }
 
-h1.title {
-  border-bottom: 2px solid $color-shade;
+h1 {
+  border-bottom: 2px solid $color-accent;
   display: inline-block;
 }
 
@@ -42,5 +42,6 @@ h1.title {
 }
 
 .highlight {
-  background-color: $color-accent;
+  background-color: $color-accent-alt;
+  padding: 0.2rem 0.3rem;
 }
