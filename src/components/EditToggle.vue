@@ -1,6 +1,6 @@
 <template>
   <div class="toggle-wrapper">
-    <b-tooltip label="You can also use TAB key" position="is-left">
+    <b-tooltip label="Shortcut : F2" position="is-left">
       <a class="button button-edit-mode" :class="{active: editMode}">
         <b-icon pack="fas" icon="pencil-alt"></b-icon>
       </a>

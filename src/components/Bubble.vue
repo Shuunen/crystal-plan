@@ -122,7 +122,7 @@ $size: 5rem;
   padding: 0 5px;
   position: absolute;
   bottom: -$size/3;
-  max-width: $size * 1.5;
+  max-width: $size * 1.6;
   transition: all 0.4s;
 }
 </style>

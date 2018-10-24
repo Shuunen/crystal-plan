@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <global-events @keydown.prevent.tab="toggleEditMode" />
+    <global-events @keyup.f2="toggleEditMode" />
     <section class="section">
       <background />
       <div class="container chart has-text-centered">

@@ -3,7 +3,8 @@
     <div class="modal-card" style="width: auto">
         <section class="modal-card-body">
           <b-input autofocus v-model="data.id" placeholder="Id" required />
-          <b-input autofocus v-model="data.text" placeholder="Text" required />
+          <b-input v-model="data.text" placeholder="Text" required />
+          <b-input v-model="data.image" placeholder="Image url" required />
         </section>
         <footer class="modal-card-foot">
           <button class="button" type="reset" @click="cancelEdit">Cancel</button>
@@ -16,6 +17,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { BubbleData } from "./Bubble.vue";
+
 const DATA_UPDATE = {
   ON: true,
   OFF: false
@@ -38,6 +40,7 @@ export default Vue.extend({
       console.log(`user just canceled bubble edit`);
       this.data.id = this.originalData.id;
       this.data.text = this.originalData.text;
+      this.data.image = this.originalData.image;
       this.$emit("close", DATA_UPDATE.OFF);
     },
     updateData() {
