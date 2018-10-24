@@ -88,6 +88,7 @@ $size: 5rem;
   }
   &.selected {
     transform: scale(1.2);
+    z-index: 10;
     .bubble-text {
       color: $color-secondary;
       background-color: $color-accent;
@@ -110,6 +111,7 @@ $size: 5rem;
   border-radius: 50%;
   background-color: $color-secondary;
   background-size: cover;
+  background-repeat: no-repeat;
   height: $size;
   width: $size;
   cursor: pointer;
@@ -127,7 +129,7 @@ $size: 5rem;
   padding: 0 5px;
   position: absolute;
   bottom: -$size/3;
-  max-width: $size * 1.6;
+  max-width: $size * 1.8;
   transition: all 0.4s;
 }
 </style>
