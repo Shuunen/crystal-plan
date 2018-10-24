@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+
 const ensureHTTP = (str: string) =>
   (/^https?:\/\//.test(str) && str) || `http://${str}`;
 
@@ -48,7 +49,13 @@ export default Vue.extend({
         "underline",
         {
           name: "italic",
-          result: () => Vue.pell.exec("italic")
+          result: () => pell.exec("italic")
+        },
+        {
+          name: "backColor",
+          icon: '<div class="highlight">A</div>',
+          title: "Highlight Color",
+          result: (): any => pell.exec("insertHTML", '<span class="highlight">Hey</span>')
         },
         /* {
         name: 'custom',
@@ -60,14 +67,14 @@ export default Vue.extend({
           name: "image",
           result: () => {
             const url = window.prompt("Enter the image URL");
-            if (url) Vue.pell.exec("insertImage", ensureHTTP(url));
+            if (url) pell.exec("insertImage", ensureHTTP(url));
           }
         },
         {
           name: "link",
           result: () => {
             const url = window.prompt("Enter the link URL");
-            if (url) Vue.pell.exec("createLink", ensureHTTP(url));
+            if (url) pell.exec("createLink", ensureHTTP(url));
           }
         }
       ],

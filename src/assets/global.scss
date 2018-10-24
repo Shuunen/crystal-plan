@@ -1,0 +1,46 @@
+
+@import 'shared';
+@import 'fonts';
+
+html,
+body {
+  height: 100%;
+}
+
+h1.title {
+  border-bottom: 2px solid $color-shade;
+  display: inline-block;
+}
+
+.line {
+  display: flex;
+  justify-content: center;
+  &.start {
+    justify-content: flex-start;
+  }
+  &.end {
+    justify-content: flex-end;
+  }
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &.start {
+    align-items: flex-start;
+  }
+  &.end {
+    align-items: flex-end;
+  }
+}
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.highlight {
+  background-color: $color-accent;
+}

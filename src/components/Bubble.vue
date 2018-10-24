@@ -74,6 +74,7 @@ export { Sections, BubbleData };
 
 
 <style lang="scss">
+@import "../assets/shared";
 $size: 5rem;
 .bubble-wrapper {
   position: relative;
@@ -82,14 +83,14 @@ $size: 5rem;
   margin: $size/4 0;
   transform: scale(1);
   &:hover .bubble-text {
-    color: white;
-    background-color: darkslategray;
+    color: $color-secondary;
+    background-color: $color-shade;
   }
   &.selected {
     transform: scale(1.2);
     .bubble-text {
-      color: white;
-      background-color: orangered;
+      color: $color-secondary;
+      background-color: $color-accent;
     }
     .bubble-id {
       display: none;
@@ -98,12 +99,16 @@ $size: 5rem;
   &.shaded {
     opacity: 0.5;
     filter: grayscale(100%);
+    &:hover {
+      opacity: 0.7;
+      filter: grayscale(60%);
+    }
   }
 }
 .bubble-image {
   z-index: 10;
   border-radius: 50%;
-  background-color: white;
+  background-color: $color-secondary;
   background-size: cover;
   height: $size;
   width: $size;
@@ -113,12 +118,12 @@ $size: 5rem;
   z-index: 5;
   position: absolute;
   bottom: -2.5rem;
-  color: grey;
+  color: $color-shade;
   font-style: italic;
 }
 .bubble-text {
   font-size: 110%;
-  background-color: #ffffffe6;
+  background-color: $color-secondary;
   padding: 0 5px;
   position: absolute;
   bottom: -$size/3;

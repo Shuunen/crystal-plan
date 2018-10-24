@@ -22,12 +22,13 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+@import '../assets/shared';
 .toggle-wrapper {
   position: fixed;
   top: 2rem;
   right: 2rem;
   .tooltip.is-primary:after {
-    background: gray;
+    background: $color-shade;
   }
   .tooltip.is-left.is-primary:before {
     border-left: 0;
@@ -41,9 +42,12 @@ a.button-edit-mode {
   justify-content: center;
   transform: scale(1) rotate(0deg);
   transition: color 0.3s, transform 0.3s;
+  color: $color-shade;
+  background-color: transparent;
+  border: 0;
   &.active {
-    color: white;
-    background: green;
+    color: $color-secondary;
+    background: $color-accent;
     transform: scale(1.2) rotate(20deg);
   }
 }

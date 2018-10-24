@@ -100,9 +100,9 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+@import '../assets/shared';
 $size: 12rem;
 $thick: 0.2rem;
-$color: orangered;
 .col.crystal {
   width: $size;
   position: relative;
@@ -132,7 +132,7 @@ $color: orangered;
     width: $size;
     transform: rotate(45deg);
     border: $thick solid currentColor;
-    color: $color;
+    color: $color-accent;
     position: absolute;
     top: calc(50% - #{$size/2});
     left: calc(50% - #{$size/2});
@@ -192,7 +192,7 @@ $color: orangered;
     display: block;
     height: $thick;
     width: $size * 0.8;
-    background-color: $color;
+    background-color: $color-accent;
   }
 }
 </style>

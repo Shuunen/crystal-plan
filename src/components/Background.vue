@@ -3,6 +3,7 @@
 </template>
 
 <style lang="scss">
+@import "../assets/shared";
 @keyframes bg-gradient {
   0% {
     background-position: 0% 50%;

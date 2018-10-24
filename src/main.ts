@@ -5,6 +5,7 @@ import Vue2Storage from 'vue2-storage'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import VuePellEditor from 'vue-pell-editor'
+import './assets/global.scss'
 
 Vue.use(Vue2Storage, {
   prefix: 'crystalplan_',
