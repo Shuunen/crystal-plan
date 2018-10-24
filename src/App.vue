@@ -34,8 +34,15 @@ const DEFAULTS = {
   editMode: false,
   bubbles: [] as BubbleData[],
   bubblesPerSection: 4,
-  descriptions: {} as any
+  bubblesCount: Object.keys(Sections).length,
+  image: "https://picsum.photos/80/80/?image=",
+  descriptions: {} as any,
+  noSelectionDescription: "Please make a selection in the above bubbles.",
+  noContentDescription:
+    '<h1 class="title">Great title</h1><br>No content yet for this selection.'
 };
+// 3 sections x 4 bubbles = 12 by default
+DEFAULTS.bubblesCount *= DEFAULTS.bubblesPerSection
 
 declare module "vue/types/vue" {
   interface VueConstructor {
@@ -79,23 +86,32 @@ export default Vue.extend({
     },
     checkDataIntegrity() {
       if (this.bubbles.length <= 0) {
-        console.log("generating bubbles...");
-        let imageId = 42;
-        Object.keys(Sections).forEach(section => {
-          for (let i = 0; i < DEFAULTS.bubblesPerSection; i++) {
-            this.bubbles.push(
-              new BubbleData({
-                text: chance.first(),
-                image: "https://picsum.photos/80/80/?image=" + imageId,
-                section: section as Sections
-              })
-            );
-            // this let us shows different images from picsum
-            imageId++;
-          }
-        });
-        console.log("generated :", this.bubbles);
+        this.addRandomBubbles();
+      } else if (this.bubbles.length < DEFAULTS.bubblesCount){
+        this.addMissingBubbles();
       }
+    },
+    addMissingBubbles(){
+      console.log('missing bubbles detected')
+      console.log('but this feature is not developed yet')
+    },
+    addRandomBubbles() {
+      console.log("generating bubbles...");
+      Object.keys(Sections).forEach(section => {
+        for (let i = 0; i < DEFAULTS.bubblesPerSection; i++) {
+          this.addRandomBubble(section as Sections);
+        }
+      });
+      console.log("generated :", this.bubbles);
+    },
+    addRandomBubble(section: Sections) {
+      this.bubbles.push(
+        new BubbleData({
+          text: chance.first(),
+          image: DEFAULTS.image + chance.integer({ min: 0, max: 100 }),
+          section: section
+        })
+      );
     },
     toggleEditMode() {
       this.editMode = !this.editMode;
@@ -115,11 +131,11 @@ export default Vue.extend({
       console.log("detected selection :", selection);
       this.selection = selection;
       if (selection === "") {
-        this.description = "Please make a selection in the above bubbles.";
+        this.description = DEFAULTS.noSelectionDescription;
       } else if (this.descriptions.hasOwnProperty(selection)) {
         this.description = this.descriptions[selection];
       } else {
-        this.description = `<h1 class="title">${selection}</h1><br>No content <i>yet</i> for this selection.`;
+        this.description = DEFAULTS.noContentDescription;
       }
     }
   }
