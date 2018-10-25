@@ -3,7 +3,8 @@
     <global-events @keyup.f2="toggleEditMode" />
     <section class="section">
       <background />
-      <div class="container chart has-text-centered">
+      <b-loading :active.sync="isLoading" />
+      <div class="container chart has-text-centered" v-if="!isLoading">
         <app-header :content="header" @headerUpdate="updateHeader" :editMode="editMode" />
         <edit-toggle @click.native="toggleEditMode" :editMode="editMode" />
         <chart v-if="bubbles.length" :bubbles="bubbles" @selectionUpdate="updateSelection" @bubblesUpdate="updateBubbles" :editMode="editMode" />
@@ -75,7 +76,8 @@ export default Vue.extend({
       descriptions: DEFAULTS.descriptions,
       description: "",
       selection: "",
-      header: DEFAULTS.header
+      header: DEFAULTS.header,
+      isLoading: true
     };
   },
   created() {
@@ -86,7 +88,7 @@ export default Vue.extend({
       let remoteId = "";
       if (document !== null && document.location) {
         const hash = document.location.hash;
-        const matches = hash.match(/#?(\w+)(\?([\w\/]+))?/);
+        const matches = hash.match(/#?(\w+)(\?remote=([\w\/]+))?/);
         if (matches !== null && matches.length === 4) {
           this.id = matches[1] || DEFAULTS.id;
           remoteId = matches[3] || "";
@@ -97,7 +99,6 @@ export default Vue.extend({
       } else {
         this.getLocalData();
       }
-      this.setUrlData();
     },
     setUrlData() {
       if (document !== null && document.location) {
@@ -141,14 +142,16 @@ export default Vue.extend({
         bubbles: this.bubbles,
         descriptions: this.descriptions
       });
+      this.setUrlData();
     },
     checkDataIntegrity() {
-      console.log('checking data integrity...')
+      // console.log('checking data integrity...')
       if (this.bubbles.length <= 0) {
         this.addRandomBubbles();
       } else if (this.bubbles.length < DEFAULTS.bubblesCount) {
         this.addMissingBubbles();
       }
+      this.isLoading = false;
     },
     addMissingBubbles() {
       console.log("missing bubbles detected");
