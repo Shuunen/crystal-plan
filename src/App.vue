@@ -33,12 +33,13 @@ import { BubbleData, Sections } from "./components/Bubble.vue";
 const chance = new Chance();
 
 const DEFAULTS = {
+  apiUrl: 'https://api.jsonbin.io/b/',
+  apiKey: '$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06',
   id: getSlug(chance.animal()),
   editMode: false,
   bubbles: [] as BubbleData[],
   bubblesPerSection: 4,
   bubblesCount: Object.keys(Sections).length,
-  dbUri: "mongodb://{user}:{pass}@ds125288.mlab.com:25288/crystal-plan",
   image: "https://picsum.photos/80/80/?image=",
   descriptions: {} as any,
   noSelectionDescription: "Please make a selection in the above bubbles.",
@@ -74,30 +75,25 @@ export default Vue.extend({
       descriptions: DEFAULTS.descriptions,
       description: "",
       selection: "",
-      showChart: false,
-      header: DEFAULTS.header,
-      user: "",
-      pass: ""
+      header: DEFAULTS.header
     };
   },
   created() {
     this.getUrlData();
-    this.checkDataIntegrity();
-    this.showChart = true;
   },
   methods: {
     getUrlData() {
+      let remoteId = "";
       if (document !== null && document.location) {
         const hash = document.location.hash;
-        const matches = hash.match(/#?(\w+)(\?(\w+)=(\w+))?/);
-        if (matches !== null && matches.length === 5) {
+        const matches = hash.match(/#?(\w+)(\?([\w\/]+))?/);
+        if (matches !== null && matches.length === 4) {
           this.id = matches[1] || DEFAULTS.id;
-          this.user = matches[3] || "";
-          this.pass = matches[4] || "";
+          remoteId = matches[3] || "";
         }
       }
-      if (this.user.length && this.pass.length) {
-        this.getRemoteData();
+      if (remoteId.length) {
+        this.getRemoteData(remoteId);
       } else {
         this.getLocalData();
       }
@@ -108,18 +104,34 @@ export default Vue.extend({
         document.location.hash = "#" + this.id;
       }
     },
-    getRemoteData() {
-      console.log("trying to connect with " + this.user + ":" + this.pass);
+    importData(data:any){
+      console.log('importing data', data)
+      this.editMode = (data && data.editMode) || DEFAULTS.editMode;
+      this.header = (data && data.header) || DEFAULTS.header;
+      this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles;
+      this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
+      this.checkDataIntegrity();
+    },
+    getRemoteData(remoteId: string) {
+      console.log("trying to load remote data " + remoteId + '"');
+      let req = new XMLHttpRequest();
+      req.onreadystatechange = () => {
+        if (req.readyState == XMLHttpRequest.DONE) {
+          console.log('got remote data ^^');
+          const data = JSON.parse(req.responseText);
+          this.importData(data)
+        }
+      };
+      req.open("GET", `${DEFAULTS.apiUrl}${remoteId}`, true);
+      req.setRequestHeader("secret-key", DEFAULTS.apiKey);
+      req.send();
     },
     getLocalData() {
       const data = Vue.$storage.get(this.id);
       console.log(
         `found ${data ? "" : "no"} data locally with id "${this.id}"`
       );
-      this.editMode = (data && data.editMode) || DEFAULTS.editMode;
-      this.header = (data && data.header) || DEFAULTS.header;
-      this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles;
-      this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
+      this.importData(data)
     },
     setLocalData() {
       Vue.$storage.set(this.id, {
@@ -131,6 +143,7 @@ export default Vue.extend({
       });
     },
     checkDataIntegrity() {
+      console.log('checking data integrity...')
       if (this.bubbles.length <= 0) {
         this.addRandomBubbles();
       } else if (this.bubbles.length < DEFAULTS.bubblesCount) {
