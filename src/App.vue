@@ -108,7 +108,6 @@ export default Vue.extend({
     },
     importData(data:any){
       console.log('importing data', data)
-      this.editMode = (data && data.editMode) || DEFAULTS.editMode;
       this.header = (data && data.header) || DEFAULTS.header;
       this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles;
       this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
@@ -145,7 +144,6 @@ export default Vue.extend({
     getCurrentData() {
       return {
         id: this.id,
-        editMode: this.editMode,
         header: this.header,
         bubbles: this.bubbles,
         descriptions: this.descriptions
