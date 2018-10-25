@@ -38,6 +38,7 @@ const DEFAULTS = {
   bubbles: [] as BubbleData[],
   bubblesPerSection: 4,
   bubblesCount: Object.keys(Sections).length,
+  dbUri: "mongodb://{user}:{pass}@ds125288.mlab.com:25288/crystal-plan",
   image: "https://picsum.photos/80/80/?image=",
   descriptions: {} as any,
   noSelectionDescription: "Please make a selection in the above bubbles.",
