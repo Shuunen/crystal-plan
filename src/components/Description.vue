@@ -105,6 +105,7 @@ export default Vue.extend({
 <style lang="scss">
 .description-wrapper {
   max-width: 970px;
+  margin: auto;
   .description {
     margin: 2rem 6rem;
     min-height: 300px;
