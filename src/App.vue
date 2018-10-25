@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <global-events @keyup.f2="toggleEditMode" />
+    <global-events @keyup.f2="toggleEditMode" @keydown.ctrl.alt.u="updateRemoteData" />
     <section class="section">
       <background />
       <b-loading :active.sync="isLoading" />
@@ -37,6 +37,7 @@ const DEFAULTS = {
   apiUrl: 'https://api.jsonbin.io/b/',
   apiKey: '$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06',
   id: getSlug(chance.animal()),
+  remoteId: '',
   editMode: false,
   bubbles: [] as BubbleData[],
   bubblesPerSection: 4,
@@ -71,6 +72,7 @@ export default Vue.extend({
   data() {
     return {
       id: DEFAULTS.id,
+      remoteId: DEFAULTS.remoteId,
       editMode: DEFAULTS.editMode,
       bubbles: DEFAULTS.bubbles,
       descriptions: DEFAULTS.descriptions,
@@ -85,17 +87,16 @@ export default Vue.extend({
   },
   methods: {
     getUrlData() {
-      let remoteId = "";
       if (document !== null && document.location) {
         const hash = document.location.hash;
         const matches = hash.match(/#?(\w+)(\?remote=([\w\/]+))?/);
         if (matches !== null && matches.length === 4) {
           this.id = matches[1] || DEFAULTS.id;
-          remoteId = matches[3] || "";
+          this.remoteId = matches[3] || "";
         }
       }
-      if (remoteId.length) {
-        this.getRemoteData(remoteId);
+      if (this.remoteId.length) {
+        this.getRemoteData();
       } else {
         this.getLocalData();
       }
@@ -113,19 +114,42 @@ export default Vue.extend({
       this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
       this.checkDataIntegrity();
     },
-    getRemoteData(remoteId: string) {
-      console.log("trying to load remote data " + remoteId + '"');
+    getRemoteData() {
+      console.log("trying to load remote data " + this.remoteId + '"');
       let req = new XMLHttpRequest();
       req.onreadystatechange = () => {
         if (req.readyState == XMLHttpRequest.DONE) {
-          console.log('got remote data ^^');
+          console.log('got remote data');
           const data = JSON.parse(req.responseText);
           this.importData(data)
         }
       };
-      req.open("GET", `${DEFAULTS.apiUrl}${remoteId}`, true);
+      req.open("GET", `${DEFAULTS.apiUrl}${this.remoteId}`, true);
       req.setRequestHeader("secret-key", DEFAULTS.apiKey);
       req.send();
+    },
+    updateRemoteData(){
+      console.log('updating remote data')
+      let req = new XMLHttpRequest();
+      req.onreadystatechange = () => {
+        if (req.readyState == XMLHttpRequest.DONE) {
+          console.log('updated remote data ^^');
+        }
+      };
+      req.open("PUT", `${DEFAULTS.apiUrl}${this.remoteId}`, true);
+      req.setRequestHeader("Content-type", "application/json");
+      req.setRequestHeader("secret-key", DEFAULTS.apiKey);
+      req.setRequestHeader("versioning", 'false');
+      req.send(JSON.stringify(this.getCurrentData()));
+    },
+    getCurrentData() {
+      return {
+        id: this.id,
+        editMode: this.editMode,
+        header: this.header,
+        bubbles: this.bubbles,
+        descriptions: this.descriptions
+      }
     },
     getLocalData() {
       const data = Vue.$storage.get(this.id);
@@ -135,13 +159,7 @@ export default Vue.extend({
       this.importData(data)
     },
     setLocalData() {
-      Vue.$storage.set(this.id, {
-        id: this.id,
-        editMode: this.editMode,
-        header: this.header,
-        bubbles: this.bubbles,
-        descriptions: this.descriptions
-      });
+      Vue.$storage.set(this.id, this.getCurrentData());
       this.setUrlData();
     },
     checkDataIntegrity() {
