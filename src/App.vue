@@ -21,6 +21,7 @@
 import Vue from "vue";
 import Chance from "chance";
 import GlobalEvents from "vue-global-events";
+import getSlug from "speakingurl";
 
 import Background from "./components/Background.vue";
 import { default as Header, HeaderData } from "./components/Header.vue";
@@ -32,6 +33,7 @@ import { BubbleData, Sections } from "./components/Bubble.vue";
 const chance = new Chance();
 
 const DEFAULTS = {
+  id: getSlug(chance.animal()),
   editMode: false,
   bubbles: [] as BubbleData[],
   bubblesPerSection: 4,
@@ -65,29 +67,67 @@ export default Vue.extend({
   },
   data() {
     return {
+      id: DEFAULTS.id,
       editMode: DEFAULTS.editMode,
       bubbles: DEFAULTS.bubbles,
       descriptions: DEFAULTS.descriptions,
       description: "",
       selection: "",
       showChart: false,
-      header: DEFAULTS.header
+      header: DEFAULTS.header,
+      user: "",
+      pass: ""
     };
   },
   created() {
-    this.restoreState();
+    this.getUrlData();
     this.checkDataIntegrity();
     this.showChart = true;
   },
   methods: {
-    restoreState() {
-      this.editMode = Vue.$storage.get("edit-mode", DEFAULTS.editMode);
-      this.header = Vue.$storage.get("header", DEFAULTS.header);
-      this.bubbles = Vue.$storage.get("bubbles", DEFAULTS.bubbles);
-      this.descriptions = Vue.$storage.get(
-        "descriptions",
-        DEFAULTS.descriptions
+    getUrlData() {
+      if (document !== null && document.location) {
+        const hash = document.location.hash;
+        const matches = hash.match(/#?(\w+)(\?(\w+)=(\w+))?/);
+        if (matches !== null && matches.length === 5) {
+          this.id = matches[1] || DEFAULTS.id;
+          this.user = matches[3] || "";
+          this.pass = matches[4] || "";
+        }
+      }
+      if (this.user.length && this.pass.length) {
+        this.getRemoteData();
+      } else {
+        this.getLocalData();
+      }
+      this.setUrlData();
+    },
+    setUrlData() {
+      if (document !== null && document.location) {
+        document.location.hash = "#" + this.id;
+      }
+    },
+    getRemoteData() {
+      console.log("trying to connect with " + this.user + ":" + this.pass);
+    },
+    getLocalData() {
+      const data = Vue.$storage.get(this.id);
+      console.log(
+        `found ${data ? "" : "no"} data locally with id "${this.id}"`
       );
+      this.editMode = (data && data.editMode) || DEFAULTS.editMode;
+      this.header = (data && data.header) || DEFAULTS.header;
+      this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles;
+      this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
+    },
+    setLocalData() {
+      Vue.$storage.set(this.id, {
+        id: this.id,
+        editMode: this.editMode,
+        header: this.header,
+        bubbles: this.bubbles,
+        descriptions: this.descriptions
+      });
     },
     checkDataIntegrity() {
       if (this.bubbles.length <= 0) {
@@ -120,17 +160,17 @@ export default Vue.extend({
     },
     toggleEditMode() {
       this.editMode = !this.editMode;
-      Vue.$storage.set("edit-mode", this.editMode);
+      this.setLocalData();
     },
     updateBubbles(bubbles: BubbleData[]) {
       console.log("saving bubbles to storage...");
-      Vue.$storage.set("bubbles", this.bubbles);
+      this.setLocalData();
     },
     updateDescription(description: string) {
       console.log("saving updated description to storage...");
       this.description = description;
       this.descriptions[this.selection] = description;
-      Vue.$storage.set("descriptions", this.descriptions);
+      this.setLocalData();
     },
     updateSelection(selection: string) {
       console.log("detected selection :", selection);
@@ -146,7 +186,7 @@ export default Vue.extend({
     updateHeader(header: HeaderData) {
       console.log("saving updated header to storage...", header);
       this.header = header;
-      Vue.$storage.set("header", this.header);
+      this.setLocalData();
     }
   }
 });
