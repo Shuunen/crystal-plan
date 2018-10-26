@@ -157,10 +157,19 @@ export default Vue.extend({
       req.send(JSON.stringify(this.getCurrentData()));
     },
     getCurrentData(): AppData {
+      console.log("getting current app data");
+      // deep clone then clean bubble states
+      const bubbles = JSON.parse(JSON.stringify(this.bubbles)).map(
+        (b: BubbleData) => {
+          b.selected = false;
+          b.shaded = false;
+          return b;
+        }
+      );
       return {
         id: this.id,
         header: this.header,
-        bubbles: this.bubbles,
+        bubbles,
         descriptions: this.descriptions
       };
     },
@@ -208,7 +217,6 @@ export default Vue.extend({
     },
     toggleEditMode() {
       this.editMode = !this.editMode;
-      this.setLocalData();
     },
     updateBubbles(bubbles: BubbleData[]) {
       console.log("saving bubbles to storage...");
