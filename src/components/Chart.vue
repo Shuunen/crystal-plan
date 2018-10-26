@@ -89,11 +89,7 @@ export default Vue.extend({
       this.emitSelection();
     },
     emitSelection() {
-      const selection = this.bubbles
-        .filter(b => b.selected)
-        .map(b => b.id)
-        .join("-");
-      this.$emit("selectionUpdate", selection);
+      this.$emit("selectionUpdate");
     }
   }
 });

@@ -28,25 +28,28 @@ import Background from "./components/Background.vue";
 import { default as Header, HeaderData } from "./components/Header.vue";
 import EditToggle from "./components/EditToggle.vue";
 import Chart from "./components/Chart.vue";
-import Description from "./components/Description.vue";
+import {
+  default as Description,
+  DescriptionData
+} from "./components/Description.vue";
 import { BubbleData, Sections } from "./components/Bubble.vue";
 
 const chance = new Chance();
 
 const DEFAULTS = {
-  apiUrl: 'https://api.jsonbin.io/b/',
-  apiKey: '$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06',
+  apiUrl: "https://api.jsonbin.io/b/",
+  apiKey: "$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06",
   id: getSlug(chance.animal()),
-  remoteId: '',
+  remoteId: "",
   editMode: false,
   bubbles: [] as BubbleData[],
   bubblesPerSection: 4,
   bubblesCount: Object.keys(Sections).length,
   image: "https://picsum.photos/80/80/?image=",
-  descriptions: {} as any,
-  noSelectionDescription: "Please make a selection in the above bubbles.",
-  noContentDescription:
-    '<h1 class="title">Great title</h1><br>No content yet for this selection.',
+  description: "" as DescriptionData,
+  descriptions: {} as DescriptionsData,
+  noSelectionDescription: "Please make a selection in the above bubbles." as DescriptionData,
+  noContentDescription: '<h1 class="title">Great title</h1><br>No content yet for this selection.' as DescriptionData,
   header: { text: "Crystal Plan." } as HeaderData
 };
 // 3 sections x 4 bubbles = 12 by default
@@ -57,6 +60,17 @@ declare module "vue/types/vue" {
     $storage: any;
     pell: any;
   }
+}
+
+interface DescriptionsData {
+  [key: string]: DescriptionData;
+}
+
+interface AppData {
+  id: string;
+  header: HeaderData;
+  bubbles: BubbleData[];
+  descriptions: DescriptionsData;
 }
 
 export default Vue.extend({
@@ -76,7 +90,7 @@ export default Vue.extend({
       editMode: DEFAULTS.editMode,
       bubbles: DEFAULTS.bubbles,
       descriptions: DEFAULTS.descriptions,
-      description: "",
+      description: DEFAULTS.description,
       selection: "",
       header: DEFAULTS.header,
       isLoading: true
@@ -106,11 +120,12 @@ export default Vue.extend({
         document.location.hash = "#" + this.id;
       }
     },
-    importData(data:any){
-      console.log('importing data', data)
+    importData(data: AppData) {
+      console.log("importing data", data);
       this.header = (data && data.header) || DEFAULTS.header;
       this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles;
       this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
+      this.updateSelection();
       this.checkDataIntegrity();
     },
     getRemoteData() {
@@ -118,43 +133,43 @@ export default Vue.extend({
       let req = new XMLHttpRequest();
       req.onreadystatechange = () => {
         if (req.readyState == XMLHttpRequest.DONE) {
-          console.log('got remote data');
+          console.log("got remote data");
           const data = JSON.parse(req.responseText);
-          this.importData(data)
+          this.importData(data);
         }
       };
       req.open("GET", `${DEFAULTS.apiUrl}${this.remoteId}`, true);
       req.setRequestHeader("secret-key", DEFAULTS.apiKey);
       req.send();
     },
-    updateRemoteData(){
-      console.log('updating remote data')
+    updateRemoteData() {
+      console.log("updating remote data");
       let req = new XMLHttpRequest();
       req.onreadystatechange = () => {
         if (req.readyState == XMLHttpRequest.DONE) {
-          console.log('updated remote data ^^');
+          console.log("updated remote data ^^");
         }
       };
       req.open("PUT", `${DEFAULTS.apiUrl}${this.remoteId}`, true);
       req.setRequestHeader("Content-type", "application/json");
       req.setRequestHeader("secret-key", DEFAULTS.apiKey);
-      req.setRequestHeader("versioning", 'false');
+      req.setRequestHeader("versioning", "false");
       req.send(JSON.stringify(this.getCurrentData()));
     },
-    getCurrentData() {
+    getCurrentData(): AppData {
       return {
         id: this.id,
         header: this.header,
         bubbles: this.bubbles,
         descriptions: this.descriptions
-      }
+      };
     },
     getLocalData() {
       const data = Vue.$storage.get(this.id);
       console.log(
         `found ${data ? "" : "no"} data locally with id "${this.id}"`
       );
-      this.importData(data)
+      this.importData(data);
     },
     setLocalData() {
       Vue.$storage.set(this.id, this.getCurrentData());
@@ -199,15 +214,19 @@ export default Vue.extend({
       console.log("saving bubbles to storage...");
       this.setLocalData();
     },
-    updateDescription(description: string) {
+    updateDescription(description: DescriptionData) {
       console.log("saving updated description to storage...");
       this.description = description;
       this.descriptions[this.selection] = description;
       this.setLocalData();
     },
-    updateSelection(selection: string) {
-      console.log("detected selection :", selection);
+    updateSelection() {
+      const selection = this.bubbles
+        .filter(b => b.selected)
+        .map(b => b.id)
+        .join("-");
       this.selection = selection;
+      console.log("current selection :", selection);
       if (selection === "") {
         this.description = DEFAULTS.noSelectionDescription;
       } else if (this.descriptions.hasOwnProperty(selection)) {

@@ -20,6 +20,9 @@ import Vue from "vue";
 const ensureHTTP = (str: string) =>
   (/^https?:\/\//.test(str) && str) || `http://${str}`;
 
+
+type DescriptionData = string;
+
 export default Vue.extend({
   props: {
     editMode: {
@@ -27,17 +30,17 @@ export default Vue.extend({
       required: true
     },
     content: {
-      type: String,
+      type: String as () => DescriptionData,
       required: true
     }
   },
   computed: {
     editorContent: {
-      get: function(): string {
+      get: function(): DescriptionData {
         return this.content;
       },
-      set: function(str: string) {
-        this.newContent = str;
+      set: function(html: DescriptionData) {
+        this.newContent = html;
       }
     }
   },
@@ -56,7 +59,7 @@ export default Vue.extend({
           name: "highlight",
           icon: '<div class="highlight">A</div>',
           title: "Highlight Color",
-          result: (): any => {
+          result: (): void => {
             const selection = window.getSelection().toString()
             const html = selection.replace(/^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,'$1<span class="highlight">$2</span>$3')
             console.log('will put new html', html)
@@ -100,6 +103,8 @@ export default Vue.extend({
     }
   }
 });
+
+export { DescriptionData };
 </script>
 
 <style lang="scss">
