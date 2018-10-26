@@ -7,14 +7,18 @@
       <div class="container chart has-text-centered" v-if="!isLoading">
         <app-header :content="header" @headerUpdate="updateHeader" :editMode="editMode" />
         <edit-toggle @click.native="toggleEditMode" :editMode="editMode" />
-        <chart v-if="bubbles.length" :bubbles="bubbles" @selectionUpdate="updateSelection" @bubblesUpdate="updateBubbles" :editMode="editMode" />
+        <chart v-if="bubbles.length" :bubbles="bubbles" @bubblesUpdate="updateBubbles" :editMode="editMode" />
       </div>
     </section>
-    <section class="section description">
+    <section class="section bottom">
       <div class="container">
+        <actions :actions="actions" @select="selectAction" @edit="editForm" :editMode="editMode" />
         <description :content="description" @descriptionUpdate="updateDescription" :editMode="editMode" />
       </div>
     </section>
+    <b-modal :active.sync="editFormOpened" has-modal-card>
+      <EditForm v-bind="editFormData" @close="closeForm" />
+    </b-modal>
   </div>
 </template>
 
@@ -24,6 +28,8 @@ import Chance from "chance";
 import GlobalEvents from "vue-global-events";
 import getSlug from "speakingurl";
 
+import { default as EditForm, EditFormData } from "./components/EditForm.vue";
+import { default as Actions, ActionData } from "./components/Actions.vue";
 import Background from "./components/Background.vue";
 import { default as Header, HeaderData } from "./components/Header.vue";
 import EditToggle from "./components/EditToggle.vue";
@@ -37,6 +43,7 @@ import { BubbleData, Sections } from "./components/Bubble.vue";
 const chance = new Chance();
 
 const DEFAULTS = {
+  actions: [] as ActionData[],
   apiUrl: "https://api.jsonbin.io/b/",
   apiKey: "$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06",
   id: getSlug(chance.animal()),
@@ -45,11 +52,14 @@ const DEFAULTS = {
   bubbles: [] as BubbleData[],
   bubblesPerSection: 4,
   bubblesCount: Object.keys(Sections).length,
-  image: "https://picsum.photos/80/80/?image=",
+  editFormData: {
+    data: {} as EditFormData
+  },
+  image: "https://bulma.io/images/placeholders/128x128.png",
   description: "" as DescriptionData,
   descriptions: {} as DescriptionsData,
-  noSelectionDescription: "Please make a selection in the above bubbles." as DescriptionData,
-  noContentDescription: '<h1 class="title">Great title</h1><br>No content yet for this selection.' as DescriptionData,
+  noSelectionDescription: "Please select an action." as DescriptionData,
+  noContentDescription: '<h1 class="title">Great title</h1><br>No content yet for this action.' as DescriptionData,
   header: { text: "Crystal Plan." } as HeaderData
 };
 // 3 sections x 4 bubbles = 12 by default
@@ -68,6 +78,7 @@ interface DescriptionsData {
 
 interface AppData {
   id: string;
+  actions: ActionData[];
   header: HeaderData;
   bubbles: BubbleData[];
   descriptions: DescriptionsData;
@@ -76,9 +87,11 @@ interface AppData {
 export default Vue.extend({
   name: "app",
   components: {
+    Actions,
     Background,
     Chart,
     Description,
+    EditForm,
     EditToggle,
     GlobalEvents,
     AppHeader: Header // header is reserved
@@ -86,8 +99,11 @@ export default Vue.extend({
   data() {
     return {
       id: DEFAULTS.id,
+      actions: DEFAULTS.actions,
       remoteId: DEFAULTS.remoteId,
       editMode: DEFAULTS.editMode,
+      editFormOpened: false,
+      editFormData: DEFAULTS.editFormData,
       bubbles: DEFAULTS.bubbles,
       descriptions: DEFAULTS.descriptions,
       description: DEFAULTS.description,
@@ -122,10 +138,10 @@ export default Vue.extend({
     },
     importData(data: AppData) {
       console.log("importing data", data);
+      this.actions = (data && data.actions) || DEFAULTS.actions;
       this.header = (data && data.header) || DEFAULTS.header;
       this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles;
       this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
-      this.updateSelection();
       this.checkDataIntegrity();
     },
     getRemoteData() {
@@ -159,15 +175,14 @@ export default Vue.extend({
     getCurrentData(): AppData {
       console.log("getting current app data");
       // deep clone then clean bubble states
-      const bubbles = JSON.parse(JSON.stringify(this.bubbles)).map(
-        (b: BubbleData) => {
-          b.selected = false;
-          b.shaded = false;
-          return b;
-        }
-      );
+      const bubbles = this.copy(this.bubbles).map((b: BubbleData) => {
+        b.selected = false;
+        b.shaded = false;
+        return b;
+      });
       return {
         id: this.id,
+        actions: this.actions,
         header: this.header,
         bubbles,
         descriptions: this.descriptions
@@ -191,7 +206,22 @@ export default Vue.extend({
       } else if (this.bubbles.length < DEFAULTS.bubblesCount) {
         this.addMissingBubbles();
       }
+      if (this.actions.length <= 0) {
+        this.addRandomActions();
+      }
       this.isLoading = false;
+    },
+    addRandomActions() {
+      console.log("generating actions...");
+      for (let i = 0; i < 8; i++) {
+        const text = chance.animal();
+        this.actions.push({
+          id: getSlug(text),
+          text,
+          image: DEFAULTS.image
+        });
+      }
+      console.log("generated :", this.actions);
     },
     addMissingBubbles() {
       console.log("missing bubbles detected");
@@ -210,7 +240,7 @@ export default Vue.extend({
       this.bubbles.push(
         new BubbleData({
           text: chance.first(),
-          image: DEFAULTS.image + chance.integer({ min: 0, max: 100 }),
+          image: DEFAULTS.image,
           section: section
         })
       );
@@ -228,26 +258,35 @@ export default Vue.extend({
       this.descriptions[this.selection] = description;
       this.setLocalData();
     },
-    updateSelection() {
-      const selection = this.bubbles
-        .filter(b => b.selected)
-        .map(b => b.id)
-        .join("-");
-      this.selection = selection;
-      console.log("current selection :", selection);
-      if (selection === "") {
-        this.description = DEFAULTS.noSelectionDescription;
-      } else if (this.descriptions.hasOwnProperty(selection)) {
-        this.description = this.descriptions[selection];
-      } else {
-        this.description = DEFAULTS.noContentDescription;
-      }
-    },
     updateHeader(header: HeaderData) {
       console.log("saving updated header to storage...", header);
       this.header = header;
       this.setLocalData();
-    }
+    },
+    copy(object: any) {
+      return JSON.parse(JSON.stringify(object));
+    },
+    editForm(data: EditFormData) {
+      console.log("user wants to edit data");
+      this.editFormData.data = data;
+      this.editFormOpened = true;
+    },
+    closeForm() {
+      console.log("edit form closed");
+      this.editFormOpened = false;
+      this.setLocalData();
+    },
+    selectAction(action: ActionData) {
+      this.selection = action.id
+      console.log("current selection :", this.selection);
+      if (this.selection === "") {
+        this.description = DEFAULTS.noSelectionDescription;
+      } else if (this.descriptions.hasOwnProperty(this.selection)) {
+        this.description = this.descriptions[this.selection];
+      } else {
+        this.description = DEFAULTS.noContentDescription;
+      }
+    },
   }
 });
 </script>

@@ -23,7 +23,7 @@
 }
 .section {
   position: relative;
-  &.description {
+  &.bottom {
     /*background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/light-veneer.png");
     background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");
     background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");*/
