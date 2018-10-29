@@ -2,9 +2,10 @@
   <form action="#" @submit.prevent="close">
     <div class="modal-card" style="width: auto">
         <section class="modal-card-body" v-if="data">
-          <b-input v-if="data.id" v-model="data.id" placeholder="Id" required />
-          <b-input v-if="data.text" v-model="data.text" placeholder="Text" required />
-          <b-input v-if="data.image" v-model="data.image" placeholder="Image url" required />
+          <b-input v-model="data.id" placeholder="Id" />
+          <b-input v-model="data.text" placeholder="Text" />
+          <b-input v-model="data.image" placeholder="Image url" />
+          <b-input v-model="data.icon" placeholder="Font-Awesome Icon" />
         </section>
         <footer class="modal-card-foot">
           <button class="button" type="reset" @click="cancel">Cancel</button>
@@ -21,6 +22,7 @@ interface EditFormData {
   id?: string;
   text?: string;
   image?: string;
+  icon?: string;
 }
 
 export default Vue.extend({
@@ -49,6 +51,9 @@ export default Vue.extend({
       }
       if (this.originalData.image) {
         this.data.image = this.originalData.image;
+      }
+      if (this.originalData.icon) {
+        this.data.icon = this.originalData.icon;
       }
       this.close();
     },

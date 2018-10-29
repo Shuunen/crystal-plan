@@ -111,8 +111,6 @@ export { DescriptionData };
 
 <style lang="scss">
 .description-wrapper {
-  max-width: 970px;
-  margin: auto;
   .description {
     margin: 1.1rem 0.5rem;
     min-height: 300px;

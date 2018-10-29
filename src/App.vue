@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <global-events @keyup.f2="toggleEditMode" @keydown.ctrl.alt.u="updateRemoteData" />
-    <section class="section">
+    <section class="section top">
       <background />
       <b-loading :active.sync="isLoading" />
       <div class="container chart has-text-centered" v-if="!isLoading">
@@ -18,6 +18,9 @@
           </b-tab-item>
           <b-tab-item label="description">
             <description :content="description" @descriptionUpdate="updateDescription" :editMode="editMode" />
+            <div class="line start"  @click="gotoActions">
+              <action :data="actionBack" />
+            </div>
           </b-tab-item>
         </b-tabs>
       </div>
@@ -35,7 +38,8 @@ import GlobalEvents from "vue-global-events";
 import getSlug from "speakingurl";
 
 import { default as EditForm, EditFormData } from "./components/EditForm.vue";
-import { default as Actions, ActionData } from "./components/Actions.vue";
+import { default as Action, ActionData } from "./components/Action.vue";
+import Actions from "./components/Actions.vue";
 import Background from "./components/Background.vue";
 import { default as Header, HeaderData } from "./components/Header.vue";
 import EditToggle from "./components/EditToggle.vue";
@@ -54,6 +58,12 @@ enum Tab {
 }
 
 const DEFAULTS = {
+  actionBack: {
+    id: "back",
+    text: "Back to actions",
+    icon: "arrow-alt-circle-left",
+    back: true
+  } as ActionData,
   actions: [] as ActionData[],
   activeTab: Tab.actions,
   apiUrl: "https://api.jsonbin.io/b/",
@@ -99,6 +109,7 @@ interface AppData {
 export default Vue.extend({
   name: "app",
   components: {
+    Action,
     Actions,
     Background,
     Chart,
@@ -111,6 +122,7 @@ export default Vue.extend({
   data() {
     return {
       id: DEFAULTS.id,
+      actionBack: DEFAULTS.actionBack,
       actions: DEFAULTS.actions,
       activeTab: DEFAULTS.activeTab,
       remoteId: DEFAULTS.remoteId,
@@ -302,6 +314,9 @@ export default Vue.extend({
       } else {
         this.activeTab = Tab.actions;
       }
+    },
+    gotoActions() {
+      this.activeTab = Tab.actions;
     }
   }
 });
@@ -310,5 +325,12 @@ export default Vue.extend({
 <style lang="scss">
 .b-tabs.ninja .tabs {
   display: none;
+}
+.section.top,
+.section.bottom {
+  .container {
+    max-width: 970px;
+    margin: auto;
+  }
 }
 </style>

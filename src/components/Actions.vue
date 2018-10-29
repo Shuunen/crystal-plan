@@ -12,17 +12,7 @@
       </p>
       <div class="actions-list columns is-desktop is-mobile is-multiline">
         <div class="column" v-for="data in actions" :key="data.id" @click="clickAction(data)">
-          <div class="action line start">
-            <div class="icon" v-if="data.image">
-              <img :src="data.image" alt="action image">
-            </div>
-            <div class="text ellipsis" v-if="data.text">
-              {{ data.text }}
-            </div>
-            <div class="arrow">
-              <b-icon pack="far" :icon="editMode ? 'edit' : 'arrow-alt-circle-right'" />
-            </div>
-          </div>
+          <action :edit-mode="editMode" :data="data" />
         </div>
       </div>
     </div>
@@ -32,13 +22,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-
-interface ActionData {
-  id: string;
-  text: string;
-  image: string;
-}
-
+import { default as Action, ActionData } from './Action.vue';
+ 
 export default Vue.extend({
   props: {
     actions: {
@@ -47,10 +32,8 @@ export default Vue.extend({
     },
     editMode: Boolean
   },
-  data() {
-    return {
-      activeTab: null
-    };
+  components: {
+    Action,
   },
   methods: {
     clickAction(action: ActionData) {
@@ -62,14 +45,11 @@ export default Vue.extend({
     }
   }
 });
-
-export { ActionData };
 </script>
 
 <style lang="scss">
 @import "../assets/shared";
 .actions-wrapper {
-  max-width: 970px;
   h2.title {
     border-bottom: 0.2rem solid $color-accent;
     display: inline-block;
@@ -84,36 +64,6 @@ export { ActionData };
 }
 .actions-list {
   padding-top: 0.6rem;
-}
-.action {
-  min-width: 33vw;
-  padding: 0.7rem 1rem;
-  color: $color-shade-alt;
-  border: 2px solid currentColor;
-  align-items: center;
-  transition: color 0.4s;
-  cursor: pointer;
-  .icon,
-  .text {
-    margin-right: 0.6rem;
-  }
-  .text {
-    color: $color-primary;
-  }
-  .arrow {
-    margin-top: .2rem;
-    margin-left: auto;
-    transition: color 0.2s, transform .2s;
-  }
-  &:hover {
-    &,
-    .arrow {
-      color: $color-accent;
-    }
-    .arrow {
-      transform: scale(1.2);
-    }
-  }
 }
 </style>
  
