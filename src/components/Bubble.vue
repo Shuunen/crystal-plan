@@ -128,7 +128,7 @@ $size: 5rem;
   background-color: $color-secondary;
   padding: 0 5px;
   position: absolute;
-  bottom: -$size/3;
+  bottom: -$size/2;
   max-width: $size * 1.8;
   transition: all 0.4s;
 }

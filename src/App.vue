@@ -14,6 +14,7 @@
       <div class="container">
         <b-tabs class="ninja" v-model="activeTab">
           <b-tab-item label="actions">
+            <description :content="actionsDescription" @descriptionUpdate="updateActionDescription" :editMode="editMode" />
             <actions :actions="actions" @select="selectAction" @edit="editForm" :editMode="editMode" />
           </b-tab-item>
           <b-tab-item label="description">
@@ -64,6 +65,7 @@ const DEFAULTS = {
     icon: "arrow-alt-circle-left",
     back: true
   } as ActionData,
+  actionsDescription: '<h2 class="title">Welcome</h2><p><strong>Crystal Plan</strong> is an online app designed to build and present a plan or strategy.</p><p>The <span class="highlight">chart above</span> shows the actors of this plan : persons, ideas, values, anything. Because a great plan is nothing without concrete things to do, you will find <span class="highlight">actions below</span> :</p>',
   actions: [] as ActionData[],
   activeTab: Tab.actions,
   apiUrl: "https://api.jsonbin.io/b/",
@@ -100,6 +102,7 @@ interface DescriptionsData {
 
 interface AppData {
   id: string;
+  actionsDescription: string;
   actions: ActionData[];
   header: HeaderData;
   bubbles: BubbleData[];
@@ -122,6 +125,7 @@ export default Vue.extend({
   data() {
     return {
       id: DEFAULTS.id,
+      actionsDescription: DEFAULTS.actionsDescription,
       actionBack: DEFAULTS.actionBack,
       actions: DEFAULTS.actions,
       activeTab: DEFAULTS.activeTab,
@@ -164,6 +168,7 @@ export default Vue.extend({
     importData(data: AppData) {
       console.log("importing data", data);
       this.actions = (data && data.actions) || DEFAULTS.actions;
+      this.actionsDescription = (data && data.actionsDescription) || DEFAULTS.actionsDescription;
       this.header = (data && data.header) || DEFAULTS.header;
       this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles;
       this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
@@ -207,6 +212,7 @@ export default Vue.extend({
       });
       return {
         id: this.id,
+        actionsDescription: this.actionsDescription,
         actions: this.actions,
         header: this.header,
         bubbles,
@@ -278,9 +284,14 @@ export default Vue.extend({
       this.setLocalData();
     },
     updateDescription(description: DescriptionData) {
-      console.log("saving updated description to storage...");
+      console.log("saving updated selection description to storage...");
       this.description = description;
       this.descriptions[this.selection] = description;
+      this.setLocalData();
+    },
+    updateActionDescription(description: DescriptionData) {
+      console.log("saving updated actions description to storage...");
+      this.actionsDescription = description;
       this.setLocalData();
     },
     updateHeader(header: HeaderData) {

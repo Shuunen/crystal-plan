@@ -113,7 +113,7 @@ export { DescriptionData };
 .description-wrapper {
   .description {
     margin: 1.1rem 0.5rem;
-    min-height: 300px;
+    /* min-height: 300px; */
   }
   .vp-editor {
     top: -1rem;

@@ -2,14 +2,6 @@
   <div class="actions-wrapper">
 
     <div class="col start content is-medium">
-      <h2 class="title">Welcome</h2>
-      <p>
-        <strong>Crystal Plan</strong> is an online app designed to build and present a plan or strategy.
-      </p>
-      <p>
-        The <span class="highlight">chart above</span> shows the actors of this plan : persons, ideas, values, anything.
-        Because a great plan is nothing without concrete things to do, you will find <span class="highlight">actions below</span> :
-      </p>
       <div class="actions-list columns is-desktop is-mobile is-multiline">
         <div class="column" v-for="data in actions" :key="data.id" @click="clickAction(data)">
           <action :edit-mode="editMode" :data="data" />

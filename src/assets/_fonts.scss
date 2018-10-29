@@ -3,20 +3,20 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400|Roboto:400,600");
 
 body {
-  h1, .title, .text .title {
+  h1, .title, .text .title, .content h1 {
     font-family: "Nunito", sans-serif;
     font-weight: 400;
     font-size: 2.4rem;
+    margin-bottom: 1.7rem;
   }
-  p, .text {
+  p, .text, .content p {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-size: 1.2rem;
-  }
-  strong {
-    font-weight: 600;
-  }
-  .content p {
+    margin-bottom: .6rem;
     line-height: 1.7;
+  }
+  strong, b {
+    font-weight: 600;
   }
 }

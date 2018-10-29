@@ -52,7 +52,7 @@ export { ActionData };
   .image,
   .icon,
   .text {
-    margin-right: 0.6rem;
+    margin-right: 0.8rem;
   }
   .image,
   .icon {
@@ -60,6 +60,7 @@ export { ActionData };
   }
   .text {
     color: $color-primary;
+    margin-bottom: 0;
   }
   .arrow {
     margin-top: .2rem;
