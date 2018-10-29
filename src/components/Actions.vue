@@ -20,7 +20,7 @@
               {{ data.text }}
             </div>
             <div class="arrow">
-              <b-icon pack="fas" :icon="editMode ? 'edit' : 'chevron-right'" />
+              <b-icon pack="far" :icon="editMode ? 'edit' : 'arrow-alt-circle-right'" />
             </div>
           </div>
         </div>
