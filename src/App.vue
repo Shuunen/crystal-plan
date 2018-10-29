@@ -340,7 +340,7 @@ export default Vue.extend({
 .section.top,
 .section.bottom {
   .container {
-    max-width: 970px;
+    max-width: 960px;
     margin: auto;
   }
 }
