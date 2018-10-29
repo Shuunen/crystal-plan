@@ -1,35 +1,32 @@
 <template>
   <div class="actions-wrapper">
-    <div class="col start">
-      <h2 class="title">Actions.</h2>
+
+    <div class="col start content is-medium">
+      <h2 class="title">Welcome</h2>
       <p>
-        A great plan is nothing without concrete actions, please select an action below
-        <b-icon pack="fas" icon="level-down-alt" />
+        <strong>Crystal Plan</strong> is an online app designed to build and present a plan or strategy.
       </p>
-    </div>
-
-    <div class="columns">
-      <div class="column is-one-quarter" v-for="data in actions" :key="data.id">
-
-        <div class="card action-card" :class="{ editable: editMode, selected: data.selected }" @click="clickAction(data)">
-          <div class="card-image">
-            <figure class="image">
-              <img :src="data.image" alt="Placeholder image">
-            </figure>
-          </div>
-          <div class="card-content">
-            <div class="media">
-              <div class="media-content">
-                <p class="subtitle ellipsis">{{ data.text }}</p>
-                <!--<p class="subtitle">@johnsmith</p>-->
-              </div>
+      <p>
+        The <span class="highlight">chart above</span> shows the actors of this plan : persons, ideas, values, anything.
+        Because a great plan is nothing without concrete things to do, you will find <span class="highlight">actions below</span> :
+      </p>
+      <div class="actions-list columns is-desktop is-mobile is-multiline">
+        <div class="column" v-for="data in actions" :key="data.id" @click="clickAction(data)">
+          <div class="action line start">
+            <div class="icon" v-if="data.image">
+              <img :src="data.image" alt="action image">
             </div>
-            <span class="border"></span>
+            <div class="text ellipsis" v-if="data.text">
+              {{ data.text }}
+            </div>
+            <div class="arrow">
+              <b-icon pack="fas" :icon="editMode ? 'edit' : 'chevron-right'" />
+            </div>
           </div>
         </div>
-
       </div>
     </div>
+ 
   </div>
 </template>
 
@@ -40,8 +37,6 @@ interface ActionData {
   id: string;
   text: string;
   image: string;
-  selected?: boolean;
-  shaded?: boolean;
 }
 
 export default Vue.extend({
@@ -52,29 +47,18 @@ export default Vue.extend({
     },
     editMode: Boolean
   },
+  data() {
+    return {
+      activeTab: null
+    };
+  },
   methods: {
     clickAction(action: ActionData) {
       if (this.editMode) {
         this.$emit("edit", action);
       } else {
         this.$emit("select", action);
-        this.selectOne(action);
       }
-    },
-    selectOne(action: ActionData) {
-      const focusMode = !!!action.selected;
-      this.actions.map(a => {
-        if (focusMode) {
-          // only focus one
-          const goodOne = a.id === action.id;
-          a.selected = goodOne;
-          a.shaded = !goodOne;
-        } else {
-          // reset values of all
-          a.selected = false;
-          a.shaded = false;
-        }
-      });
     }
   }
 });
@@ -85,13 +69,11 @@ export { ActionData };
 <style lang="scss">
 @import "../assets/shared";
 .actions-wrapper {
+  max-width: 970px;
   h2.title {
     border-bottom: 0.2rem solid $color-accent;
     display: inline-block;
-    margin-bottom: 1rem;
-    & + p {
-      margin-bottom: 2rem;
-    }
+    margin-bottom: 2rem;
   }
   & > .columns {
     flex-wrap: wrap;
@@ -100,47 +82,36 @@ export { ActionData };
     display: none;
   }
 }
-.action-card {
+.actions-list {
+  padding-top: 0.6rem;
+}
+.action {
+  min-width: 33vw;
+  padding: 0.7rem 1rem;
+  color: $color-shade-alt;
+  border: 2px solid currentColor;
+  align-items: center;
+  transition: color 0.4s;
   cursor: pointer;
-  transition: all 0.4s;
-  .card-content {
-    padding: 1rem 1rem 0.3rem;
+  .icon,
+  .text {
+    margin-right: 0.6rem;
   }
-  .card-image .image {
-    $size: 6rem;
-    height: $size;
-    width: $size;
-    margin: auto;
-    img {
-      padding-top: 0.9rem;
+  .text {
+    color: $color-primary;
+  }
+  .arrow {
+    margin-top: .2rem;
+    margin-left: auto;
+    transition: color 0.2s, transform .2s;
+  }
+  &:hover {
+    &,
+    .arrow {
+      color: $color-accent;
     }
-  }
-  .media-content p {
-    width: calc(100% - 1rem);
-    text-align: center;
-  }
-  .border {
-    background-color: $color-shade-alt;
-    height: 0.3rem;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    transition: background-color 0.4s;
-  }
-  &:hover .border {
-    background-color: $color-accent-alt;
-  }
-  &.selected .border,
-  &.selected:hover .border {
-    background-color: $color-accent;
-  }
-  &.shaded {
-    opacity: 0.5;
-    filter: grayscale(100%);
-    &:hover {
-      opacity: 0.7;
-      filter: grayscale(60%);
+    .arrow {
+      transform: scale(1.2);
     }
   }
 }

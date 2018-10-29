@@ -1,6 +1,6 @@
 <template>
     <div class="description-wrapper">
-      <div class="description" v-show="!editMode" v-html="content"></div>
+      <div class="description content is-medium" v-show="!editMode" v-html="content"></div>
       <vue-pell-editor v-show="editMode"
           v-model="editorContent"
           :actions="editorOptions" 
@@ -19,7 +19,6 @@ import Vue from "vue";
 
 const ensureHTTP = (str: string) =>
   (/^https?:\/\//.test(str) && str) || `http://${str}`;
-
 
 type DescriptionData = string;
 
@@ -60,10 +59,13 @@ export default Vue.extend({
           icon: '<div class="highlight">A</div>',
           title: "Highlight Color",
           result: (): void => {
-            const selection = window.getSelection().toString()
-            const html = selection.replace(/^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,'$1<span class="highlight">$2</span>$3')
-            console.log('will put new html', html)
-            pell.exec("insertHTML", html)
+            const selection = window.getSelection().toString();
+            const html = selection.replace(
+              /^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,
+              '$1<span class="highlight">$2</span>$3'
+            );
+            console.log("will put new html", html);
+            pell.exec("insertHTML", html);
           }
         },
         {
@@ -82,7 +84,7 @@ export default Vue.extend({
         },
         {
           name: "clean",
-          icon: '<div>Clean</div>',
+          icon: "<div>Clean</div>",
           title: "Clear all formating",
           result: () => pell.exec("removeFormat")
         }
@@ -112,11 +114,11 @@ export { DescriptionData };
   max-width: 970px;
   margin: auto;
   .description {
-    margin: 2rem 6rem;
+    margin: 1.1rem 0.5rem;
     min-height: 300px;
   }
   .vp-editor {
-    margin: 1rem 6rem;
+    top: -1rem;
     .pell-content {
       height: inherit;
       min-height: 300px;

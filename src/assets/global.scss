@@ -42,8 +42,9 @@ h1 {
 }
 
 .highlight {
+  color: $color-secondary;
   background-color: $color-accent-alt;
-  padding: 0.2rem 0.3rem;
+  padding: 0.1rem 0.3rem;
 }
 
 .button.is-primary {

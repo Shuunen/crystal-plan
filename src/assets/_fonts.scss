@@ -1,6 +1,6 @@
 
 @import url("https://use.fontawesome.com/releases/v5.2.0/css/all.css");
-@import url("https://fonts.googleapis.com/css?family=Nunito:400|Roboto:400,500");
+@import url("https://fonts.googleapis.com/css?family=Nunito:400|Roboto:400,600");
 
 body {
   h1, .title, .text .title {
@@ -12,5 +12,11 @@ body {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-size: 1.2rem;
+  }
+  strong {
+    font-weight: 600;
+  }
+  .content p {
+    line-height: 1.7;
   }
 }

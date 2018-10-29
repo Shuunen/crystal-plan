@@ -12,8 +12,14 @@
     </section>
     <section class="section bottom">
       <div class="container">
-        <actions :actions="actions" @select="selectAction" @edit="editForm" :editMode="editMode" />
-        <description :content="description" @descriptionUpdate="updateDescription" :editMode="editMode" />
+        <b-tabs class="ninja" v-model="activeTab">
+          <b-tab-item label="actions">
+            <actions :actions="actions" @select="selectAction" @edit="editForm" :editMode="editMode" />
+          </b-tab-item>
+          <b-tab-item label="description">
+            <description :content="description" @descriptionUpdate="updateDescription" :editMode="editMode" />
+          </b-tab-item>
+        </b-tabs>
       </div>
     </section>
     <b-modal :active.sync="editFormOpened" has-modal-card>
@@ -42,8 +48,14 @@ import { BubbleData, Sections } from "./components/Bubble.vue";
 
 const chance = new Chance();
 
+enum Tab {
+  actions = 0,
+  description = 1
+}
+
 const DEFAULTS = {
   actions: [] as ActionData[],
+  activeTab: Tab.actions,
   apiUrl: "https://api.jsonbin.io/b/",
   apiKey: "$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06",
   id: getSlug(chance.animal()),
@@ -100,6 +112,7 @@ export default Vue.extend({
     return {
       id: DEFAULTS.id,
       actions: DEFAULTS.actions,
+      activeTab: DEFAULTS.activeTab,
       remoteId: DEFAULTS.remoteId,
       editMode: DEFAULTS.editMode,
       editFormOpened: false,
@@ -277,16 +290,25 @@ export default Vue.extend({
       this.setLocalData();
     },
     selectAction(action: ActionData) {
-      this.selection = action.id
+      this.selection = action.id;
       console.log("current selection :", this.selection);
-      if (this.selection === "") {
-        this.description = DEFAULTS.noSelectionDescription;
-      } else if (this.descriptions.hasOwnProperty(this.selection)) {
-        this.description = this.descriptions[this.selection];
+      if (this.selection.length) {
+        if (this.descriptions.hasOwnProperty(this.selection)) {
+          this.description = this.descriptions[this.selection];
+        } else {
+          this.description = DEFAULTS.noContentDescription;
+        }
+        this.activeTab = Tab.description;
       } else {
-        this.description = DEFAULTS.noContentDescription;
+        this.activeTab = Tab.actions;
       }
-    },
+    }
   }
 });
 </script>
+
+<style lang="scss">
+.b-tabs.ninja .tabs {
+  display: none;
+}
+</style>
