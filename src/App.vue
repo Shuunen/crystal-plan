@@ -34,7 +34,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Chance from "chance";
 import GlobalEvents from "vue-global-events";
 import getSlug from "speakingurl";
 
@@ -51,8 +50,6 @@ import {
 } from "./components/Description.vue";
 import { BubbleData, Sections } from "./components/Bubble.vue";
 
-const chance = new Chance();
-
 enum Tab {
   actions = 0,
   description = 1
@@ -65,12 +62,37 @@ const DEFAULTS = {
     icon: "arrow-alt-circle-left",
     back: true
   } as ActionData,
-  actionsDescription: '<h2 class="title">Welcome</h2><p><strong>Crystal Plan</strong> is an online app designed to build and present a plan or strategy.</p><p>The <span class="highlight">chart above</span> shows the actors of this plan : persons, ideas, values, anything. Because a great plan is nothing without concrete things to do, you will find <span class="highlight">actions below</span> :</p>',
+  actionsDescription:
+    '<h2 class="title">Welcome</h2><p><strong>Crystal Plan</strong> is an online app designed to build and present a plan or strategy.</p><p>The <span class="highlight">chart above</span> shows the actors of this plan : persons, ideas, values, anything. Because a great plan is nothing without concrete things to do, you will find <span class="highlight">actions below</span> :</p>',
   actions: [] as ActionData[],
   activeTab: Tab.actions,
   apiUrl: "https://api.jsonbin.io/b/",
   apiKey: "$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06",
-  id: getSlug(chance.animal()),
+  id: "foo",
+  random: [
+    "bar alto",
+    "sin seguritat",
+    "lorem ipsum",
+    "ciao",
+    "sit dolor",
+    "por erestet",
+    "tchu la comida",
+    "in amet",
+    "aqualeris baked",
+    "bouquet",
+    "zu amarillo",
+    "ploject",
+    "ruhe animals",
+    "ma plizure",
+    "bacon pasty",
+    "vinci mador",
+    "alan awake",
+    "malohe sutur",
+    "a priore sur",
+    "quel memento",
+    "kalitat",
+    "buru menhir"
+  ],
   remoteId: "",
   editMode: false,
   bubbles: [] as BubbleData[],
@@ -168,7 +190,8 @@ export default Vue.extend({
     importData(data: AppData) {
       console.log("importing data", data);
       this.actions = (data && data.actions) || DEFAULTS.actions;
-      this.actionsDescription = (data && data.actionsDescription) || DEFAULTS.actionsDescription;
+      this.actionsDescription =
+        (data && data.actionsDescription) || DEFAULTS.actionsDescription;
       this.header = (data && data.header) || DEFAULTS.header;
       this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles;
       this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
@@ -203,7 +226,7 @@ export default Vue.extend({
       req.send(JSON.stringify(this.getCurrentData()));
     },
     getCurrentData(): AppData {
-      console.log("getting current app data");
+      console.log("getting current app data state");
       // deep clone then clean bubble states
       const bubbles = this.copy(this.bubbles).map((b: BubbleData) => {
         b.selected = false;
@@ -242,10 +265,18 @@ export default Vue.extend({
       }
       this.isLoading = false;
     },
+    getRandomString(): string {
+      return (
+        DEFAULTS.random.pop() ||
+        Math.random()
+          .toString(36)
+          .substring(7)
+      );
+    },
     addRandomActions() {
       console.log("generating actions...");
       for (let i = 0; i < 8; i++) {
-        const text = chance.animal();
+        const text = this.getRandomString();
         this.actions.push({
           id: getSlug(text),
           text,
@@ -270,7 +301,7 @@ export default Vue.extend({
     addRandomBubble(section: Sections) {
       this.bubbles.push(
         new BubbleData({
-          text: chance.first(),
+          text: this.getRandomString(),
           image: DEFAULTS.image,
           section: section
         })
