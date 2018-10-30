@@ -1,5 +1,5 @@
 <template>
-  <div class="action line start" :class="{ back: data.back }">
+  <div class="action line start" :class="{ 'button-mode': data.button }">
     <div class="image" v-if="data.image">
       <img :src="data.image" alt="action image">
     </div>
@@ -17,13 +17,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Types } from './../App.vue'
 
 interface ActionData {
   id: string;
   text: string;
   image?: string;
   icon?: string;
-  back?: boolean;
+  button?: boolean;
+  type?: string;
 }
 
 export default Vue.extend({
@@ -33,6 +35,11 @@ export default Vue.extend({
       required: true
     },
     editMode: Boolean
+  },
+  created () {
+    if (!this.data.type) {
+      this.data.type = Types.action
+    }
   }
 })
 
@@ -76,8 +83,9 @@ export { ActionData }
       transform: scale(1.2);
     }
   }
-  &.back {
+  &.button-mode {
     min-width: inherit;
+    margin-top: 1.5rem;
     .arrow {
       display: none;
     }

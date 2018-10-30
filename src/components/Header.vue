@@ -1,17 +1,13 @@
 <template>
   <div class="header-wrapper" :class="{ editable: editMode }">
-    <h1  @click="editHeader" v-show="content.text && content.text.length" class="header-text">{{ content.text }}</h1>
+    <h1  @click="clickHeader" v-show="content.text && content.text.length" class="header-text">{{ content.text }}</h1>
     <div v-show="editMode && content.image && content.image.length" class="header-id">header</div>
-    <div @click="editHeader" v-show="content.image && content.image.length" class="header-image" :style="backgroundStyle" />
-    <b-modal :active.sync="editFormOpened" has-modal-card>
-      <HeaderForm v-bind="editFormData" @close="closeForm" />
-    </b-modal>
+    <div @click="clickHeader" v-show="content.image && content.image.length" class="header-image" :style="backgroundStyle" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import HeaderForm from './HeaderForm.vue'
 
 interface HeaderData {
   text?: string;
@@ -26,14 +22,9 @@ export default Vue.extend({
     },
     editMode: Boolean
   },
-  components: {
-    HeaderForm
-  },
   data () {
     return {
-      backgroundStyle: {},
-      editFormOpened: false,
-      editFormData: { data: {} }
+      backgroundStyle: {}
     }
   },
   created () {
@@ -44,19 +35,14 @@ export default Vue.extend({
     }
   },
   methods: {
-    editHeader () {
+    clickHeader () {
       if (this.editMode) {
         console.log(`user wants to edit header`)
-        this.editFormData.data = Object.assign({}, this.content)
-        this.editFormOpened = true
+        this.$emit('edit', this.content)
+      } else {
+        console.log(`user wants to select header`)
+        this.$emit('select', this.content)
       }
-    },
-    closeForm (dataUpdated: boolean) {
-      if (dataUpdated) {
-        // console.log('emitting headerUpdate')
-        this.$emit('headerUpdate', this.editFormData.data)
-      }
-      this.editFormOpened = false
     }
   }
 })

@@ -20,16 +20,12 @@
           <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.filter(b => b.section === Sections.right)" :key="data.id" />
       </div>
     </div>
-    <b-modal :active.sync="editFormOpened" has-modal-card>
-      <BubbleForm v-bind="editFormData" @close="closeForm" />
-    </b-modal>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Bubble, { BubbleData, Sections } from './Bubble.vue'
-import BubbleForm from './BubbleForm.vue'
 
 export default Vue.extend({
   props: {
@@ -43,35 +39,24 @@ export default Vue.extend({
     }
   },
   components: {
-    Bubble,
-    BubbleForm
+    Bubble
   },
   data () {
     return {
-      Sections,
-      editFormOpened: false,
-      editFormData: { data: {} }
+      Sections
     }
   },
   methods: {
-    clickBubble (data: BubbleData) {
+    clickBubble (bubble: BubbleData) {
       if (this.editMode) {
-        console.log(`user wants to edit bubble ${data.id}`)
-        this.editFormData.data = data
-        this.editFormOpened = true
+        console.log(`user wants to edit bubble ${bubble.id}`)
+        this.$emit('edit', bubble)
       } else {
-        console.log(`user wants to select bubble ${data.id}`)
-        this.selectOneBubble(data)
+        console.log(`user wants to select bubble ${bubble.id}`)
+        this.$emit('select', bubble)
       }
-    },
-    closeForm (dataUpdated: boolean) {
-      if (dataUpdated) {
-        // console.log('emitting bubblesUpdate')
-        this.$emit('bubblesUpdate', this.bubbles)
-        this.emitSelection()
-      }
-      this.editFormOpened = false
-    },
+    }
+    /*
     selectOneBubble (bubble: BubbleData) {
       const focusMode = !bubble.selected
       this.bubbles.filter(b => b.section === bubble.section).map(b => {
@@ -86,11 +71,8 @@ export default Vue.extend({
           b.shaded = false
         }
       })
-      this.emitSelection()
     },
-    emitSelection () {
-      this.$emit('selectionUpdate')
-    }
+    */
   }
 })
 </script>

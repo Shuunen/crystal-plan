@@ -5,9 +5,9 @@
       <background />
       <b-loading :active.sync="isLoading" />
       <div class="container chart has-text-centered" v-if="!isLoading">
-        <app-header :content="header" @headerUpdate="updateHeader" :editMode="editMode" />
+        <app-header :content="header" @edit="editForm" :editMode="editMode" />
         <edit-toggle @click.native="toggleEditMode" :editMode="editMode" />
-        <chart v-if="bubbles.length" :bubbles="bubbles" @bubblesUpdate="updateBubbles" :editMode="editMode" />
+        <chart v-if="bubbles.length" :bubbles="bubbles" @select="selectBubble" @edit="editForm" :editMode="editMode" />
       </div>
     </section>
     <section class="section bottom">
@@ -16,6 +16,9 @@
           <b-tab-item label="actions">
             <description :content="actionsDescription" @descriptionUpdate="updateActionDescription" :editMode="editMode" />
             <actions :actions="actions" @select="selectAction" @edit="editForm" :editMode="editMode" />
+            <div class="line start"  @click="addAction">
+              <action :data="actionAdd" />
+            </div>
           </b-tab-item>
           <b-tab-item label="description">
             <description :content="description" @descriptionUpdate="updateDescription" :editMode="editMode" />
@@ -27,7 +30,7 @@
       </div>
     </section>
     <b-modal :active.sync="editFormOpened" has-modal-card>
-      <EditForm v-bind="editFormData" @close="closeForm" />
+      <EditForm v-bind="editFormData" @close="closeForm" @remove="removeEntry" />
     </b-modal>
   </div>
 </template>
@@ -53,11 +56,21 @@ enum Tab {
 }
 
 const DEFAULTS = {
+  action: {
+    text: 'My action',
+    icon: 'check-circle'
+  } as ActionData,
+  actionAdd: {
+    id: 'add',
+    text: 'Add an action',
+    icon: 'plus-square',
+    button: true
+  } as ActionData,
   actionBack: {
     id: 'back',
     text: 'Back to actions',
     icon: 'arrow-alt-circle-left',
-    back: true
+    button: true
   } as ActionData,
   actionsDescription:
     '<h2 class="title">Welcome</h2><p><strong>Crystal Plan</strong> is an online app designed to build and present a plan or strategy.</p><p>The <span class="highlight">chart above</span> shows the actors of this plan : persons, ideas, values, anything. Because a great plan is nothing without concrete things to do, you will find <span class="highlight">actions below</span> :</p>',
@@ -115,6 +128,11 @@ declare module 'vue/types/vue' {
   }
 }
 
+enum Types {
+  bubble = 'bubble',
+  action = 'action'
+}
+
 interface DescriptionsData {
   [key: string]: DescriptionData;
 }
@@ -145,6 +163,7 @@ export default Vue.extend({
     return {
       id: DEFAULTS.id,
       actionsDescription: DEFAULTS.actionsDescription,
+      actionAdd: DEFAULTS.actionAdd,
       actionBack: DEFAULTS.actionBack,
       actions: DEFAULTS.actions,
       activeTab: DEFAULTS.activeTab,
@@ -209,11 +228,17 @@ export default Vue.extend({
       req.send()
     },
     updateRemoteData () {
-      console.log('updating remote data')
+      if (!this.remoteId || !this.remoteId.length) {
+        this.remoteId = prompt('What is the remote id ?') || ''
+      }
+      this.$toast.open('Updating remote data...')
       let req = new XMLHttpRequest()
       req.onreadystatechange = () => {
         if (req.readyState === XMLHttpRequest.DONE) {
-          console.log('updated remote data ^^')
+          this.$toast.open({
+            message: 'Remote schame updated correctly!',
+            type: 'is-success'
+          })
         }
       }
       req.open('PUT', `${DEFAULTS.apiUrl}${this.remoteId}`, true)
@@ -269,6 +294,9 @@ export default Vue.extend({
           .toString(36)
           .substring(7)
       )
+    },
+    getRandomId (): string {
+      return getSlug(this.getRandomString())
     },
     addRandomActions () {
       console.log('generating actions...')
@@ -340,6 +368,34 @@ export default Vue.extend({
       this.editFormOpened = false
       this.setLocalData()
     },
+    removeEntry () {
+      const data = this.editFormData.data
+      const type = data.type as Types
+      if (!type) {
+        this.error('Cannot delete entry', 'no type provided')
+        return
+      } else {
+        console.log('deleting', type, 'with id', data.id)
+      }
+      let array = null
+      if (type === Types.bubble) {
+        array = this.bubbles as EditFormData[]
+      } else if (type === Types.action) {
+        array = this.actions as EditFormData[]
+      } else {
+        this.error('Unhandled type : "' + type + '"')
+      }
+      if (array) {
+        const index = array.findIndex(e => e.id === data.id)
+        if (index > -1) {
+          array.splice(index, 1)
+          this.info(`Deleted "${data.id}" successfully`)
+        } else {
+          this.error('Failed deleting item', 'item not found via id')
+        }
+      }
+      this.editFormOpened = false
+    },
     selectAction (action: ActionData) {
       this.selection = action.id
       console.log('current selection :', this.selection)
@@ -354,11 +410,49 @@ export default Vue.extend({
         this.activeTab = Tab.actions
       }
     },
+    selectBubble (bubble: BubbleData) {
+      console.log('bubble selected :', bubble.id)
+    },
     gotoActions () {
       this.activeTab = Tab.actions
+    },
+    addAction () {
+      this.$toast.open('Adding action...')
+      const action = this.copy(DEFAULTS.action)
+      action.id = this.getRandomId()
+      this.actions.push(action)
+      this.editForm(action)
+    },
+    error (toast: string, details = '') {
+      this.$toast.open({
+        duration: 5000,
+        message: toast,
+        position: 'is-bottom',
+        type: 'is-danger'
+      })
+      if (details.length) {
+        console.error(toast, ':', details)
+      } else {
+        console.error(toast)
+      }
+    },
+    info (toast: string, details = '') {
+      this.$toast.open({
+        duration: 3000,
+        message: toast,
+        position: 'is-top',
+        type: 'is-info'
+      })
+      if (details.length) {
+        console.log(toast, ':', details)
+      } else {
+        console.log(toast)
+      }
     }
   }
 })
+
+export { Types }
 </script>
 
 <style lang="scss">

@@ -27,6 +27,7 @@ export default Vue.extend({
   position: fixed;
   top: 2rem;
   right: 2rem;
+  z-index: 20;
   .tooltip.is-primary:after {
     background: $color-shade;
   }
