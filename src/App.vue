@@ -16,7 +16,7 @@
           <b-tab-item label="actions">
             <description :content="actionsDescription" @descriptionUpdate="updateActionDescription" :editMode="editMode" />
             <actions :actions="actions" @select="selectAction" @edit="editForm" :editMode="editMode" />
-            <div class="line start"  @click="addAction">
+            <div class="line start" v-show="editMode" @click="addAction">
               <action :data="actionAdd" />
             </div>
           </b-tab-item>
