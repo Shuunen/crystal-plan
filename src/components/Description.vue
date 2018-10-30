@@ -50,6 +50,7 @@ export default Vue.extend({
         "heading1",
         "bold",
         "underline",
+        "line",
         {
           name: "italic",
           result: () => pell.exec("italic")
