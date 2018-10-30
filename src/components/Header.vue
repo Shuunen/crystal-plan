@@ -10,8 +10,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import HeaderForm from "./HeaderForm.vue";
+import Vue from 'vue'
+import HeaderForm from './HeaderForm.vue'
 
 interface HeaderData {
   text?: string;
@@ -29,39 +29,39 @@ export default Vue.extend({
   components: {
     HeaderForm
   },
-  data() {
+  data () {
     return {
       backgroundStyle: {},
       editFormOpened: false,
       editFormData: { data: {} }
-    };
+    }
   },
-  created() {
+  created () {
     if (this.content.image && this.content.image.length) {
       this.backgroundStyle = {
-        backgroundImage: "url(" + this.content.image + ")"
-      };
+        backgroundImage: 'url(' + this.content.image + ')'
+      }
     }
   },
   methods: {
-    editHeader() {
+    editHeader () {
       if (this.editMode) {
-        console.log(`user wants to edit header`);
-        this.editFormData.data = Object.assign({}, this.content);
-        this.editFormOpened = true;
+        console.log(`user wants to edit header`)
+        this.editFormData.data = Object.assign({}, this.content)
+        this.editFormOpened = true
       }
     },
-    closeForm(dataUpdated: boolean) {
+    closeForm (dataUpdated: boolean) {
       if (dataUpdated) {
         // console.log('emitting headerUpdate')
-        this.$emit("headerUpdate", this.editFormData.data);
+        this.$emit('headerUpdate', this.editFormData.data)
       }
-      this.editFormOpened = false;
+      this.editFormOpened = false
     }
   }
-});
+})
 
-export { HeaderData };
+export { HeaderData }
 </script>
 
 <style lang="scss">

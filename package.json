@@ -3,17 +3,12 @@
   "version": "0.2.0",
   "private": true,
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
-  "license": "MIT",
-  "engines": {
-    "node": ">= 8.0.0",
-    "npm": ">= 5.0.0"
-  },
   "scripts": {
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "commit": "gitmoji -c",
     "dev": "vue-cli-service serve",
-    "start": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "standard src/**/*.ts *.js"
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
     "buefy": "^0.7.0",
@@ -27,9 +22,12 @@
   "devDependencies": {
     "@types/speakingurl": "^13.0.2",
     "@vue/cli-plugin-babel": "^3.0.4",
+    "@vue/cli-plugin-eslint": "^3.0.5",
     "@vue/cli-plugin-pwa": "^3.0.4",
     "@vue/cli-plugin-typescript": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
+    "@vue/eslint-config-standard": "^3.0.5",
+    "@vue/eslint-config-typescript": "^3.0.5",
     "eslint-plugin-typescript": "^0.12.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",
@@ -37,6 +35,24 @@
     "typescript": "^3.0.0",
     "typescript-eslint-parser": "^20.0.0",
     "vue-template-compiler": "^2.5.17"
+  },
+  "eslintConfig": {
+    "globals": {
+      "pell": false
+    },
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "@vue/standard",
+      "@vue/typescript"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "typescript-eslint-parser"
+    }
   },
   "postcss": {
     "plugins": {
@@ -48,11 +64,11 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "eslintConfig": {
-    "globals": {
-      "pell": false
-    }
+  "engines": {
+    "node": ">= 8.0.0",
+    "npm": ">= 5.0.0"
   },
+  "license": "MIT",
   "standard": {
     "parser": "typescript-eslint-parser",
     "plugins": [

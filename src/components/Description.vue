@@ -3,8 +3,8 @@
       <div class="description content is-medium" v-show="!editMode" v-html="content"></div>
       <vue-pell-editor v-show="editMode"
           v-model="editorContent"
-          :actions="editorOptions" 
-          :content="editorContent" 
+          :actions="editorOptions"
+          :content="editorContent"
           :placeholder="editorPlaceholder"
           :style-with-css="false"
           :classes="editorClasses"
@@ -15,12 +15,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue'
 
 const ensureHTTP = (str: string) =>
-  (/^https?:\/\//.test(str) && str) || `http://${str}`;
+  (/^https?:\/\//.test(str) && str) || `http://${str}`
 
-type DescriptionData = string;
+type DescriptionData = string
 
 export default Vue.extend({
   props: {
@@ -35,79 +35,79 @@ export default Vue.extend({
   },
   computed: {
     editorContent: {
-      get: function(): DescriptionData {
-        return this.content;
+      get: function (): DescriptionData {
+        return this.content
       },
-      set: function(html: DescriptionData) {
-        this.newContent = html;
+      set: function (html: DescriptionData) {
+        this.newContent = html
       }
     }
   },
-  data() {
+  data () {
     return {
-      newContent: "",
+      newContent: '',
       editorOptions: [
-        "heading1",
-        "bold",
-        "underline",
-        "line",
+        'heading1',
+        'bold',
+        'underline',
+        'line',
         {
-          name: "italic",
-          result: () => pell.exec("italic")
+          name: 'italic',
+          result: () => pell.exec('italic')
         },
         {
-          name: "highlight",
+          name: 'highlight',
           icon: '<div class="highlight">A</div>',
-          title: "Highlight Color",
+          title: 'Highlight Color',
           result: (): void => {
-            const selection = window.getSelection().toString();
+            const selection = window.getSelection().toString()
             const html = selection.replace(
               /^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,
               '$1<span class="highlight">$2</span>$3'
-            );
-            console.log("will put new html", html);
-            pell.exec("insertHTML", html);
+            )
+            console.log('will put new html', html)
+            pell.exec('insertHTML', html)
           }
         },
         {
-          name: "image",
+          name: 'image',
           result: () => {
-            const url = window.prompt("Enter the image URL");
-            if (url) pell.exec("insertImage", ensureHTTP(url));
+            const url = window.prompt('Enter the image URL')
+            if (url) pell.exec('insertImage', ensureHTTP(url))
           }
         },
         {
-          name: "link",
+          name: 'link',
           result: () => {
-            const url = window.prompt("Enter the link URL");
-            if (url) pell.exec("createLink", ensureHTTP(url));
+            const url = window.prompt('Enter the link URL')
+            if (url) pell.exec('createLink', ensureHTTP(url))
           }
         },
         {
-          name: "clean",
-          icon: "<div>Clean</div>",
-          title: "Clear all formating",
-          result: () => pell.exec("removeFormat")
+          name: 'clean',
+          icon: '<div>Clean</div>',
+          title: 'Clear all formating',
+          result: () => pell.exec('removeFormat')
         }
       ],
-      editorPlaceholder: "Write something amazing...",
+      editorPlaceholder: 'Write something amazing...',
       editorClasses: {
-        actionbar: "pell-actionbar",
-        button: "pell-button",
-        content: "pell-content",
-        selected: "pell-button-selected"
+        actionbar: 'pell-actionbar',
+        button: 'pell-button',
+        content: 'pell-content',
+        selected: 'pell-button-selected'
       }
-    };
+    }
   },
   methods: {
-    updateData() {
-      //TODO: debounce ! ^^
-      this.$emit("descriptionUpdate", this.newContent);
+    updateData () {
+      // TODO: debounce ! ^^
+      this.$emit('descriptionUpdate', this.newContent)
     }
   }
-});
+})
 
-export { DescriptionData };
+export { DescriptionData }
 </script>
 
 <style lang="scss">

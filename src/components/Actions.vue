@@ -8,14 +8,14 @@
         </div>
       </div>
     </div>
- 
+
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { default as Action, ActionData } from './Action.vue';
- 
+import Vue from 'vue'
+import Action, { ActionData } from './Action.vue'
+
 export default Vue.extend({
   props: {
     actions: {
@@ -25,18 +25,18 @@ export default Vue.extend({
     editMode: Boolean
   },
   components: {
-    Action,
+    Action
   },
   methods: {
-    clickAction(action: ActionData) {
+    clickAction (action: ActionData) {
       if (this.editMode) {
-        this.$emit("edit", action);
+        this.$emit('edit', action)
       } else {
-        this.$emit("select", action);
+        this.$emit('select', action)
       }
     }
   }
-});
+})
 </script>
 
 <style lang="scss">
@@ -58,4 +58,3 @@ export default Vue.extend({
   padding-top: 0.6rem;
 }
 </style>
- 

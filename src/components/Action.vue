@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue'
 
 interface ActionData {
   id: string;
@@ -34,9 +34,9 @@ export default Vue.extend({
     },
     editMode: Boolean
   }
-});
+})
 
-export { ActionData };
+export { ActionData }
 </script>
 
 <style lang="scss">
@@ -84,4 +84,3 @@ export { ActionData };
   }
 }
 </style>
-

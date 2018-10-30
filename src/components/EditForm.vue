@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue'
 
 interface EditFormData {
   id?: string;
@@ -29,39 +29,39 @@ export default Vue.extend({
   props: {
     data: Object as () => EditFormData
   },
-  data() {
+  data () {
     return {
       originalData: {} as EditFormData
-    };
+    }
   },
-  created: function() {
-    this.originalData = this.copy(this.data);
+  created () {
+    this.originalData = this.copy(this.data)
   },
   methods: {
-    copy(object: any) {
-      return JSON.parse(JSON.stringify(object));
+    copy (object: any) {
+      return JSON.parse(JSON.stringify(object))
     },
-    cancel() {
-      console.log(`user just canceled edit`);
+    cancel () {
+      console.log(`user just canceled edit`)
       if (this.originalData.id) {
-        this.data.id = this.originalData.id;
+        this.data.id = this.originalData.id
       }
       if (this.originalData.text) {
-        this.data.text = this.originalData.text;
+        this.data.text = this.originalData.text
       }
       if (this.originalData.image) {
-        this.data.image = this.originalData.image;
+        this.data.image = this.originalData.image
       }
       if (this.originalData.icon) {
-        this.data.icon = this.originalData.icon;
+        this.data.icon = this.originalData.icon
       }
-      this.close();
+      this.close()
     },
-    close() {
-      console.log(`user finished edition`);
-      this.$emit("close");
+    close () {
+      console.log(`user finished edition`)
+      this.$emit('close')
     }
   }
-});
-export { EditFormData };
+})
+export { EditFormData }
 </script>

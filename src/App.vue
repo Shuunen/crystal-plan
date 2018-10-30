@@ -33,22 +33,19 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import GlobalEvents from "vue-global-events";
-import getSlug from "speakingurl";
+import Vue from 'vue'
+import GlobalEvents from 'vue-global-events'
+import getSlug from 'speakingurl'
 
-import { default as EditForm, EditFormData } from "./components/EditForm.vue";
-import { default as Action, ActionData } from "./components/Action.vue";
-import Actions from "./components/Actions.vue";
-import Background from "./components/Background.vue";
-import { default as Header, HeaderData } from "./components/Header.vue";
-import EditToggle from "./components/EditToggle.vue";
-import Chart from "./components/Chart.vue";
-import {
-  default as Description,
-  DescriptionData
-} from "./components/Description.vue";
-import { BubbleData, Sections } from "./components/Bubble.vue";
+import EditForm, { EditFormData } from './components/EditForm.vue'
+import Action, { ActionData } from './components/Action.vue'
+import Actions from './components/Actions.vue'
+import Background from './components/Background.vue'
+import Header, { HeaderData } from './components/Header.vue'
+import EditToggle from './components/EditToggle.vue'
+import Chart from './components/Chart.vue'
+import Description, { DescriptionData } from './components/Description.vue'
+import { BubbleData, Sections } from './components/Bubble.vue'
 
 enum Tab {
   actions = 0,
@@ -57,43 +54,43 @@ enum Tab {
 
 const DEFAULTS = {
   actionBack: {
-    id: "back",
-    text: "Back to actions",
-    icon: "arrow-alt-circle-left",
+    id: 'back',
+    text: 'Back to actions',
+    icon: 'arrow-alt-circle-left',
     back: true
   } as ActionData,
   actionsDescription:
     '<h2 class="title">Welcome</h2><p><strong>Crystal Plan</strong> is an online app designed to build and present a plan or strategy.</p><p>The <span class="highlight">chart above</span> shows the actors of this plan : persons, ideas, values, anything. Because a great plan is nothing without concrete things to do, you will find <span class="highlight">actions below</span> :</p>',
   actions: [] as ActionData[],
   activeTab: Tab.actions,
-  apiUrl: "https://api.jsonbin.io/b/",
-  apiKey: "$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06",
-  id: "foo",
+  apiUrl: 'https://api.jsonbin.io/b/',
+  apiKey: '$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06',
+  id: 'foo',
   random: [
-    "bar alto",
-    "sin seguritat",
-    "lorem ipsum",
-    "ciao",
-    "sit dolor",
-    "por erestet",
-    "tchu la comida",
-    "in amet",
-    "aqualeris baked",
-    "bouquet",
-    "zu amarillo",
-    "ploject",
-    "ruhe animals",
-    "ma plizure",
-    "bacon pasty",
-    "vinci mador",
-    "alan awake",
-    "malohe sutur",
-    "a priore sur",
-    "quel memento",
-    "kalitat",
-    "buru menhir"
+    'bar alto',
+    'sin seguritat',
+    'lorem ipsum',
+    'ciao',
+    'sit dolor',
+    'por erestet',
+    'tchu la comida',
+    'in amet',
+    'aqualeris baked',
+    'bouquet',
+    'zu amarillo',
+    'ploject',
+    'ruhe animals',
+    'ma plizure',
+    'bacon pasty',
+    'vinci mador',
+    'alan awake',
+    'malohe sutur',
+    'a priore sur',
+    'quel memento',
+    'kalitat',
+    'buru menhir'
   ],
-  remoteId: "",
+  remoteId: '',
   editMode: false,
   bubbles: [] as BubbleData[],
   bubblesPerSection: 4,
@@ -101,17 +98,17 @@ const DEFAULTS = {
   editFormData: {
     data: {} as EditFormData
   },
-  image: "https://bulma.io/images/placeholders/128x128.png",
-  description: "" as DescriptionData,
+  image: 'https://bulma.io/images/placeholders/128x128.png',
+  description: '' as DescriptionData,
   descriptions: {} as DescriptionsData,
-  noSelectionDescription: "Please select an action." as DescriptionData,
+  noSelectionDescription: 'Please select an action.' as DescriptionData,
   noContentDescription: '<h1 class="title">Great title</h1><br>No content yet for this action.' as DescriptionData,
-  header: { text: "Crystal Plan." } as HeaderData
-};
+  header: { text: 'Crystal Plan.' } as HeaderData
+}
 // 3 sections x 4 bubbles = 12 by default
-DEFAULTS.bubblesCount *= DEFAULTS.bubblesPerSection;
+DEFAULTS.bubblesCount *= DEFAULTS.bubblesPerSection
 
-declare module "vue/types/vue" {
+declare module 'vue/types/vue' {
   interface VueConstructor {
     $storage: any;
     pell: any;
@@ -132,7 +129,7 @@ interface AppData {
 }
 
 export default Vue.extend({
-  name: "app",
+  name: 'app',
   components: {
     Action,
     Actions,
@@ -144,7 +141,7 @@ export default Vue.extend({
     GlobalEvents,
     AppHeader: Header // header is reserved
   },
-  data() {
+  data () {
     return {
       id: DEFAULTS.id,
       actionsDescription: DEFAULTS.actionsDescription,
@@ -158,81 +155,81 @@ export default Vue.extend({
       bubbles: DEFAULTS.bubbles,
       descriptions: DEFAULTS.descriptions,
       description: DEFAULTS.description,
-      selection: "",
+      selection: '',
       header: DEFAULTS.header,
       isLoading: true
-    };
+    }
   },
-  created() {
-    this.getUrlData();
+  created () {
+    this.getUrlData()
   },
   methods: {
-    getUrlData() {
+    getUrlData () {
       if (document !== null && document.location) {
-        const hash = document.location.hash;
-        const matches = hash.match(/#?(\w+)(\?remote=([\w\/]+))?/);
+        const hash = document.location.hash
+        const matches = hash.match(/#?(\w+)(\?remote=([\w/]+))?/)
         if (matches !== null && matches.length === 4) {
-          this.id = matches[1] || DEFAULTS.id;
-          this.remoteId = matches[3] || "";
+          this.id = matches[1] || DEFAULTS.id
+          this.remoteId = matches[3] || ''
         }
       }
       if (this.remoteId.length) {
-        this.getRemoteData();
+        this.getRemoteData()
       } else {
-        this.getLocalData();
+        this.getLocalData()
       }
     },
-    setUrlData() {
+    setUrlData () {
       if (document !== null && document.location) {
-        document.location.hash = "#" + this.id;
+        document.location.hash = '#' + this.id
       }
     },
-    importData(data: AppData) {
-      console.log("importing data", data);
-      this.actions = (data && data.actions) || DEFAULTS.actions;
+    importData (data: AppData) {
+      console.log('importing data', data)
+      this.actions = (data && data.actions) || DEFAULTS.actions
       this.actionsDescription =
-        (data && data.actionsDescription) || DEFAULTS.actionsDescription;
-      this.header = (data && data.header) || DEFAULTS.header;
-      this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles;
-      this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions;
-      this.checkDataIntegrity();
+        (data && data.actionsDescription) || DEFAULTS.actionsDescription
+      this.header = (data && data.header) || DEFAULTS.header
+      this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles
+      this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions
+      this.checkDataIntegrity()
     },
-    getRemoteData() {
-      console.log("trying to load remote data " + this.remoteId + '"');
-      let req = new XMLHttpRequest();
+    getRemoteData () {
+      console.log('trying to load remote data ' + this.remoteId + '"')
+      let req = new XMLHttpRequest()
       req.onreadystatechange = () => {
-        if (req.readyState == XMLHttpRequest.DONE) {
-          console.log("got remote data");
-          const data = JSON.parse(req.responseText);
-          this.importData(data);
+        if (req.readyState === XMLHttpRequest.DONE) {
+          console.log('got remote data')
+          const data = JSON.parse(req.responseText)
+          this.importData(data)
         }
-      };
-      req.open("GET", `${DEFAULTS.apiUrl}${this.remoteId}`, true);
-      req.setRequestHeader("secret-key", DEFAULTS.apiKey);
-      req.send();
+      }
+      req.open('GET', `${DEFAULTS.apiUrl}${this.remoteId}`, true)
+      req.setRequestHeader('secret-key', DEFAULTS.apiKey)
+      req.send()
     },
-    updateRemoteData() {
-      console.log("updating remote data");
-      let req = new XMLHttpRequest();
+    updateRemoteData () {
+      console.log('updating remote data')
+      let req = new XMLHttpRequest()
       req.onreadystatechange = () => {
-        if (req.readyState == XMLHttpRequest.DONE) {
-          console.log("updated remote data ^^");
+        if (req.readyState === XMLHttpRequest.DONE) {
+          console.log('updated remote data ^^')
         }
-      };
-      req.open("PUT", `${DEFAULTS.apiUrl}${this.remoteId}`, true);
-      req.setRequestHeader("Content-type", "application/json");
-      req.setRequestHeader("secret-key", DEFAULTS.apiKey);
-      req.setRequestHeader("versioning", "false");
-      req.send(JSON.stringify(this.getCurrentData()));
+      }
+      req.open('PUT', `${DEFAULTS.apiUrl}${this.remoteId}`, true)
+      req.setRequestHeader('Content-type', 'application/json')
+      req.setRequestHeader('secret-key', DEFAULTS.apiKey)
+      req.setRequestHeader('versioning', 'false')
+      req.send(JSON.stringify(this.getCurrentData()))
     },
-    getCurrentData(): AppData {
-      console.log("getting current app data state");
+    getCurrentData (): AppData {
+      console.log('getting current app data state')
       // deep clone then clean bubble states
       const bubbles = this.copy(this.bubbles).map((b: BubbleData) => {
-        b.selected = false;
-        b.shaded = false;
-        return b;
-      });
+        b.selected = false
+        b.shaded = false
+        return b
+      })
       return {
         id: this.id,
         actionsDescription: this.actionsDescription,
@@ -240,128 +237,128 @@ export default Vue.extend({
         header: this.header,
         bubbles,
         descriptions: this.descriptions
-      };
+      }
     },
-    getLocalData() {
-      const data = Vue.$storage.get(this.id);
+    getLocalData () {
+      const data = Vue.$storage.get(this.id)
       console.log(
-        `found ${data ? "" : "no"} data locally with id "${this.id}"`
-      );
-      this.importData(data);
+        `found ${data ? '' : 'no'} data locally with id "${this.id}"`
+      )
+      this.importData(data)
     },
-    setLocalData() {
-      Vue.$storage.set(this.id, this.getCurrentData());
-      this.setUrlData();
+    setLocalData () {
+      Vue.$storage.set(this.id, this.getCurrentData())
+      this.setUrlData()
     },
-    checkDataIntegrity() {
+    checkDataIntegrity () {
       // console.log('checking data integrity...')
       if (this.bubbles.length <= 0) {
-        this.addRandomBubbles();
+        this.addRandomBubbles()
       } else if (this.bubbles.length < DEFAULTS.bubblesCount) {
-        this.addMissingBubbles();
+        this.addMissingBubbles()
       }
       if (this.actions.length <= 0) {
-        this.addRandomActions();
+        this.addRandomActions()
       }
-      this.isLoading = false;
+      this.isLoading = false
     },
-    getRandomString(): string {
+    getRandomString (): string {
       return (
         DEFAULTS.random.pop() ||
         Math.random()
           .toString(36)
           .substring(7)
-      );
+      )
     },
-    addRandomActions() {
-      console.log("generating actions...");
+    addRandomActions () {
+      console.log('generating actions...')
       for (let i = 0; i < 8; i++) {
-        const text = this.getRandomString();
+        const text = this.getRandomString()
         this.actions.push({
           id: getSlug(text),
           text,
           image: DEFAULTS.image
-        });
+        })
       }
-      console.log("generated :", this.actions);
+      console.log('generated :', this.actions)
     },
-    addMissingBubbles() {
-      console.log("missing bubbles detected");
-      console.log("but this feature is not developed yet");
+    addMissingBubbles () {
+      console.log('missing bubbles detected')
+      console.log('but this feature is not developed yet')
     },
-    addRandomBubbles() {
-      console.log("generating bubbles...");
+    addRandomBubbles () {
+      console.log('generating bubbles...')
       Object.keys(Sections).forEach(section => {
         for (let i = 0; i < DEFAULTS.bubblesPerSection; i++) {
-          this.addRandomBubble(section as Sections);
+          this.addRandomBubble(section as Sections)
         }
-      });
-      console.log("generated :", this.bubbles);
+      })
+      console.log('generated :', this.bubbles)
     },
-    addRandomBubble(section: Sections) {
+    addRandomBubble (section: Sections) {
       this.bubbles.push(
         new BubbleData({
           text: this.getRandomString(),
           image: DEFAULTS.image,
           section: section
         })
-      );
+      )
     },
-    toggleEditMode() {
-      this.editMode = !this.editMode;
+    toggleEditMode () {
+      this.editMode = !this.editMode
     },
-    updateBubbles(bubbles: BubbleData[]) {
-      console.log("saving bubbles to storage...");
-      this.setLocalData();
+    updateBubbles (bubbles: BubbleData[]) {
+      console.log('saving bubbles to storage...')
+      this.setLocalData()
     },
-    updateDescription(description: DescriptionData) {
-      console.log("saving updated selection description to storage...");
-      this.description = description;
-      this.descriptions[this.selection] = description;
-      this.setLocalData();
+    updateDescription (description: DescriptionData) {
+      console.log('saving updated selection description to storage...')
+      this.description = description
+      this.descriptions[this.selection] = description
+      this.setLocalData()
     },
-    updateActionDescription(description: DescriptionData) {
-      console.log("saving updated actions description to storage...");
-      this.actionsDescription = description;
-      this.setLocalData();
+    updateActionDescription (description: DescriptionData) {
+      console.log('saving updated actions description to storage...')
+      this.actionsDescription = description
+      this.setLocalData()
     },
-    updateHeader(header: HeaderData) {
-      console.log("saving updated header to storage...", header);
-      this.header = header;
-      this.setLocalData();
+    updateHeader (header: HeaderData) {
+      console.log('saving updated header to storage...', header)
+      this.header = header
+      this.setLocalData()
     },
-    copy(object: any) {
-      return JSON.parse(JSON.stringify(object));
+    copy (object: any) {
+      return JSON.parse(JSON.stringify(object))
     },
-    editForm(data: EditFormData) {
-      console.log("user wants to edit data");
-      this.editFormData.data = data;
-      this.editFormOpened = true;
+    editForm (data: EditFormData) {
+      console.log('user wants to edit data')
+      this.editFormData.data = data
+      this.editFormOpened = true
     },
-    closeForm() {
-      console.log("edit form closed");
-      this.editFormOpened = false;
-      this.setLocalData();
+    closeForm () {
+      console.log('edit form closed')
+      this.editFormOpened = false
+      this.setLocalData()
     },
-    selectAction(action: ActionData) {
-      this.selection = action.id;
-      console.log("current selection :", this.selection);
+    selectAction (action: ActionData) {
+      this.selection = action.id
+      console.log('current selection :', this.selection)
       if (this.selection.length) {
         if (this.descriptions.hasOwnProperty(this.selection)) {
-          this.description = this.descriptions[this.selection];
+          this.description = this.descriptions[this.selection]
         } else {
-          this.description = DEFAULTS.noContentDescription;
+          this.description = DEFAULTS.noContentDescription
         }
-        this.activeTab = Tab.description;
+        this.activeTab = Tab.description
       } else {
-        this.activeTab = Tab.actions;
+        this.activeTab = Tab.actions
       }
     },
-    gotoActions() {
-      this.activeTab = Tab.actions;
+    gotoActions () {
+      this.activeTab = Tab.actions
     }
   }
-});
+})
 </script>
 
 <style lang="scss">

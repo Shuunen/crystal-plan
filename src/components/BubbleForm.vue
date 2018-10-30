@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { BubbleData } from "./Bubble.vue";
+import Vue from 'vue'
+import { BubbleData } from './Bubble.vue'
 
 const DATA_UPDATE = {
   ON: true,
@@ -27,26 +27,26 @@ export default Vue.extend({
   props: {
     data: Object as () => BubbleData
   },
-  data() {
+  data () {
     return {
-      originalData: <BubbleData>{}
-    };
+      originalData: {} as BubbleData
+    }
   },
-  created: function() {
-    this.originalData = Object.assign({}, this.data);
+  created () {
+    this.originalData = Object.assign({}, this.data)
   },
   methods: {
-    cancelEdit() {
-      console.log(`user just canceled bubble edit`);
-      this.data.id = this.originalData.id;
-      this.data.text = this.originalData.text;
-      this.data.image = this.originalData.image;
-      this.$emit("close", DATA_UPDATE.OFF);
+    cancelEdit () {
+      console.log(`user just canceled bubble edit`)
+      this.data.id = this.originalData.id
+      this.data.text = this.originalData.text
+      this.data.image = this.originalData.image
+      this.$emit('close', DATA_UPDATE.OFF)
     },
-    updateData() {
-      console.log(`user updated bubble with new data`);
-      this.$emit("close", DATA_UPDATE.ON);
+    updateData () {
+      console.log(`user updated bubble with new data`)
+      this.$emit('close', DATA_UPDATE.ON)
     }
   }
-});
+})
 </script>

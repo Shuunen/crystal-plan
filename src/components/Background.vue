@@ -47,4 +47,3 @@
   background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/confectionary.png");
 }
 </style>
-

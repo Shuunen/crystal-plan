@@ -27,9 +27,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { default as Bubble, BubbleData, Sections } from "./Bubble.vue";
-import BubbleForm from "./BubbleForm.vue";
+import Vue from 'vue'
+import Bubble, { BubbleData, Sections } from './Bubble.vue'
+import BubbleForm from './BubbleForm.vue'
 
 export default Vue.extend({
   props: {
@@ -46,53 +46,53 @@ export default Vue.extend({
     Bubble,
     BubbleForm
   },
-  data() {
+  data () {
     return {
       Sections,
       editFormOpened: false,
       editFormData: { data: {} }
-    };
+    }
   },
   methods: {
-    clickBubble(data: BubbleData) {
+    clickBubble (data: BubbleData) {
       if (this.editMode) {
-        console.log(`user wants to edit bubble ${data.id}`);
-        this.editFormData.data = data;
-        this.editFormOpened = true;
+        console.log(`user wants to edit bubble ${data.id}`)
+        this.editFormData.data = data
+        this.editFormOpened = true
       } else {
-        console.log(`user wants to select bubble ${data.id}`);
-        this.selectOneBubble(data);
+        console.log(`user wants to select bubble ${data.id}`)
+        this.selectOneBubble(data)
       }
     },
-    closeForm(dataUpdated: boolean) {
+    closeForm (dataUpdated: boolean) {
       if (dataUpdated) {
         // console.log('emitting bubblesUpdate')
-        this.$emit("bubblesUpdate", this.bubbles);
-        this.emitSelection();
+        this.$emit('bubblesUpdate', this.bubbles)
+        this.emitSelection()
       }
-      this.editFormOpened = false;
+      this.editFormOpened = false
     },
-    selectOneBubble(bubble: BubbleData) {
-      const focusMode = !!!bubble.selected;
+    selectOneBubble (bubble: BubbleData) {
+      const focusMode = !bubble.selected
       this.bubbles.filter(b => b.section === bubble.section).map(b => {
         if (focusMode) {
           // only focus one bubble
-          const goodOne = b.id === bubble.id;
-          b.selected = goodOne;
-          b.shaded = !goodOne;
+          const goodOne = b.id === bubble.id
+          b.selected = goodOne
+          b.shaded = !goodOne
         } else {
           // reset values of all bubbles
-          b.selected = false;
-          b.shaded = false;
+          b.selected = false
+          b.shaded = false
         }
-      });
-      this.emitSelection();
+      })
+      this.emitSelection()
     },
-    emitSelection() {
-      this.$emit("selectionUpdate");
+    emitSelection () {
+      this.$emit('selectionUpdate')
     }
   }
-});
+})
 </script>
 
 <style lang="scss">

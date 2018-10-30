@@ -6,10 +6,9 @@
   </div>
 </template>
 
-
 <script lang="ts">
-import Vue from "vue";
-import getSlug from "speakingurl";
+import Vue from 'vue'
+import getSlug from 'speakingurl'
 
 export default Vue.extend({
   props: {
@@ -20,34 +19,34 @@ export default Vue.extend({
     editMode: Boolean
   },
   computed: {
-    image() {
-      let path = "https://image.flaticon.com/icons/svg/234/234618.svg";
+    image () {
+      let path = 'https://image.flaticon.com/icons/svg/234/234618.svg'
       if (!this.data) {
-        console.warn("data not available, using default image...");
-        return path;
+        console.warn('data not available, using default image...')
+        return path
       }
       if (this.data.image && this.data.image.length) {
-        path = this.data.image;
+        path = this.data.image
       } else {
-        console.warn("image not available, using default one...");
+        console.warn('image not available, using default one...')
       }
-      return path;
+      return path
     }
   },
-  data() {
+  data () {
     return {
       backgroundStyle: {}
-    };
+    }
   },
-  created() {
-    this.backgroundStyle = { backgroundImage: "url(" + this.image + ")" };
+  created () {
+    this.backgroundStyle = { backgroundImage: 'url(' + this.image + ')' }
   }
-});
+})
 
 enum Sections {
-  left = "left",
-  center = "center",
-  right = "right"
+  left = 'left',
+  center = 'center',
+  right = 'right'
 }
 
 class BubbleData {
@@ -57,21 +56,20 @@ class BubbleData {
   image?: string;
   selected?: boolean = false;
   shaded?: boolean = false;
-  constructor(data: BubbleData) {
-    this.text = data.text || "Default text";
-    this.id = data.id || getSlug(this.text);
-    this.section = data.section || Sections.left;
-    this.image = data.image || "https://picsum.photos/80/80/?random";
+  constructor (data: BubbleData) {
+    this.text = data.text || 'Default text'
+    this.id = data.id || getSlug(this.text)
+    this.section = data.section || Sections.left
+    this.image = data.image || 'https://picsum.photos/80/80/?random'
   }
   /* Component methods can be declared as instance methods
   onClick(): void {
     window.alert(this.message);
-  }*/
+  } */
 }
 
-export { Sections, BubbleData };
+export { Sections, BubbleData }
 </script>
-
 
 <style lang="scss">
 @import "../assets/shared";

@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { HeaderData } from "./Header.vue";
+import Vue from 'vue'
+import { HeaderData } from './Header.vue'
 
 const DATA_UPDATE = {
   ON: true,
@@ -26,25 +26,25 @@ export default Vue.extend({
   props: {
     data: Object as () => HeaderData
   },
-  data() {
+  data () {
     return {
-      originalData: <HeaderData>{}
-    };
+      originalData: {} as HeaderData
+    }
   },
-  created: function() {
-    this.originalData = Object.assign({}, this.data);
+  created () {
+    this.originalData = Object.assign({}, this.data)
   },
   methods: {
-    cancelEdit() {
-      console.log(`user just canceled header edit`);
-      this.data.text = this.originalData.text;
-      this.data.image = this.originalData.image;
-      this.$emit("close", DATA_UPDATE.OFF);
+    cancelEdit () {
+      console.log(`user just canceled header edit`)
+      this.data.text = this.originalData.text
+      this.data.image = this.originalData.image
+      this.$emit('close', DATA_UPDATE.OFF)
     },
-    updateData() {
-      console.log(`user updated header with new data`);
-      this.$emit("close", DATA_UPDATE.ON);
+    updateData () {
+      console.log(`user updated header with new data`)
+      this.$emit('close', DATA_UPDATE.ON)
     }
   }
-});
+})
 </script>
