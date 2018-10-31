@@ -225,7 +225,7 @@ export default Vue.extend({
     getCurrentData (): AppData {
       console.log('getting current app data state')
       // deep clone then clean bubble states
-      const bubbles = this.copy(this.bubbles).map((b: BubbleData) => {
+      const bubbles = Utils.copy(this.bubbles).map((b: BubbleData) => {
         b.selected = false
         b.shaded = false
         return b
@@ -317,9 +317,6 @@ export default Vue.extend({
       this.header = header
       this.setLocalData()
     },
-    copy (object: any) {
-      return JSON.parse(JSON.stringify(object))
-    },
     editForm (data: EditFormData) {
       console.log('user wants to edit data')
       this.editFormData.data = data
@@ -381,7 +378,7 @@ export default Vue.extend({
     },
     addAction () {
       this.$toast.open('Adding action...')
-      const action = this.copy(DEFAULTS.action)
+      const action = Utils.copy(DEFAULTS.action)
       this.actions.push(action)
       this.editForm(action)
     },

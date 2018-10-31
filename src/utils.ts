@@ -6,6 +6,9 @@ const random = {
 }
 
 export default class Utils {
+  static copy<T> (object: T): T {
+    return JSON.parse(JSON.stringify(object))
+  }
   static debounce (func: Function, interval = 1000, immediate = false): () => void {
     return debounce.default(func, interval) as any
   }
