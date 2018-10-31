@@ -9,16 +9,15 @@
           :style-with-css="false"
           :classes="editorClasses"
           default-paragraph-separator="p"
-          @change="updateData"
+          @change="updateDataDebounced"
       />
     </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-
-const ensureHTTP = (str: string) =>
-  (/^https?:\/\//.test(str) && str) || `http://${str}`
+import Utils from '../utils'
+import debounce from 'debounce'
 
 type DescriptionData = string
 
@@ -45,6 +44,7 @@ export default Vue.extend({
   },
   data () {
     return {
+      updateDataDebounced: {} as () => void,
       newContent: '',
       editorOptions: [
         'heading1',
@@ -73,14 +73,14 @@ export default Vue.extend({
           name: 'image',
           result: () => {
             const url = window.prompt('Enter the image URL')
-            if (url) pell.exec('insertImage', ensureHTTP(url))
+            if (url) pell.exec('insertImage', Utils.validLink(url))
           }
         },
         {
           name: 'link',
           result: () => {
             const url = window.prompt('Enter the link URL')
-            if (url) pell.exec('createLink', ensureHTTP(url))
+            if (url) pell.exec('createLink', Utils.validLink(url))
           }
         },
         {
@@ -99,9 +99,11 @@ export default Vue.extend({
       }
     }
   },
+  created () {
+    this.updateDataDebounced = debounce(this.updateData, 1000)
+  },
   methods: {
     updateData () {
-      // TODO: debounce ! ^^
       this.$emit('descriptionUpdate', this.newContent)
     }
   }

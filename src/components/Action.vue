@@ -17,10 +17,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import getSlug from 'speakingurl'
 import { Types } from './../App.vue'
 
 interface ActionData {
-  id: string;
+  id?: string;
   text: string;
   image?: string;
   icon?: string;
@@ -39,6 +40,9 @@ export default Vue.extend({
   created () {
     if (!this.data.type) {
       this.data.type = Types.action
+    }
+    if (!this.data.id) {
+      this.data.id = getSlug(this.data.text)
     }
   }
 })

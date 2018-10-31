@@ -38,7 +38,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import GlobalEvents from 'vue-global-events'
-import getSlug from 'speakingurl'
+import Utils from './utils'
 
 import EditForm, { EditFormData } from './components/EditForm.vue'
 import Action, { ActionData } from './components/Action.vue'
@@ -79,30 +79,6 @@ const DEFAULTS = {
   apiUrl: 'https://api.jsonbin.io/b/',
   apiKey: '$2a$10$PuQKdZ0fTeGHQG8fLkvv9eMTFYo3rxXY8tLUUc06itr.ooOUCQB06',
   id: 'foo',
-  random: [
-    'bar alto',
-    'sin seguritat',
-    'lorem ipsum',
-    'ciao',
-    'sit dolor',
-    'por erestet',
-    'tchu la comida',
-    'in amet',
-    'aqualeris baked',
-    'bouquet',
-    'zu amarillo',
-    'ploject',
-    'ruhe animals',
-    'ma plizure',
-    'bacon pasty',
-    'vinci mador',
-    'alan awake',
-    'malohe sutur',
-    'a priore sur',
-    'quel memento',
-    'kalitat',
-    'buru menhir'
-  ],
   remoteId: '',
   editMode: false,
   bubbles: [] as BubbleData[],
@@ -111,7 +87,6 @@ const DEFAULTS = {
   editFormData: {
     data: {} as EditFormData
   },
-  image: 'https://bulma.io/images/placeholders/128x128.png',
   description: '' as DescriptionData,
   descriptions: {} as DescriptionsData,
   noSelectionDescription: 'Please select an action.' as DescriptionData,
@@ -287,25 +262,12 @@ export default Vue.extend({
       }
       this.isLoading = false
     },
-    getRandomString (): string {
-      return (
-        DEFAULTS.random.pop() ||
-        Math.random()
-          .toString(36)
-          .substring(7)
-      )
-    },
-    getRandomId (): string {
-      return getSlug(this.getRandomString())
-    },
     addRandomActions () {
       console.log('generating actions...')
       for (let i = 0; i < 8; i++) {
-        const text = this.getRandomString()
         this.actions.push({
-          id: getSlug(text),
-          text,
-          image: DEFAULTS.image
+          text: Utils.getRandomString(),
+          image: Utils.getRandomImage()
         })
       }
       console.log('generated :', this.actions)
@@ -326,8 +288,8 @@ export default Vue.extend({
     addRandomBubble (section: Sections) {
       this.bubbles.push(
         new BubbleData({
-          text: this.getRandomString(),
-          image: DEFAULTS.image,
+          text: Utils.getRandomString(),
+          image: Utils.getRandomImage(),
           section: section
         })
       )
@@ -397,9 +359,9 @@ export default Vue.extend({
       this.editFormOpened = false
     },
     selectAction (action: ActionData) {
-      this.selection = action.id
-      console.log('current selection :', this.selection)
+      this.selection = action.id || ''
       if (this.selection.length) {
+        console.log('selected action :', this.selection)
         if (this.descriptions.hasOwnProperty(this.selection)) {
           this.description = this.descriptions[this.selection]
         } else {
@@ -407,6 +369,7 @@ export default Vue.extend({
         }
         this.activeTab = Tab.description
       } else {
+        console.log('no action selected')
         this.activeTab = Tab.actions
       }
     },
@@ -419,7 +382,6 @@ export default Vue.extend({
     addAction () {
       this.$toast.open('Adding action...')
       const action = this.copy(DEFAULTS.action)
-      action.id = this.getRandomId()
       this.actions.push(action)
       this.editForm(action)
     },
