@@ -42,9 +42,17 @@ h1 {
 }
 
 .highlight {
-  color: $color-secondary;
-  background-color: $color-accent-alt;
   padding: 0.1rem 0.3rem;
+  color: $color-secondary;
+  &.highlight-green {
+    background-color: $color-green;
+  }
+  &.highlight-yellow {
+    background-color: $color-yellow;
+  }
+  &.highlight-red {
+    background-color: $color-red;
+  }
 }
 
 .button.is-primary {

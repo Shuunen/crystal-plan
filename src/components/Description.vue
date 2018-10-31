@@ -1,7 +1,7 @@
 <template>
     <div class="description-wrapper">
       <div class="description content is-medium" v-show="!editMode" v-html="content"></div>
-      <vue-pell-editor v-show="editMode"
+      <vue-pell-editor class="content" v-show="editMode"
           v-model="editorContent"
           :actions="editorOptions"
           :content="editorContent"
@@ -18,21 +18,28 @@
 import Vue from 'vue'
 import Utils from '@/utils'
 
+function highlight (type:string) {
+  const cls = 'highlight-' + type
+  return {
+    name: cls,
+    icon: `<div class="highlight ${cls}">A</div>`,
+    title: 'Highlight text',
+    result: (): void => {
+      const selection = window.getSelection().toString()
+      pell.exec('insertHTML', Utils.wrapWithClass(selection, 'highlight ' + cls))
+    }
+  }
+}
+
 // check https://www.utf8icons.com/ for icons
 const features = {
   italic: {
     name: 'italic',
     result: () => pell.exec('italic')
   },
-  highlight: {
-    name: 'highlight',
-    icon: '<div class="highlight">A</div>',
-    title: 'Highlight text',
-    result: (): void => {
-      const selection = window.getSelection().toString()
-      pell.exec('insertHTML', Utils.wrapWithClass(selection, 'highlight'))
-    }
-  },
+  highlightGreen: highlight('green'),
+  highlightYellow: highlight('yellow'),
+  highlightRed: highlight('red'),
   image: {
     name: 'image',
     result: () => {
@@ -87,7 +94,9 @@ export default Vue.extend({
         'bold',
         features.italic,
         'underline',
-        features.highlight,
+        features.highlightGreen,
+        features.highlightYellow,
+        features.highlightRed,
         features.image,
         features.link,
         'ulist',
@@ -120,8 +129,7 @@ export { DescriptionData }
 <style lang="scss">
 .description-wrapper {
   .description {
-    margin: 1.1rem 0.5rem;
-    /* min-height: 300px; */
+    margin-top: 1.1rem;
   }
   .vp-editor {
     top: -1rem;
