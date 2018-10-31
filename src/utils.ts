@@ -1,8 +1,9 @@
 import * as debounce from 'debounce'
+import getSlug from 'speakingurl'
 
 const random = {
   image: 'https://bulma.io/images/placeholders/128x128.png',
-  string: 'bar alto,sin seguritat,lorem ipsum,ciao,sit dolor,por erestet,tchu la comida,in amet,aqualeris baked,bouquet,zu amarillo,ploject,ruhe animals,ma plizure,bacon pasty,vinci mador,alan awake,malohe sutur,a priore sur,quel memento,kalitat,buru menhir'.split(',')
+  string: 'Bar Alto,Sin Seguritat,Lorem Ipsum,Ciao,Sit dolor,Por erestet,Tchu la Comida,Amet Inn,Aqualeris baked,Bouquet,Zu Amarillo,Ploject,Ruhe animals,Mah Plizure,Baacon pasty,Vinci mador,Alan Awake,Malohe Sutur,A priore sur,Quel memento,Kalitat arae,Buru menhir'.split(',')
 }
 
 export default class Utils {
@@ -11,6 +12,9 @@ export default class Utils {
   }
   static debounce (func: Function, interval = 1000, immediate = false): () => void {
     return debounce.default(func, interval) as any
+  }
+  static slugify (str: string): string {
+    return getSlug(str)
   }
   static getRandomImage (): string {
     return (random.image + '')

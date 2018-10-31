@@ -17,8 +17,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import getSlug from 'speakingurl'
-import { Types } from './../App.vue'
+import { Types } from '@/App.vue'
+import Utils from '@/utils'
 
 interface ActionData {
   id?: string;
@@ -42,7 +42,7 @@ export default Vue.extend({
       this.data.type = Types.action
     }
     if (!this.data.id) {
-      this.data.id = getSlug(this.data.text)
+      this.data.id = Utils.slugify(this.data.text)
     }
   }
 })

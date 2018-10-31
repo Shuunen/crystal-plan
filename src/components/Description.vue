@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Utils from '../utils'
+import Utils from '@/utils'
 
 type DescriptionData = string
 

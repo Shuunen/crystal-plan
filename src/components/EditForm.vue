@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Utils from '@/utils'
 
 interface EditFormData {
   id?: string;
@@ -39,12 +40,9 @@ export default Vue.extend({
     }
   },
   created () {
-    this.originalData = this.copy(this.data)
+    this.originalData = Utils.copy(this.data)
   },
   methods: {
-    copy (object: any) {
-      return JSON.parse(JSON.stringify(object))
-    },
     cancel () {
       console.log(`user just canceled edit`)
       if (this.originalData.id) {

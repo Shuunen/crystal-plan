@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import getSlug from 'speakingurl'
+import Utils from '@/utils'
 
 export default Vue.extend({
   props: {
@@ -20,7 +20,7 @@ export default Vue.extend({
   },
   computed: {
     image () {
-      let path = 'https://image.flaticon.com/icons/svg/234/234618.svg'
+      let path = Utils.getRandomImage()
       if (!this.data) {
         console.warn('data not available, using default image...')
         return path
@@ -57,10 +57,10 @@ class BubbleData {
   selected?: boolean = false;
   shaded?: boolean = false;
   constructor (data: BubbleData) {
-    this.text = data.text || 'Default text'
-    this.id = data.id || getSlug(this.text)
+    this.text = data.text || Utils.getRandomString()
+    this.id = data.id || Utils.slugify(this.text)
     this.section = data.section || Sections.left
-    this.image = data.image || 'https://picsum.photos/80/80/?random'
+    this.image = data.image || Utils.getRandomImage()
   }
   /* Component methods can be declared as instance methods
   onClick(): void {
