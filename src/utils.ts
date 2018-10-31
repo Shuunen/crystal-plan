@@ -27,6 +27,12 @@ export default class Utils {
         .substring(7)
     )
   }
+  static wrapWithClass (text: string, cls: string): string {
+    return text.replace(
+      /^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,
+      '$1<span class="'+cls+'">$2</span>$3'
+    )
+  }
   static validLink (str: string): string {
     return (/^https?:\/\//.test(str) && str) || `https://${str}`
   }

@@ -30,12 +30,7 @@ const features = {
     title: 'Highlight text',
     result: (): void => {
       const selection = window.getSelection().toString()
-      const html = selection.replace(
-        /^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,
-        '$1<span class="highlight">$2</span>$3'
-      )
-      // console.log('will put new html', html)
-      pell.exec('insertHTML', html)
+      pell.exec('insertHTML', Utils.wrapWithClass(selection, 'highlight'))
     }
   },
   image: {
@@ -95,6 +90,8 @@ export default Vue.extend({
         features.highlight,
         features.image,
         features.link,
+        'ulist',
+        'quote',
         features.clean,
         'line'
       ],
