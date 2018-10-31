@@ -742,7 +742,7 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@types/debounce@^3.0.0":
+"@types/debounce@3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@types/debounce/-/debounce-3.0.0.tgz#ea4290f6e2d7ab99464c93b4a69b843d0993b181"
   integrity sha512-SbehVj+zL0QFTufW3HP/Xvwr/kFWw1sFMLCvmyJdp5Xegbo81sqA2tByWlyeryvSwWBrY4drpLOtGPh0fkxjCQ==
@@ -2639,7 +2639,7 @@ de-indent@^1.0.2:
   resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
   integrity sha1-sgOOhG3DO6pXlhKNCAS0VbjB4h0=
 
-debounce@^1.2.0:
+debounce@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
   integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
