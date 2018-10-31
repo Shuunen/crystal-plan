@@ -17,7 +17,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import Utils from '../utils'
-import debounce from 'debounce'
 
 type DescriptionData = string
 
@@ -100,7 +99,7 @@ export default Vue.extend({
     }
   },
   created () {
-    this.updateDataDebounced = debounce(this.updateData, 1000)
+    this.updateDataDebounced = Utils.debounce(this.updateData, 1000)
   },
   methods: {
     updateData () {
