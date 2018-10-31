@@ -18,6 +18,48 @@
 import Vue from 'vue'
 import Utils from '@/utils'
 
+// check https://www.utf8icons.com/ for icons
+const features = {
+  italic: {
+    name: 'italic',
+    result: () => pell.exec('italic')
+  },
+  highlight: {
+    name: 'highlight',
+    icon: '<div class="highlight">A</div>',
+    title: 'Highlight text',
+    result: (): void => {
+      const selection = window.getSelection().toString()
+      const html = selection.replace(
+        /^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,
+        '$1<span class="highlight">$2</span>$3'
+      )
+      // console.log('will put new html', html)
+      pell.exec('insertHTML', html)
+    }
+  },
+  image: {
+    name: 'image',
+    result: () => {
+      const url = window.prompt('Enter the image URL')
+      if (url) pell.exec('insertImage', Utils.validLink(url))
+    }
+  },
+  link: {
+    name: 'link',
+    result: () => {
+      const url = window.prompt('Enter the link URL')
+      if (url) pell.exec('createLink', Utils.validLink(url))
+    }
+  },
+  clean: {
+    name: 'clean',
+    icon: '<div>✖</div>',
+    title: 'Clear all formating',
+    result: () => pell.exec('removeFormat')
+  }
+}
+
 type DescriptionData = string
 
 export default Vue.extend({
@@ -48,46 +90,13 @@ export default Vue.extend({
       editorOptions: [
         'heading1',
         'bold',
+        features.italic,
         'underline',
-        'line',
-        {
-          name: 'italic',
-          result: () => pell.exec('italic')
-        },
-        {
-          name: 'highlight',
-          icon: '<div class="highlight">A</div>',
-          title: 'Highlight Color',
-          result: (): void => {
-            const selection = window.getSelection().toString()
-            const html = selection.replace(
-              /^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,
-              '$1<span class="highlight">$2</span>$3'
-            )
-            console.log('will put new html', html)
-            pell.exec('insertHTML', html)
-          }
-        },
-        {
-          name: 'image',
-          result: () => {
-            const url = window.prompt('Enter the image URL')
-            if (url) pell.exec('insertImage', Utils.validLink(url))
-          }
-        },
-        {
-          name: 'link',
-          result: () => {
-            const url = window.prompt('Enter the link URL')
-            if (url) pell.exec('createLink', Utils.validLink(url))
-          }
-        },
-        {
-          name: 'clean',
-          icon: '<div>Clean</div>',
-          title: 'Clear all formating',
-          result: () => pell.exec('removeFormat')
-        }
+        features.highlight,
+        features.image,
+        features.link,
+        features.clean,
+        'line'
       ],
       editorPlaceholder: 'Write something amazing...',
       editorClasses: {
