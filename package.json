@@ -26,7 +26,7 @@
     "@vue/cli-plugin-pwa": "3.0.5",
     "@vue/cli-plugin-typescript": "3.0.5",
     "@vue/cli-service": "3.0.5",
-    "@vue/eslint-config-standard": "3.0.5",
+    "@vue/eslint-config-standard": "4.0.0",
     "@vue/eslint-config-typescript": "3.0.5",
     "eslint-plugin-typescript": "0.12.0",
     "lint-staged": "7.3.0",
