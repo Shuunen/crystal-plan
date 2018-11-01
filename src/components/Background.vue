@@ -27,9 +27,9 @@
     /*background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/light-veneer.png");
     background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");
     background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");*/
-    background: linear-gradient(40deg, #fff, #fff6d4);
+    background: linear-gradient(40deg, #fff, #ffe8d4);
     background-size: 400% 400%;
-    animation: bg-gradient 30s ease infinite;
+    animation: bg-gradient 20s ease infinite;
   }
 }
 .background {

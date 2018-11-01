@@ -73,7 +73,7 @@ const DEFAULTS = {
     button: true
   } as ActionData,
   actionsDescription:
-    '<h2 class="title">Welcome</h2><p><strong>Crystal Plan</strong> is an online app designed to build and present a plan or strategy.</p><p>The <span class="highlight">chart above</span> shows the actors of this plan : persons, ideas, values, anything. Because a great plan is nothing without concrete things to do, you will find <span class="highlight">actions below</span> :</p>',
+    '<h1 class="title">Welcome</h1><p><strong>Crystal Plan</strong> is an online app designed to build and present a plan or strategy.</p><p>The <span class="highlight highlight-yellow">chart above</span> shows the actors of this plan : persons, ideas, values, anything. Because a great plan is nothing without concrete things to do, you will find <span class="highlight highlight-yellow">actions below</span> :</p>',
   actions: [] as ActionData[],
   activeTab: Tab.actions,
   apiUrl: 'https://api.jsonbin.io/b/',

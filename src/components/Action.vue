@@ -21,12 +21,12 @@ import { Types } from '@/App.vue'
 import Utils from '@/utils'
 
 interface ActionData {
-  id?: string;
-  text: string;
-  image?: string;
-  icon?: string;
-  button?: boolean;
-  type?: string;
+  id?: string
+  text: string
+  image?: string
+  icon?: string
+  button?: boolean
+  type?: string
 }
 
 export default Vue.extend({
