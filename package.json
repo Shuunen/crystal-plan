@@ -1,6 +1,6 @@
 {
   "name": "crystal-plan",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "scripts": {
