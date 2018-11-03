@@ -14,7 +14,7 @@
     "buefy": "0.7.0",
     "debounce": "1.2.0",
     "register-service-worker": "1.5.2",
-    "shuutils": "^3.3.0",
+    "shuutils": "3.3.0",
     "vue": "2.5.17",
     "vue-global-events": "1.0.3",
     "vue-pell-editor": "2.0.1",
