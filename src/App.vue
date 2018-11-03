@@ -39,6 +39,7 @@
 import Vue from 'vue'
 import GlobalEvents from 'vue-global-events'
 import Utils from './utils'
+import { copy, getRandomImageUrl, getRandomString } from 'shuutils'
 
 import EditForm, { EditFormData } from './components/EditForm.vue'
 import Action, { ActionData } from './components/Action.vue'
@@ -225,7 +226,7 @@ export default Vue.extend({
     getCurrentData (): AppData {
       console.log('getting current app data state')
       // deep clone then clean bubble states
-      const bubbles = Utils.copy(this.bubbles).map((b: BubbleData) => {
+      const bubbles = copy(this.bubbles).map((b: BubbleData) => {
         b.selected = false
         b.shaded = false
         return b
@@ -266,8 +267,8 @@ export default Vue.extend({
       console.log('generating actions...')
       for (let i = 0; i < 8; i++) {
         this.actions.push({
-          text: Utils.getRandomString(),
-          image: Utils.getRandomImage()
+          text: getRandomString(),
+          image: getRandomImageUrl()
         })
       }
       console.log('generated :', this.actions)
@@ -288,8 +289,8 @@ export default Vue.extend({
     addRandomBubble (section: Sections) {
       this.bubbles.push(
         new BubbleData({
-          text: Utils.getRandomString(),
-          image: Utils.getRandomImage(),
+          text: getRandomString(),
+          image: getRandomImageUrl(),
           section: section
         })
       )
@@ -378,7 +379,7 @@ export default Vue.extend({
     },
     addAction () {
       this.$toast.open('Adding action...')
-      const action = Utils.copy(DEFAULTS.action)
+      const action = copy(DEFAULTS.action)
       this.actions.push(action)
       this.editForm(action)
     },

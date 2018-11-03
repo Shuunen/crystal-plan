@@ -7321,6 +7321,11 @@ shell-quote@^1.6.1:
     array-reduce "~0.0.0"
     jsonify "~0.0.0"
 
+shuutils@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/shuutils/-/shuutils-3.3.0.tgz#4e1b9d1314fff725ed91918d72bc0fba6f229704"
+  integrity sha512-D91VV4s/SQENWEPfqK66Pi7OKtz7bZ0U0I8M6dI24PtSo3W1JTAqcPEz5hwUFdkmCsgMFOvfku+5sZNFRUz4dg==
+
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"

@@ -20,6 +20,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Utils from '@/utils'
+import { copy } from 'shuutils'
 
 interface EditFormData {
   id?: string;
@@ -40,7 +41,7 @@ export default Vue.extend({
     }
   },
   created () {
-    this.originalData = Utils.copy(this.data)
+    this.originalData = copy(this.data)
   },
   methods: {
     cancel () {

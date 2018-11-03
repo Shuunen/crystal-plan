@@ -9,6 +9,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Utils from '@/utils'
+import { getRandomImageUrl, getRandomString, slugify } from 'shuutils'
 
 export default Vue.extend({
   props: {
@@ -20,7 +21,7 @@ export default Vue.extend({
   },
   computed: {
     image () {
-      let path = Utils.getRandomImage()
+      let path = getRandomImageUrl()
       if (!this.data) {
         console.warn('data not available, using default image...')
         return path
@@ -57,10 +58,10 @@ class BubbleData {
   selected?: boolean = false;
   shaded?: boolean = false;
   constructor (data: BubbleData) {
-    this.text = data.text || Utils.getRandomString()
-    this.id = data.id || Utils.slugify(this.text)
+    this.text = data.text || getRandomString()
+    this.id = data.id || slugify(this.text)
     this.section = data.section || Sections.left
-    this.image = data.image || Utils.getRandomImage()
+    this.image = data.image || getRandomImageUrl()
   }
   /* Component methods can be declared as instance methods
   onClick(): void {

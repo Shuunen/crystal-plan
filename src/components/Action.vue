@@ -19,6 +19,7 @@
 import Vue from 'vue'
 import { Types } from '@/App.vue'
 import Utils from '@/utils'
+import { slugify } from 'shuutils'
 
 interface ActionData {
   id?: string
@@ -42,7 +43,7 @@ export default Vue.extend({
       this.data.type = Types.action
     }
     if (!this.data.id) {
-      this.data.id = Utils.slugify(this.data.text)
+      this.data.id = slugify(this.data.text)
     }
   }
 })
