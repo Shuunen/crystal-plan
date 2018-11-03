@@ -7321,10 +7321,10 @@ shell-quote@^1.6.1:
     array-reduce "~0.0.0"
     jsonify "~0.0.0"
 
-shuutils@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/shuutils/-/shuutils-3.3.0.tgz#4e1b9d1314fff725ed91918d72bc0fba6f229704"
-  integrity sha512-D91VV4s/SQENWEPfqK66Pi7OKtz7bZ0U0I8M6dI24PtSo3W1JTAqcPEz5hwUFdkmCsgMFOvfku+5sZNFRUz4dg==
+shuutils@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/shuutils/-/shuutils-3.4.0.tgz#6eb5093f26d9e268beb53fd32ef0d4188f1501e8"
+  integrity sha512-KMCbk75qsgZiAK1MFVs4OIDdEuL0THAjUbu/+mTRAGMgjoqxsohLQs7dxkLnukXHgjGLnPmzB2/2Cg34MewlMw==
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
