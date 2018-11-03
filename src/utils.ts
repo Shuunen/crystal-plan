@@ -1,5 +1,4 @@
 import * as debounce from 'debounce'
-import getSlug from 'speakingurl'
 
 const random = {
   image: 'https://bulma.io/images/placeholders/128x128.png',
@@ -14,7 +13,12 @@ export default class Utils {
     return debounce.default(func, interval) as any
   }
   static slugify (str: string): string {
-    return getSlug(str)
+    // does not handle accentuated
+    // ex : Déjà Vu => d-j-vu
+    return str.toLowerCase().trim() // Lower case everything & trim
+      .replace(/\W+/gi, '-') // Replace all non word with dash
+      .replace(/^-+/, '') // Trim dash from start
+      .replace(/-+$/, '') // Trim dash from end
   }
   static getRandomImage (): string {
     return (random.image + '')
@@ -30,7 +34,7 @@ export default class Utils {
   static wrapWithClass (text: string, cls: string): string {
     return text.replace(
       /^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,
-      '$1<span class="'+cls+'">$2</span>$3'
+      '$1<span class="' + cls + '">$2</span>$3'
     )
   }
   static validLink (str: string): string {
