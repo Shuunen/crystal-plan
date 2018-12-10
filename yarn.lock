@@ -8409,10 +8409,10 @@ vue2-storage@3.3.0:
   resolved "https://registry.yarnpkg.com/vue2-storage/-/vue2-storage-3.3.0.tgz#f0aa888d13b8278a21a32dca28b656ce85e9d7b9"
   integrity sha512-4T6KiZoE2QKx7NUpeLyTGSPfVk4MXPbO6svhnV+gqaEwyeLvqdFetoMhYHRIsSnpJnNSr8MBTezj/nE+JzQGwQ==
 
-vue@2.5.17:
-  version "2.5.17"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
-  integrity sha512-mFbcWoDIJi0w0Za4emyLiW72Jae0yjANHbCVquMKijcavBGypqlF7zHRgMa5k4sesdv7hv2rB4JPdZfR+TPfhQ==
+vue@2.5.20:
+  version "2.5.20"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.20.tgz#79fff9ccaa10cc37e7a7239b4c7adfac94df81ba"
+  integrity sha512-kVLZi8RWOk8qwAt+a0bVDy9VV5Zzcnj0fLCMyKLx1dmEBjqmYJYRWHvPwiypiJBtJkdmROy5NP5hyDqTdfBcvQ==
 
 watchpack@^1.5.0:
   version "1.6.0"
