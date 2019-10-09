@@ -6,7 +6,7 @@ export default class Utils {
   }
   static wrapWithClass (text: string, cls: string): string {
     return text.replace(
-      /^(\s)*([A-zÀ-ÿ-_\s]+[A-zÀ-ÿ-_])(\s)*$/,
+      /^(\s)*([A-Za-zÀ-ÿ-_\s]+[A-Za-zÀ-ÿ-_])(\s)*$/,
       '$1<span class="' + cls + '">$2</span>$3'
     )
   }
