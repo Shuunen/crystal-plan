@@ -8,4 +8,6 @@ body {
   --color-green: mediumseagreen;
   --color-yellow: var(--color-accent-alt);
   --color-red: tomato;
+  --font-size-title: 2.4rem;
+  --font-size-content: 1.2rem;
 }
