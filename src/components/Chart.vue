@@ -122,8 +122,8 @@ export default Vue.extend({
   border: var(--thick) solid currentColor;
   color: var(--color-accent);
   position: absolute;
-  top: calc(50% - --size / 2);
-  left: calc(50% - --size / 2);
+  top: calc(50% - var(--size) / 2);
+  left: calc(50% - var(--size) / 2);
 }
 .rays {
   justify-content: space-around;
