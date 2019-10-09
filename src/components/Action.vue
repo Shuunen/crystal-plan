@@ -1,14 +1,12 @@
 <template>
   <div class="action line start" :class="{ 'button-mode': data.button }">
     <div class="image" v-if="data.image">
-      <img :src="data.image" alt="action image">
+      <img :src="data.image" alt="action image" />
     </div>
     <div class="icon" v-if="data.icon">
       <b-icon pack="far" :icon="data.icon" />
     </div>
-    <div class="text ellipsis" v-if="data.text">
-      {{ data.text }}
-    </div>
+    <div class="text ellipsis" v-if="data.text">{{ data.text }}</div>
     <div class="arrow">
       <b-icon pack="far" :icon="editMode ? 'edit' : 'arrow-alt-circle-right'" />
     </div>
@@ -22,12 +20,12 @@ import Utils from '@/utils'
 import { slugify } from 'shuutils'
 
 interface ActionData {
-  id?: string
-  text: string
-  image?: string
-  icon?: string
-  button?: boolean
-  type?: string
+  button?: boolean;
+  icon?: string;
+  id?: string;
+  image?: string;
+  text: string;
+  type?: string;
 }
 
 export default Vue.extend({
@@ -51,49 +49,46 @@ export default Vue.extend({
 export { ActionData }
 </script>
 
-<style lang="scss">
-@import "../assets/shared";
+<style>
 .action {
   min-width: 22vw;
   padding: 0.7rem 1rem;
-  color: $color-shade-alt;
+  color: var(--color-shade-alt);
   border: 2px solid currentColor;
   align-items: center;
   transition: color 0.4s;
   cursor: pointer;
-  .image,
-  .icon,
-  .text {
-    margin-right: 0.8rem;
-  }
-  .image,
-  .icon {
-    width: 2rem;
-  }
-  .text {
-    color: $color-primary;
-    margin-bottom: 0;
-  }
-  .arrow {
-    margin-top: .2rem;
-    margin-left: auto;
-    transition: color 0.2s, transform .2s;
-  }
-  &:hover {
-    &,
-    .arrow {
-      color: $color-accent;
-    }
-    .arrow {
-      transform: scale(1.2);
-    }
-  }
-  &.button-mode {
-    min-width: inherit;
-    margin-top: 1.5rem;
-    .arrow {
-      display: none;
-    }
-  }
+}
+.action .image,
+.action .icon,
+.action .text {
+  margin-right: 0.8rem;
+}
+.action .image,
+.action .icon {
+  width: 2rem;
+}
+.action .text {
+  color: var(--color-primary);
+  margin-bottom: 0;
+}
+.action .arrow {
+  margin-top: 0.2rem;
+  margin-left: auto;
+  transition: color 0.2s, transform 0.2s;
+}
+.action:hover,
+.action:hover .arrow {
+  color: var(--color-accent);
+}
+.action:hover .arrow {
+  transform: scale(1.2);
+}
+.action.button-mode {
+  min-width: inherit;
+  margin-top: 1.5rem;
+}
+.action.button-mode .arrow {
+  display: none;
 }
 </style>

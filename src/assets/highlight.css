@@ -1,0 +1,16 @@
+.highlight {
+  padding: 0.1rem 0.3rem;
+  color: var(--color-secondary);
+}
+
+.highlight.highlight-green {
+  background-color: var(--color-green);
+}
+
+.highlight.highlight-yellow {
+  background-color: var(--color-yellow);
+}
+
+.highlight.highlight-red {
+  background-color: var(--color-red);
+}

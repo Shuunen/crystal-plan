@@ -2,12 +2,22 @@
   <div class="background" />
 </template>
 
-<style lang="scss">
-@import "../assets/shared";
+<script>
+import Vue from 'vue'
+export default Vue.extend({})
+</script>
+
+<style>
 @keyframes bg-gradient {
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 @keyframes bg-zoom {
   0%,
@@ -23,14 +33,14 @@
 }
 .section {
   position: relative;
-  &.bottom {
-    /*background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/light-veneer.png");
+}
+.section.bottom {
+  /*background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/light-veneer.png");
     background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");
     background-image: url("https://www.toptal.com/designers/subtlepatterns/patterns/geometry2.png");*/
-    background: linear-gradient(40deg, #fff, #ffe8d4);
-    background-size: 400% 400%;
-    animation: bg-gradient 20s ease infinite;
-  }
+  background: linear-gradient(40deg, #fff, #ffe8d4);
+  background-size: 400% 400%;
+  animation: bg-gradient 20s ease infinite;
 }
 .background {
   position: absolute;

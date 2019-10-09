@@ -41,15 +41,15 @@ import GlobalEvents from 'vue-global-events'
 import Utils from './utils'
 import { copy, getRandomImageUrl, getRandomString } from 'shuutils'
 
-import EditForm, { EditFormData } from './components/EditForm.vue'
-import Action, { ActionData } from './components/Action.vue'
-import Actions from './components/Actions.vue'
-import Background from './components/Background.vue'
-import Header, { HeaderData } from './components/Header.vue'
-import EditToggle from './components/EditToggle.vue'
-import Chart from './components/Chart.vue'
-import Description, { DescriptionData } from './components/Description.vue'
-import { BubbleData, Sections } from './components/Bubble.vue'
+import EditForm, { EditFormData } from '@/components/EditForm.vue'
+import Action, { ActionData } from '@/components/Action.vue'
+import Actions from '@/components/Actions.vue'
+import Background from '@/components/Background.vue'
+import Header, { HeaderData } from '@/components/Header.vue'
+import EditToggle from '@/components/EditToggle.vue'
+import Chart from '@/components/Chart.vue'
+import Description, { DescriptionData } from '@/components/Description.vue'
+import { BubbleData, Sections } from '@/components/Bubble.vue'
 
 enum Tab {
   actions = 0,
@@ -414,16 +414,3 @@ export default Vue.extend({
 
 export { Types }
 </script>
-
-<style lang="scss">
-.b-tabs.ninja .tabs {
-  display: none;
-}
-.section.top,
-.section.bottom {
-  .container {
-    max-width: 960px;
-    margin: auto;
-  }
-}
-</style>

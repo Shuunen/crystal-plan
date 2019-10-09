@@ -1,0 +1,32 @@
+html,
+body {
+  height: 100%;
+}
+
+h1 {
+  border-bottom: 2px solid var(--color-accent);
+  display: inline-block;
+}
+
+.b-tabs.ninja .tabs {
+  display: none;
+}
+
+.section.top .container, .section.bottom .container {
+  max-width: 960px;
+  margin: auto;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.button.is-primary {
+  background-color: var(--color-accent);
+}
+
+.button.is-primary:hover {
+  background-color: var(--color-accent);
+}
