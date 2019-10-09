@@ -207,11 +207,11 @@ export default Vue.extend({
       if (!this.remoteId || !this.remoteId.length) {
         this.remoteId = prompt('What is the remote id ?') || ''
       }
-      this.$toast.open('Updating remote data...')
+      this.$buefy.toast.open('Updating remote data...')
       let req = new XMLHttpRequest()
       req.onreadystatechange = () => {
         if (req.readyState === XMLHttpRequest.DONE) {
-          this.$toast.open({
+          this.$buefy.toast.open({
             message: 'Remote schame updated correctly!',
             type: 'is-success'
           })
@@ -378,13 +378,13 @@ export default Vue.extend({
       this.activeTab = Tab.actions
     },
     addAction () {
-      this.$toast.open('Adding action...')
+      this.$buefy.toast.open('Adding action...')
       const action = copy(DEFAULTS.action)
       this.actions.push(action)
       this.editForm(action)
     },
     error (toast: string, details = '') {
-      this.$toast.open({
+      this.$buefy.toast.open({
         duration: 5000,
         message: toast,
         position: 'is-bottom',
@@ -397,7 +397,7 @@ export default Vue.extend({
       }
     },
     info (toast: string, details = '') {
-      this.$toast.open({
+      this.$buefy.toast.open({
         duration: 3000,
         message: toast,
         position: 'is-top',
