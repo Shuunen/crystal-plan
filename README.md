@@ -6,17 +6,14 @@
 
 * Node : version 8 ans above
 * Npm : version 5 and above
-* Install dependencies : `yarn`
+* Install dependencies : `npm install`
 
 ## Usage
 
 ``` bash
 # Build for dev
-yarn start
+npm start
 
 # Build for production
-yarn build
-
-# Commit using standard format
-yarn commit
+npm run build
 ```

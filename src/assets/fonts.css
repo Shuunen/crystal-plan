@@ -1,0 +1,21 @@
+@import url("https://use.fontawesome.com/releases/v5.2.0/css/all.css");
+@import url("https://fonts.googleapis.com/css?family=Nunito:400|Roboto:400,600");
+
+body h1, body .title, body .text .title, body .content h1 {
+  font-family: "Nunito", sans-serif;
+  font-weight: 400;
+  font-size: 2.4rem;
+  margin-bottom: 1.7rem;
+}
+
+body p, body .text, body .content p, body .content p:not(:last-child) {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+  line-height: 1.7;
+}
+
+body strong, body b {
+  font-weight: 600;
+}

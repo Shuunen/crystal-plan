@@ -72,63 +72,62 @@ class BubbleData {
 export { Sections, BubbleData }
 </script>
 
-<style lang="scss">
-@import "../assets/shared";
-$size: 5rem;
+<style>
 .bubble-wrapper {
+  --size: 5rem;
   position: relative;
   filter: grayscale(0);
   transition: all 0.4s;
-  margin: $size/4 0;
+  margin: calc(var(--size) / 4) 0;
   transform: scale(1);
-  &:hover .bubble-text {
-    color: $color-secondary;
-    background-color: $color-shade;
-  }
-  &.selected {
-    transform: scale(1.2);
-    z-index: 10;
-    .bubble-text {
-      color: $color-secondary;
-      background-color: $color-accent;
-    }
-    .bubble-id {
-      display: none;
-    }
-  }
-  &.shaded {
-    opacity: 0.5;
-    filter: grayscale(100%);
-    &:hover {
-      opacity: 0.7;
-      filter: grayscale(60%);
-    }
-  }
 }
-.bubble-image {
+.bubble-wrapper:hover .bubble-text {
+  color: var(--color-secondary);
+  background-color: var(--color-shade);
+}
+.bubble-wrapper.selected {
+  transform: scale(1.2);
+  z-index: 10;
+}
+.bubble-wrapper.selected .bubble-text {
+  color: var(--color-secondary);
+  background-color: var(--color-accent);
+}
+.bubble-wrapper.selected .bubble-id {
+  display: none;
+}
+.bubble-wrapper.shaded {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+.bubble-wrapper.shaded:hover {
+  opacity: 0.7;
+  filter: grayscale(60%);
+}
+.bubble-wrapper .bubble-image {
   z-index: 10;
   border-radius: 50%;
-  background-color: $color-secondary;
+  background-color: var(--color-secondary);
   background-size: cover;
   background-repeat: no-repeat;
-  height: $size;
-  width: $size;
+  height: var(--size);
+  width: var(--size);
   cursor: pointer;
 }
-.bubble-id {
+.bubble-wrapper .bubble-id {
   z-index: 5;
   position: absolute;
   bottom: -2.5rem;
-  color: $color-shade;
+  color: var(--color-shade);
   font-style: italic;
 }
-.bubble-text {
+.bubble-wrapper .bubble-text {
   font-size: 110%;
-  background-color: $color-secondary;
+  background-color: var(--color-secondary);
   padding: 0 5px;
   position: absolute;
-  bottom: -$size/2;
-  max-width: $size * 1.8;
+  bottom: calc(-1 * var(--size) / 2);
+  max-width: calc(var(--size) * 1.8);
   transition: all 0.4s;
 }
 </style>

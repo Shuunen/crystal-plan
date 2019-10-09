@@ -1,6 +1,6 @@
 <template>
   <div class="header-wrapper" :class="{ editable: editMode }">
-    <h1  @click="clickHeader" v-show="content.text && content.text.length" class="header-text">{{ content.text }}</h1>
+    <h1 @click="clickHeader" v-show="content.text && content.text.length" class="header-text">{{ content.text }}</h1>
     <div v-show="editMode && content.image && content.image.length" class="header-id">header</div>
     <div @click="clickHeader" v-show="content.image && content.image.length" class="header-image" :style="backgroundStyle" />
   </div>
@@ -50,19 +50,14 @@ export default Vue.extend({
 export { HeaderData }
 </script>
 
-<style lang="scss">
-@import "../assets/shared";
-.header-wrapper {
-  &.editable {
-    cursor: pointer;
-    &:hover {
-      .header-text,
-      .header-id {
-        background-color: $color-shade;
-        color: $color-secondary;
-      }
-    }
-  }
+<style>
+.header-wrapper.editable {
+  cursor: pointer;
+}
+.header-wrapper.editable:hover .header-text,
+.header-wrapper.editable:hover .header-id {
+  background-color: var(--color-shade);
+  color: var(--color-secondary);
 }
 .header-image {
   width: 16rem;
@@ -74,12 +69,12 @@ export { HeaderData }
 }
 .header-id {
   position: absolute;
-  color: $color-shade;
+  color: var(--color-shade);
   font-style: italic;
   padding: 0.1rem 0.6rem;
   left: calc(50% - 2rem);
   top: 1rem;
-  background-color: $color-secondary;
+  background-color: var(--color-secondary);
   pointer-events: none;
 }
 </style>

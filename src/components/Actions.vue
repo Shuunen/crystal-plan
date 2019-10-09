@@ -1,6 +1,5 @@
 <template>
   <div class="actions-wrapper">
-
     <div class="col start content is-medium">
       <div class="actions-list columns is-desktop is-mobile is-multiline">
         <div class="column" v-for="data in actions" :key="data.id" @click="clickAction(data)">
@@ -8,7 +7,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -39,20 +37,17 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss">
-@import "../assets/shared";
-.actions-wrapper {
-  h2.title {
-    border-bottom: 0.2rem solid $color-accent;
-    display: inline-block;
-    margin-bottom: 2rem;
-  }
-  & > .columns {
-    flex-wrap: wrap;
-  }
-  .background.fade-leave-active.fade-leave-to {
-    display: none;
-  }
+<style>
+.actions-wrapper h2.title {
+  border-bottom: 0.2rem solid var(--color-accent);
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+.actions-wrapper > .columns {
+  flex-wrap: wrap;
+}
+.actions-wrapper .background.fade-leave-active.fade-leave-to {
+  display: none;
 }
 .actions-list {
   padding-top: 0.6rem;

@@ -1,24 +1,26 @@
 <template>
-    <div class="description-wrapper">
-      <div class="description content is-medium" v-show="!editMode" v-html="content"></div>
-      <vue-pell-editor class="content" v-show="editMode"
-          v-model="editorContent"
-          :actions="editorOptions"
-          :content="editorContent"
-          :placeholder="editorPlaceholder"
-          :style-with-css="false"
-          :classes="editorClasses"
-          default-paragraph-separator="p"
-          @change="updateDataDebounced"
-      />
-    </div>
+  <div class="description-wrapper">
+    <div class="description content is-medium" v-show="!editMode" v-html="content"></div>
+    <vue-pell-editor
+      class="content"
+      v-show="editMode"
+      v-model="editorContent"
+      :actions="editorOptions"
+      :content="editorContent"
+      :placeholder="editorPlaceholder"
+      :style-with-css="false"
+      :classes="editorClasses"
+      default-paragraph-separator="p"
+      @change="updateDataDebounced"
+    />
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Utils from '@/utils'
 
-function highlight (type:string) {
+function highlight (type: string) {
   const cls = 'highlight-' + type
   return {
     name: cls,
@@ -26,7 +28,10 @@ function highlight (type:string) {
     title: 'Highlight text',
     result: (): void => {
       const selection = window.getSelection().toString()
-      pell.exec('insertHTML', Utils.wrapWithClass(selection, 'highlight ' + cls))
+      pell.exec(
+        'insertHTML',
+        Utils.wrapWithClass(selection, 'highlight ' + cls)
+      )
     }
   }
 }
@@ -126,17 +131,15 @@ export default Vue.extend({
 export { DescriptionData }
 </script>
 
-<style lang="scss">
-.description-wrapper {
-  .description {
-    margin-top: 1.1rem;
-  }
-  .vp-editor {
-    top: -1rem;
-    .pell-content {
-      height: inherit;
-      min-height: 300px;
-    }
-  }
+<style>
+.description-wrapper .description {
+  margin-top: 1.1rem;
+}
+.description-wrapper .vp-editor {
+  top: -1rem;
+}
+.description-wrapper .vp-editor .pell-content {
+  height: inherit;
+  min-height: 300px;
 }
 </style>

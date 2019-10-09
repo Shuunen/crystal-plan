@@ -1,14 +1,18 @@
-import Vue from 'vue'
-import App from './App.vue'
-import './registerServiceWorker'
-import Vue2Storage from 'vue2-storage'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import Vue from 'vue'
 import VuePellEditor from 'vue-pell-editor'
-import './assets/global.scss'
+import Vue2Storage from 'vue2-storage'
+import App from './App.vue'
+import './assets/fonts.css'
+import './assets/global.css'
+import './assets/highlight.css'
+import './assets/layout.css'
+import './assets/variables.css'
+import './registerServiceWorker'
 
 Vue.use(Vue2Storage, {
-  prefix: 'crystalplan_',
+  prefix: 'crystal_plan_',
   driver: 'local',
   ttl: 60 * 60 * 24 * 1000 * 360
 })
