@@ -6,7 +6,7 @@
     "not ie <= 8"
   ],
   "dependencies": {
-    "buefy": "0.7.0",
+    "buefy": "0.8.5",
     "debounce": "1.2.0",
     "register-service-worker": "1.5.2",
     "shuutils": "3.4.0",
