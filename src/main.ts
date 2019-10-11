@@ -1,5 +1,3 @@
-import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
 import Vue from 'vue'
 import VuePellEditor from 'vue-pell-editor'
 import Vue2Storage from 'vue2-storage'
@@ -16,7 +14,6 @@ Vue.use(Vue2Storage, {
   driver: 'local',
   ttl: 60 * 60 * 24 * 1000 * 360
 })
-Vue.use(Buefy)
 Vue.use(VuePellEditor)
 
 Vue.config.productionTip = false

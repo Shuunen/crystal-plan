@@ -22,7 +22,7 @@
           </b-tab-item>
           <b-tab-item label="description">
             <description :content="description" @descriptionUpdate="updateDescription" :editMode="editMode" />
-            <div class="line start"  @click="gotoActions">
+            <div class="line start" @click="gotoActions">
               <action :data="actionBack" />
             </div>
           </b-tab-item>
@@ -173,7 +173,7 @@ export default Vue.extend({
       }
     },
     importData (data: AppData) {
-      console.log('importing data', data)
+      this.log('importing data : ' + data)
       this.actions = (data && data.actions) || DEFAULTS.actions
       this.actionsDescription =
         (data && data.actionsDescription) || DEFAULTS.actionsDescription
@@ -183,11 +183,11 @@ export default Vue.extend({
       this.checkDataIntegrity()
     },
     getRemoteData () {
-      console.log('trying to load remote data ' + this.remoteId + '"')
+      this.log('trying to load remote data ' + this.remoteId + '"')
       let req = new XMLHttpRequest()
       req.onreadystatechange = () => {
         if (req.readyState === XMLHttpRequest.DONE) {
-          console.log('got remote data')
+          this.log('got remote data')
           const data = JSON.parse(req.responseText)
           this.importData(data)
         }
@@ -200,14 +200,11 @@ export default Vue.extend({
       if (!this.remoteId || !this.remoteId.length) {
         this.remoteId = prompt('What is the remote id ?') || ''
       }
-      this.$buefy.toast.open('Updating remote data...')
+      this.log('Updating remote data...')
       let req = new XMLHttpRequest()
       req.onreadystatechange = () => {
         if (req.readyState === XMLHttpRequest.DONE) {
-          this.$buefy.toast.open({
-            message: 'Remote schame updated correctly!',
-            type: 'is-success'
-          })
+          this.log('Remote schame updated correctly!')
         }
       }
       req.open('PUT', `${DEFAULTS.apiUrl}${this.remoteId}`, true)
@@ -217,7 +214,7 @@ export default Vue.extend({
       req.send(JSON.stringify(this.getCurrentData()))
     },
     getCurrentData (): AppData {
-      console.log('getting current app data state')
+      this.log('getting current app data state')
       // deep clone then clean bubble states
       const bubbles = copy(this.bubbles).map((b: BubbleData) => {
         b.selected = false
@@ -235,9 +232,7 @@ export default Vue.extend({
     },
     getLocalData () {
       const data = Vue.$storage.get(this.id)
-      console.log(
-        `found ${data ? '' : 'no'} data locally with id "${this.id}"`
-      )
+      this.log(`found ${data ? '' : 'no'} data locally with id "${this.id}"`)
       this.importData(data)
     },
     setLocalData () {
@@ -245,7 +240,7 @@ export default Vue.extend({
       this.setUrlData()
     },
     checkDataIntegrity () {
-      // console.log('checking data integrity...')
+      // this.log('checking data integrity...')
       if (this.bubbles.length <= 0) {
         this.addRandomBubbles()
       } else if (this.bubbles.length < DEFAULTS.bubblesCount) {
@@ -257,27 +252,27 @@ export default Vue.extend({
       this.isLoading = false
     },
     addRandomActions () {
-      console.log('generating actions...')
+      this.log('generating actions...')
       for (let i = 0; i < 8; i++) {
         this.actions.push({
           text: getRandomString(),
           image: getRandomImageUrl()
         })
       }
-      console.log('generated :', this.actions)
+      this.log('generated : ' + this.actions.length + ' actions')
     },
     addMissingBubbles () {
-      console.log('missing bubbles detected')
-      console.log('but this feature is not developed yet')
+      this.log('missing bubbles detected')
+      this.log('but this feature is not developed yet')
     },
     addRandomBubbles () {
-      console.log('generating bubbles...')
+      this.log('generating bubbles...')
       Object.keys(Sections).forEach(section => {
         for (let i = 0; i < DEFAULTS.bubblesPerSection; i++) {
           this.addRandomBubble(section as Sections)
         }
       })
-      console.log('generated :', this.bubbles)
+      this.log('generated : ' + this.bubbles.length + ' bubbles')
     },
     addRandomBubble (section: Sections) {
       this.bubbles.push(
@@ -292,32 +287,32 @@ export default Vue.extend({
       this.editMode = !this.editMode
     },
     updateBubbles (bubbles: BubbleData[]) {
-      console.log('saving bubbles to storage...')
+      this.log('saving bubbles to storage...')
       this.setLocalData()
     },
     updateDescription (description: DescriptionData) {
-      console.log('saving updated selection description to storage...')
+      this.log('saving updated selection description to storage...')
       this.description = description
       this.descriptions[this.selection] = description
       this.setLocalData()
     },
     updateActionDescription (description: DescriptionData) {
-      console.log('saving updated actions description to storage...')
+      this.log('saving updated actions description to storage...')
       this.actionsDescription = description
       this.setLocalData()
     },
     updateHeader (header: HeaderData) {
-      console.log('saving updated header to storage...', header)
+      this.log('saving updated header to storage : ' + header)
       this.header = header
       this.setLocalData()
     },
     editForm (data: EditFormData) {
-      console.log('user wants to edit data')
+      this.log('user wants to edit data')
       this.editFormData.data = data
       this.editFormOpened = true
     },
     closeForm () {
-      console.log('edit form closed')
+      this.log('edit form closed')
       this.editFormOpened = false
       this.setLocalData()
     },
@@ -325,11 +320,10 @@ export default Vue.extend({
       const data = this.editFormData.data
       const type = data.type as Types
       if (!type) {
-        this.error('Cannot delete entry', 'no type provided')
+        this.error('Cannot delete entry : no type provided')
         return
-      } else {
-        console.log('deleting', type, 'with id', data.id)
       }
+      this.log(`deleting ${type} with id ${data.id}`)
       let array = null
       if (type === Types.bubble) {
         array = this.bubbles as EditFormData[]
@@ -342,9 +336,9 @@ export default Vue.extend({
         const index = array.findIndex(e => e.id === data.id)
         if (index > -1) {
           array.splice(index, 1)
-          this.info(`Deleted "${data.id}" successfully`)
+          this.log(`Deleted "${data.id}" successfully`)
         } else {
-          this.error('Failed deleting item', 'item not found via id')
+          this.error('Failed deleting item : item not found via id')
         }
       }
       this.editFormOpened = false
@@ -352,7 +346,7 @@ export default Vue.extend({
     selectAction (action: ActionData) {
       this.selection = action.id || ''
       if (this.selection.length) {
-        console.log('selected action :', this.selection)
+        this.log('selected action : ' + this.selection)
         if (this.descriptions.hasOwnProperty(this.selection)) {
           this.description = this.descriptions[this.selection]
         } else {
@@ -360,47 +354,27 @@ export default Vue.extend({
         }
         this.activeTab = Tab.description
       } else {
-        console.log('no action selected')
+        this.log('no action selected')
         this.activeTab = Tab.actions
       }
     },
     selectBubble (bubble: BubbleData) {
-      console.log('bubble selected :', bubble.id)
+      this.log('bubble selected : ' + bubble.id)
     },
     gotoActions () {
       this.activeTab = Tab.actions
     },
     addAction () {
-      this.$buefy.toast.open('Adding action...')
+      this.log('Adding action...')
       const action = copy(DEFAULTS.action)
       this.actions.push(action)
       this.editForm(action)
     },
-    error (toast: string, details = '') {
-      this.$buefy.toast.open({
-        duration: 5000,
-        message: toast,
-        position: 'is-bottom',
-        type: 'is-danger'
-      })
-      if (details.length) {
-        console.error(toast, ':', details)
-      } else {
-        console.error(toast)
-      }
+    error (message: string) {
+      console.error(message)
     },
-    info (toast: string, details = '') {
-      this.$buefy.toast.open({
-        duration: 3000,
-        message: toast,
-        position: 'is-top',
-        type: 'is-info'
-      })
-      if (details.length) {
-        console.log(toast, ':', details)
-      } else {
-        console.log(toast)
-      }
+    log (message: string) {
+      console.log(message)
     }
   }
 })
