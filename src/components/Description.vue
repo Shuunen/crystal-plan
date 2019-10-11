@@ -22,16 +22,13 @@ import Utils from '@/utils'
 
 function highlight (type: string) {
   const cls = 'highlight-' + type
+  const getSelection = () => window.getSelection() + ''
   return {
     name: cls,
     icon: `<div class="highlight ${cls}">A</div>`,
     title: 'Highlight text',
     result: (): void => {
-      const selection = window.getSelection().toString()
-      pell.exec(
-        'insertHTML',
-        Utils.wrapWithClass(selection, 'highlight ' + cls)
-      )
+      pell.exec('insertHTML', Utils.wrapWithClass(getSelection(), 'highlight ' + cls))
     }
   }
 }
