@@ -97,13 +97,6 @@ const DEFAULTS = {
 // 3 sections x 4 bubbles = 12 by default
 DEFAULTS.bubblesCount *= DEFAULTS.bubblesPerSection
 
-declare module 'vue/types/vue' {
-  interface VueConstructor {
-    $storage: any;
-    pell: any;
-  }
-}
-
 enum Types {
   bubble = 'bubble',
   action = 'action'
