@@ -1,9 +1,5 @@
 language: node_js
 
-cache: npm
-
-env: NODE_ENV=production
-
 install: npm install
 
 script: npm test
