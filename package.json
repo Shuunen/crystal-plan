@@ -30,6 +30,10 @@
   "engines": {
     "node": ">= 8.12.0"
   },
+  "files": [
+    "src",
+    "public"
+  ],
   "homepage": "https://github.com/Shuunen/crystal-plan",
   "keywords": [
     "create",
@@ -43,14 +47,19 @@
   "license": "GPL-3.0",
   "name": "crystal-plan",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Shuunen/crystal-plan.git"
+  },
   "scripts": {
     "build": "vue-cli-service build",
     "check": "npx repo-check",
+    "ci": "npm run test",
     "dev": "npm run serve",
     "lint": "vue-cli-service lint",
     "serve": "vue-cli-service serve",
     "start": "npm run serve",
-    "test": "npm run lint && npm run check",
+    "test": "npm run lint && npm run check && npm run build",
     "update": "npx npm-check-updates -u"
   },
   "version": "2.0.0"
