@@ -40,7 +40,7 @@
     "crystal",
     "clear"
   ],
-  "license": "MIT",
+  "license": "GPL-3.0",
   "name": "crystal-plan",
   "private": true,
   "scripts": {
