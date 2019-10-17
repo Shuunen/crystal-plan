@@ -9,7 +9,7 @@
     "vue-class-component": "7.1.0",
     "vue-global-events": "1.1.2",
     "vue-pell-editor": "2.0.1",
-    "vue-property-decorator": "8.2.2",
+    "vue-property-decorator": "8.3.0",
     "vue2-storage": "4.0.5"
   },
   "description": "create & present your plan, the crystal clear way",
