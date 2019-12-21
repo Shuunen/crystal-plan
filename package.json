@@ -10,7 +10,7 @@
     "vue-global-events": "1.1.2",
     "vue-pell-editor": "2.0.1",
     "vue-property-decorator": "8.3.0",
-    "vue2-storage": "4.0.7"
+    "vue2-storage": "5.0.0"
   },
   "description": "create & present your plan, the crystal clear way",
   "devDependencies": {
