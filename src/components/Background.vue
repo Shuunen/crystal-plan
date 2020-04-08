@@ -2,11 +2,6 @@
   <div class="background" />
 </template>
 
-<script>
-import Vue from 'vue'
-export default Vue.extend({})
-</script>
-
 <style>
 @keyframes bg-gradient {
   0% {

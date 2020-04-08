@@ -2,7 +2,7 @@
   <div class="actions-wrapper">
     <div class="col start content is-medium">
       <div class="actions-list columns is-desktop is-mobile is-multiline">
-        <div class="column" v-for="data in actions" :key="data.id" @click="clickAction(data)">
+        <div class="column" v-for="(data, index) in actions" :key="data.id + '-' + index" @click="clickAction(data)">
           <action :edit-mode="editMode" :data="data" />
         </div>
       </div>
@@ -11,30 +11,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import Action, { ActionData } from './Action.vue'
 
-export default Vue.extend({
-  props: {
-    actions: {
-      type: Array as () => ActionData[],
-      required: true
-    },
-    editMode: Boolean
-  },
-  components: {
-    Action
-  },
-  methods: {
-    clickAction (action: ActionData) {
-      if (this.editMode) {
-        this.$emit('edit', action)
-      } else {
-        this.$emit('select', action)
-      }
-    }
-  }
+@Component({
+  components: { Action },
 })
+export default class HelloWorld extends Vue {
+  @Prop() private actions!: ActionData[];
+  @Prop() private editMode!: boolean;
+
+  clickAction (action: ActionData) {
+    if (this.editMode) return this.$emit('edit', action)
+    this.$emit('select', action)
+  }
+}
 </script>
 
 <style>

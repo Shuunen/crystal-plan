@@ -1,2 +1,2 @@
 declare module 'vue-pell-editor'
-declare var pell: any
+declare const pell: any // eslint-disable-line

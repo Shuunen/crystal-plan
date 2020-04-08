@@ -14,12 +14,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Types } from '@/App.vue'
-import Utils from '@/utils'
 import { slugify } from 'shuutils'
 
-interface ActionData {
+export interface ActionData {
   button?: boolean;
   icon?: string;
   id?: string;
@@ -28,14 +27,11 @@ interface ActionData {
   type?: string;
 }
 
-export default Vue.extend({
-  props: {
-    data: {
-      type: Object as () => ActionData,
-      required: true
-    },
-    editMode: Boolean
-  },
+@Component
+export default class Action extends Vue {
+  @Prop() private data!: ActionData;
+  @Prop() private editMode!: boolean;
+
   created () {
     if (!this.data.type) {
       this.data.type = Types.action
@@ -44,9 +40,7 @@ export default Vue.extend({
       this.data.id = slugify(this.data.text)
     }
   }
-})
-
-export { ActionData }
+}
 </script>
 
 <style>

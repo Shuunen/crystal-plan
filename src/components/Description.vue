@@ -17,8 +17,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Utils from '@/utils'
+/* global pell */
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import { debounce } from 'shuutils'
+
+function wrapWithClass (text: string, cls: string): string {
+  return text.replace(
+    /^(\s)*([A-Za-zÀ-ÿ-_\s]+[A-Za-zÀ-ÿ-_])(\s)*$/,
+    '$1<span class="' + cls + '">$2</span>$3',
+  )
+}
+
+function validLink (str: string): string {
+  return (/^https?:\/\//.test(str) && str) || `https://${str}`
+}
 
 function highlight (type: string) {
   const cls = 'highlight-' + type
@@ -28,8 +40,11 @@ function highlight (type: string) {
     icon: `<div class="highlight ${cls}">A</div>`,
     title: 'Highlight text',
     result: (): void => {
-      pell.exec('insertHTML', Utils.wrapWithClass(getSelection(), 'highlight ' + cls))
-    }
+      pell.exec(
+        'insertHTML',
+        wrapWithClass(getSelection(), 'highlight ' + cls),
+      )
+    },
   }
 }
 
@@ -37,7 +52,7 @@ function highlight (type: string) {
 const features = {
   italic: {
     name: 'italic',
-    result: () => pell.exec('italic')
+    result: () => pell.exec('italic'),
   },
   highlightGreen: highlight('green'),
   highlightYellow: highlight('yellow'),
@@ -46,86 +61,71 @@ const features = {
     name: 'image',
     result: () => {
       const url = window.prompt('Enter the image URL')
-      if (url) pell.exec('insertImage', Utils.validLink(url))
-    }
+      if (url) pell.exec('insertImage', validLink(url))
+    },
   },
   link: {
     name: 'link',
     result: () => {
       const url = window.prompt('Enter the link URL')
-      if (url) pell.exec('createLink', Utils.validLink(url))
-    }
+      if (url) pell.exec('createLink', validLink(url))
+    },
   },
   clean: {
     name: 'clean',
     icon: '<div>✖</div>',
     title: 'Clear all formating',
-    result: () => pell.exec('removeFormat')
-  }
+    result: () => pell.exec('removeFormat'),
+  },
 }
 
-type DescriptionData = string
+@Component
+export default class HelloWorld extends Vue {
+  @Prop() private content!: string;
+  @Prop() private editMode!: boolean;
 
-export default Vue.extend({
-  props: {
-    editMode: {
-      type: Boolean,
-      required: true
-    },
-    content: {
-      type: String as () => DescriptionData,
-      required: true
-    }
-  },
-  computed: {
-    editorContent: {
-      get: function (): DescriptionData {
-        return this.content
-      },
-      set: function (html: DescriptionData) {
-        this.newContent = html
-      }
-    }
-  },
-  data () {
-    return {
-      updateDataDebounced: {} as () => void,
-      newContent: '',
-      editorOptions: [
-        'heading1',
-        'bold',
-        features.italic,
-        'underline',
-        features.highlightGreen,
-        features.highlightYellow,
-        features.highlightRed,
-        features.image,
-        features.link,
-        'ulist',
-        'quote',
-        features.clean,
-        'line'
-      ],
-      editorPlaceholder: 'Write something amazing...',
-      editorClasses: {
-        actionbar: 'pell-actionbar',
-        button: 'pell-button',
-        content: 'pell-content',
-        selected: 'pell-button-selected'
-      }
-    }
-  },
-  created () {
-    this.updateDataDebounced = Utils.debounce(this.updateData, 1000)
-  },
-  methods: {
-    updateData () {
-      this.$emit('descriptionUpdate', this.newContent)
-    }
+  updateDataDebounced = {};
+  newContent = '';
+  editorOptions = [
+    'heading1',
+    'bold',
+    features.italic,
+    'underline',
+    features.highlightGreen,
+    features.highlightYellow,
+    features.highlightRed,
+    features.image,
+    features.link,
+    'ulist',
+    'quote',
+    features.clean,
+    'line',
+  ];
+
+  editorPlaceholder = 'Write something amazing...';
+  editorClasses = {
+    actionbar: 'pell-actionbar',
+    button: 'pell-button',
+    content: 'pell-content',
+    selected: 'pell-button-selected',
+  };
+
+  get editorContent () {
+    return this.content
   }
-})
 
-export { DescriptionData }
+  set editorContent (html) {
+    this.newContent = html
+  }
+
+  created () {
+    this.updateDataDebounced = debounce(this.updateData, 1000)
+  }
+
+  updateData () {
+    this.$emit('descriptionUpdate', this.newContent)
+  }
+}
 </script>
 
 <style>

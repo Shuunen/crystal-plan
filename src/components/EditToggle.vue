@@ -9,16 +9,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({
-  props: {
-    editMode: {
-      type: Boolean,
-      required: true
-    }
-  }
-})
+@Component
+export default class EditToggle extends Vue {
+  @Prop() private editMode!: boolean
+}
 </script>
 
 <style>

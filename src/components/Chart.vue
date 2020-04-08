@@ -2,61 +2,48 @@
   <div class="chart">
     <div class="line">
       <div class="col">
-        <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.filter(b => b.section === Sections.left)" :key="data.id" />
+        <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="(data, index) in bubbles.filter(b => b.section === sections.left)" :key="data.id+index" />
       </div>
       <div class="col rays left">
-        <div class="ray" v-for="i in 4" :key="i" />
+        <div class="ray" v-for="i in [1,2,3,4]" :key="i" />
       </div>
       <div class="col crystal">
         <div class="line">
-          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.filter(b => b.section === Sections.center)" :key="data.id" />
+          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="(data, index) in bubbles.filter(b => b.section === sections.center)" :key="data.id+index" />
         </div>
         <div class="crystal-shape"></div>
       </div>
       <div class="col rays right">
-        <div class="ray" v-for="i in 4" :key="i" />
+        <div class="ray" v-for="i in [5,6,7,8]" :key="i" />
       </div>
       <div class="col">
-        <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="data in bubbles.filter(b => b.section === Sections.right)" :key="data.id" />
+        <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="(data, index) in bubbles.filter(b => b.section === sections.right)" :key="data.id+index" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import Bubble, { BubbleData, Sections } from './Bubble.vue'
 
-export default Vue.extend({
-  props: {
-    editMode: {
-      type: Boolean,
-      required: true
-    },
-    bubbles: {
-      type: Array as () => BubbleData[],
-      required: true
+@Component({ components: { Bubble } })
+export default class Chart extends Vue {
+  @Prop() private bubbles!: BubbleData[];
+  @Prop() private editMode!: boolean;
+
+  sections = Sections;
+
+  clickBubble (bubble: BubbleData) {
+    if (this.editMode) {
+      console.log(`user wants to edit bubble ${bubble.id}`)
+      this.$emit('edit', bubble)
+    } else {
+      console.log(`user wants to select bubble ${bubble.id}`)
+      this.$emit('select', bubble)
     }
-  },
-  components: {
-    Bubble
-  },
-  data () {
-    return {
-      Sections
-    }
-  },
-  methods: {
-    clickBubble (bubble: BubbleData) {
-      if (this.editMode) {
-        console.log(`user wants to edit bubble ${bubble.id}`)
-        this.$emit('edit', bubble)
-      } else {
-        console.log(`user wants to select bubble ${bubble.id}`)
-        this.$emit('select', bubble)
-      }
-    }
-    /*
+  }
+  /*
     selectOneBubble (bubble: BubbleData) {
       const focusMode = !bubble.selected
       this.bubbles.filter(b => b.section === bubble.section).map(b => {
@@ -73,8 +60,7 @@ export default Vue.extend({
       })
     },
     */
-  }
-})
+}
 </script>
 
 <style>

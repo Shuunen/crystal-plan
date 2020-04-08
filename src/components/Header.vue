@@ -7,47 +7,36 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
-interface HeaderData {
+export interface HeaderData {
   text?: string;
   image?: string;
 }
 
-export default Vue.extend({
-  props: {
-    content: {
-      type: Object as () => HeaderData,
-      required: true
-    },
-    editMode: Boolean
-  },
-  data () {
-    return {
-      backgroundStyle: {}
-    }
-  },
+@Component
+export default class Header extends Vue {
+  @Prop() private content!: HeaderData;
+  @Prop() private editMode!: boolean;
+  backgroundStyle = {};
   created () {
     if (this.content.image && this.content.image.length) {
       this.backgroundStyle = {
-        backgroundImage: 'url(' + this.content.image + ')'
-      }
-    }
-  },
-  methods: {
-    clickHeader () {
-      if (this.editMode) {
-        console.log(`user wants to edit header`)
-        this.$emit('edit', this.content)
-      } else {
-        console.log(`user wants to select header`)
-        this.$emit('select', this.content)
+        backgroundImage: 'url(' + this.content.image + ')',
       }
     }
   }
-})
 
-export { HeaderData }
+  clickHeader () {
+    if (this.editMode) {
+      console.log('user wants to edit header')
+      this.$emit('edit', this.content)
+    } else {
+      console.log('user wants to select header')
+      this.$emit('select', this.content)
+    }
+  }
+}
 </script>
 
 <style>
