@@ -62,7 +62,6 @@
     "ci": "npm run test",
     "dev": "npm run serve",
     "lint": "vue-cli-service lint",
-    "postinstall": "npm run check",
     "serve": "vue-cli-service serve",
     "start": "npm run serve",
     "test": "npm run lint && npm run check && npm run build",
