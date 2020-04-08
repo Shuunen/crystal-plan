@@ -21,7 +21,7 @@
     "eslint-plugin-standard": "4.0.1",
     "eslint-plugin-vue": "6.2.2",
     "register-service-worker": "1.7.1",
-    "repo-check": "1.5.0",
+    "repo-check": "1.5.1",
     "shuutils": "4.0.0",
     "typescript": "3.8.3",
     "vue": "2.6.11",
