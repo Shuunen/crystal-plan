@@ -7,50 +7,42 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Utils from '@/utils'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { getRandomImageUrl, getRandomString, slugify } from 'shuutils'
 
-export default Vue.extend({
-  props: {
-    data: {
-      type: Object,
-      required: true
-    },
-    editMode: Boolean
-  },
-  computed: {
-    image () {
-      let path = getRandomImageUrl()
-      if (!this.data) {
-        console.warn('data not available, using default image...')
-        return path
-      }
-      if (this.data.image && this.data.image.length) {
-        path = this.data.image
-      } else {
-        console.warn('image not available, using default one...')
-      }
+@Component
+export default class Bubble extends Vue {
+  @Prop() private data!: BubbleData;
+  @Prop() private editMode!: boolean;
+
+  backgroundStyle = {};
+
+  get image () {
+    let path = getRandomImageUrl()
+    if (!this.data) {
+      console.warn('data not available, using default image...')
       return path
     }
-  },
-  data () {
-    return {
-      backgroundStyle: {}
+    if (this.data.image && this.data.image.length) {
+      path = this.data.image
+    } else {
+      console.warn('image not available, using default one...')
     }
-  },
+    return path
+  }
+
   created () {
     this.backgroundStyle = { backgroundImage: 'url(' + this.image + ')' }
   }
-})
+}
 
-enum Sections {
+export enum Sections {
   left = 'left',
   center = 'center',
   right = 'right'
 }
 
-class BubbleData {
+export class BubbleData {
   id?: string;
   text?: string;
   section?: Sections;
@@ -63,13 +55,7 @@ class BubbleData {
     this.section = data.section || Sections.left
     this.image = data.image || getRandomImageUrl()
   }
-  /* Component methods can be declared as instance methods
-  onClick(): void {
-    window.alert(this.message);
-  } */
 }
-
-export { Sections, BubbleData }
 </script>
 
 <style>

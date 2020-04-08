@@ -18,11 +18,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Utils from '@/utils'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import { copy } from 'shuutils'
 
-interface EditFormData {
+export interface EditFormData {
   id?: string;
   text?: string;
   image?: string;
@@ -30,49 +29,46 @@ interface EditFormData {
   type?: string;
 }
 
-export default Vue.extend({
-  props: {
-    data: Object as () => EditFormData
-  },
-  data () {
-    return {
-      originalData: {} as EditFormData,
-      validateDelete: false
-    }
-  },
+@Component
+export default class EditForm extends Vue {
+  @Prop() private data!: EditFormData;
+
+  originalData = {} as EditFormData;
+  validateDelete = false;
+
   created () {
     this.originalData = copy(this.data)
-  },
-  methods: {
-    cancel () {
-      console.log(`user just canceled edit`)
-      if (this.originalData.id) {
-        this.data.id = this.originalData.id
-      }
-      if (this.originalData.text) {
-        this.data.text = this.originalData.text
-      }
-      if (this.originalData.image) {
-        this.data.image = this.originalData.image
-      }
-      if (this.originalData.icon) {
-        this.data.icon = this.originalData.icon
-      }
-      this.close()
-    },
-    remove () {
-      if (this.validateDelete) {
-        console.log(`user wants to delete entry`)
-        this.$emit('remove')
-      } else {
-        this.validateDelete = true
-      }
-    },
-    close () {
-      console.log(`user finished edition`)
-      this.$emit('close')
+  }
+
+  cancel () {
+    console.log('user just canceled edit')
+    if (this.originalData.id) {
+      this.data.id = this.originalData.id
+    }
+    if (this.originalData.text) {
+      this.data.text = this.originalData.text
+    }
+    if (this.originalData.image) {
+      this.data.image = this.originalData.image
+    }
+    if (this.originalData.icon) {
+      this.data.icon = this.originalData.icon
+    }
+    this.close()
+  }
+
+  remove () {
+    if (this.validateDelete) {
+      console.log('user wants to delete entry')
+      this.$emit('remove')
+    } else {
+      this.validateDelete = true
     }
   }
-})
-export { EditFormData }
+
+  close () {
+    console.log('user finished edition')
+    this.$emit('close')
+  }
+}
 </script>

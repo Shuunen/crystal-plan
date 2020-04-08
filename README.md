@@ -12,8 +12,8 @@
 
 ## Prerequisites
 
-* Node : version 8 ans above
-* Npm : version 5 and above
+* Node : version 12 ans above
+* Npm : version 6 and above
 * Install dependencies : `npm install`
 
 ## Usage
