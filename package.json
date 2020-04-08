@@ -62,6 +62,8 @@
     "ci": "npm run test",
     "dev": "npm run serve",
     "lint": "vue-cli-service lint",
+    "postversion": "git push && git push --tags",
+    "preversion": "npm run ci",
     "serve": "vue-cli-service serve",
     "start": "npm run serve",
     "test": "npm run lint && npm run check && npm run build",
