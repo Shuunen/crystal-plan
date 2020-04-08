@@ -1,17 +1,6 @@
 {
   "author": "Romain Racamier-Lafon <romain.racamier@gmail.com>",
   "bugs": "https://github.com/Shuunen/crystal-plan/issues",
-  "dependencies": {
-    "debounce": "1.2.0",
-    "register-service-worker": "1.7.1",
-    "shuutils": "4.0.0",
-    "vue": "2.6.11",
-    "vue-class-component": "7.2.3",
-    "vue-global-events": "1.1.2",
-    "vue-pell-editor": "2.0.1",
-    "vue-property-decorator": "8.4.0",
-    "vue2-storage": "5.0.0"
-  },
   "description": "create & present your plan, the crystal clear way",
   "devDependencies": {
     "@types/debounce": "3.0.0",
@@ -22,13 +11,23 @@
     "@vue/eslint-config-standard": "4.0.0",
     "@vue/eslint-config-typescript": "4.0.0",
     "babel-eslint": "10.1.0",
+    "debounce": "1.2.0",
     "eslint": "6.8.0",
     "eslint-plugin-vue": "6.2.2",
+    "register-service-worker": "1.7.1",
+    "repo-check": "1.4.4",
+    "shuutils": "4.0.0",
     "typescript": "3.8.3",
-    "vue-template-compiler": "2.6.11"
+    "vue": "2.6.11",
+    "vue-class-component": "7.2.3",
+    "vue-global-events": "1.1.2",
+    "vue-pell-editor": "2.0.1",
+    "vue-property-decorator": "8.4.0",
+    "vue-template-compiler": "2.6.11",
+    "vue2-storage": "5.0.0"
   },
   "engines": {
-    "node": ">= 8.12.0"
+    "node": ">= 12.16.0"
   },
   "files": [
     "src",
@@ -53,10 +52,11 @@
   },
   "scripts": {
     "build": "vue-cli-service build",
-    "check": "npx repo-check",
+    "check": "repo-check",
     "ci": "npm run test",
     "dev": "npm run serve",
     "lint": "vue-cli-service lint",
+    "postinstall": "npm run check",
     "serve": "vue-cli-service serve",
     "start": "npm run serve",
     "test": "npm run lint && npm run check && npm run build",
