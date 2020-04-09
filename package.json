@@ -32,9 +32,6 @@
     "vue-template-compiler": "2.6.11",
     "vue2-storage": "5.0.0"
   },
-  "engines": {
-    "node": ">= 12.16.0"
-  },
   "files": [
     "src",
     "public"
