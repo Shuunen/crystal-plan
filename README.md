@@ -29,9 +29,9 @@ npm run build
 ## Thanks
 
 * [Shields.io](https://shields.io) : nice badges on top of this readme
-* [Netlify](https://www.netlify.com) : awesome company that offers hosting for OSS
+* [Netlify](https://netlify.com) : awesome company that offers hosting for OSS
 * [Travis-ci.org](https://travis-ci.org) : for providing free continuous deployments
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FShuunen%2Fcrystal-plan.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FShuunen%2Fcrystal-plan?ref=badge_large)
