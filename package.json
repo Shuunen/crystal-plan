@@ -12,7 +12,7 @@
     "@vue/cli-service": "4.3.1",
     "@vue/eslint-config-standard": "5.1.2",
     "@vue/eslint-config-typescript": "5.0.2",
-    "buefy": "0.8.17",
+    "buefy": "0.8.20",
     "core-js": "3.6.5",
     "eslint": "7.0.0",
     "eslint-plugin-import": "2.20.2",
