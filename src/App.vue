@@ -1,7 +1,7 @@
 <template>
-  <div class="app">
+  <div class="app col full-height">
     <global-events @keyup.f2="toggleEditMode" @keydown.ctrl.alt.u="updateRemoteData" />
-    <section class="section top">
+    <section class="section top full-width">
       <background />
       <b-loading :active.sync="isLoading" />
       <div class="container chart has-text-centered" v-if="!isLoading">
@@ -10,7 +10,7 @@
         <chart v-if="bubbles.length" :bubbles="bubbles" @select="selectBubble" @edit="editForm" :editMode="editMode" />
       </div>
     </section>
-    <section class="section bottom">
+    <section class="section bottom full-width grow">
       <div class="container">
         <b-tabs class="ninja" v-model="activeTab">
           <b-tab-item label="actions">
@@ -36,20 +36,18 @@
 </template>
 
 <script lang="ts">
-import GlobalEvents from 'vue-global-events'
+import { BubbleData, Sections } from '@/components/Bubble.vue'
+import { Component, Vue } from 'vue-property-decorator'
 import { copy, getRandomImageUrl, getRandomString } from 'shuutils'
-
-import EditForm, { EditFormData } from '@/components/EditForm.vue'
 import Action, { ActionData } from '@/components/Action.vue'
 import Actions from '@/components/Actions.vue'
 import Background from '@/components/Background.vue'
-import Header, { HeaderData } from '@/components/Header.vue'
-import EditToggle from '@/components/EditToggle.vue'
 import Chart from '@/components/Chart.vue'
 import Description from '@/components/Description.vue'
-import { BubbleData, Sections } from '@/components/Bubble.vue'
-
-import { Component, Vue } from 'vue-property-decorator'
+import EditForm, { EditFormData } from '@/components/EditForm.vue'
+import EditToggle from '@/components/EditToggle.vue'
+import GlobalEvents from 'vue-global-events'
+import Header, { HeaderData } from '@/components/Header.vue'
 
 enum Tab {
   actions = 0,

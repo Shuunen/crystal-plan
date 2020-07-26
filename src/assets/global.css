@@ -1,5 +1,4 @@
-html,
-body {
+html, body {
   height: 100%;
 }
 
@@ -13,14 +12,14 @@ h1 {
 }
 
 .section.top .container, .section.bottom .container {
-  max-width: 960px;
   margin: auto;
+  max-width: 960px;
 }
 
 .ellipsis {
-  white-space: nowrap;
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .button.is-primary {
