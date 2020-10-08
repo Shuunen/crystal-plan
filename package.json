@@ -11,7 +11,7 @@
     "@vue/cli-plugin-typescript": "4.5.7",
     "@vue/cli-service": "4.5.7",
     "@vue/eslint-config-standard": "5.1.2",
-    "@vue/eslint-config-typescript": "6.0.0",
+    "@vue/eslint-config-typescript": "7.0.0",
     "buefy": "0.9.3",
     "core-js": "3.6.5",
     "eslint": "7.10.0",
