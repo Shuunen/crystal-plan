@@ -2,7 +2,7 @@
   <div class="toggle-wrapper">
     <b-tooltip label="Shortcut : F2" position="is-left">
       <a class="button button-edit-mode" :class="{ active: editMode }">
-        <b-icon pack="far" icon="edit"></b-icon>
+        <b-icon pack="far" icon="edit" />
       </a>
     </b-tooltip>
   </div>
@@ -13,7 +13,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class EditToggle extends Vue {
-  @Prop() private editMode!: boolean
+  @Prop() private editMode!: boolean;
 }
 </script>
 

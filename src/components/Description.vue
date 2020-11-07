@@ -1,10 +1,10 @@
 <template>
   <div class="description-wrapper">
-    <div class="description content is-medium" v-show="!editMode" v-html="content"></div>
+    <div v-show="!editMode" class="description content is-medium" v-html="content" />
     <vue-pell-editor
-      class="content"
       v-show="editMode"
       v-model="editorContent"
+      class="content"
       :actions="editorOptions"
       :content="editorContent"
       :placeholder="editorPlaceholder"
@@ -22,10 +22,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { debounce } from 'shuutils'
 
 function wrapWithClass (text: string, cls: string): string {
-  return text.replace(
-    /^(\s)*([A-Za-zÀ-ÿ-_\s]+[A-Za-zÀ-ÿ-_])(\s)*$/,
-    '$1<span class="' + cls + '">$2</span>$3',
-  )
+  return text.replace(/^(\s)*([A-Za-zÀ-ÿ-_\s]+[A-Za-zÀ-ÿ-_])(\s)*$/, '$1<span class="' + cls + '">$2</span>$3')
 }
 
 function validLink (str: string): string {
@@ -40,10 +37,7 @@ function highlight (type: string) {
     icon: `<div class="highlight ${cls}">A</div>`,
     title: 'Highlight text',
     result: (): void => {
-      pell.exec(
-        'insertHTML',
-        wrapWithClass(getSelection(), 'highlight ' + cls),
-      )
+      pell.exec('insertHTML', wrapWithClass(getSelection(), 'highlight ' + cls))
     },
   }
 }

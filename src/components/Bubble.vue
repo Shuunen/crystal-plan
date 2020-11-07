@@ -1,7 +1,7 @@
 <template>
   <div class="bubble-wrapper col" :class="{ editable: editMode, selected: data.selected, shaded: data.shaded }">
     <div class="bubble-image" :style="backgroundStyle" />
-    <div class="bubble-id" v-show="editMode">{{ data.id }}</div>
+    <div v-show="editMode" class="bubble-id">{{ data.id }}</div>
     <div class="bubble-text text ellipsis">{{ data.text }}</div>
   </div>
 </template>
@@ -39,7 +39,7 @@ export default class Bubble extends Vue {
 export enum Sections {
   left = 'left',
   center = 'center',
-  right = 'right'
+  right = 'right',
 }
 
 export class BubbleData {

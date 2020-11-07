@@ -2,7 +2,7 @@
   <div class="actions-wrapper">
     <div class="col start content is-medium">
       <div class="actions-list columns is-desktop is-mobile is-multiline">
-        <div class="column" v-for="(data, index) in actions" :key="data.id + '-' + index" @click="clickAction(data)">
+        <div v-for="(data, index) in actions" :key="data.id + '-' + index" class="column" @click="clickAction(data)">
           <action :edit-mode="editMode" :data="data" />
         </div>
       </div>

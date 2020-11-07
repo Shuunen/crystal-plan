@@ -1,7 +1,7 @@
 <template>
   <form action="#" @submit.prevent="close">
     <div class="modal-card" style="width: auto">
-      <section class="modal-card-body" v-if="data">
+      <section v-if="data" class="modal-card-body">
         <b-input v-model="data.id" placeholder="Id" />
         <b-input v-model="data.text" placeholder="Text" />
         <b-input v-model="data.image" placeholder="Image url" />
@@ -10,7 +10,9 @@
       </section>
       <footer class="modal-card-foot">
         <button class="button" type="reset" @click="cancel">Cancel</button>
-        <button class="button" type="reset" :class="{ 'is-warning' : validateDelete }" @click="remove" v-if="data && data.type">{{ validateDelete ? 'Yes delete !' : 'Delete ?' }}</button>
+        <button v-if="data && data.type" class="button" type="reset" :class="{ 'is-warning': validateDelete }" @click="remove">
+          {{ validateDelete ? "Yes delete !" : "Delete ?" }}
+        </button>
         <button class="button is-primary" type="submit">Save</button>
       </footer>
     </div>

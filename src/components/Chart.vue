@@ -2,22 +2,43 @@
   <div class="chart">
     <div class="line">
       <div class="col">
-        <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="(data, index) in bubbles.filter(b => b.section === sections.left)" :key="data.id+index" />
+        <bubble
+          v-for="(data, index) in bubbles.filter((b) => b.section === sections.left)"
+          :key="data.id + index"
+          :data="data"
+          :selected="data.selected"
+          :edit-mode="editMode"
+          @click.native="clickBubble(data)"
+        />
       </div>
       <div class="col rays left">
-        <div class="ray" v-for="i in [1,2,3,4]" :key="i" />
+        <div v-for="i in [1, 2, 3, 4]" :key="i" class="ray" />
       </div>
       <div class="col crystal">
         <div class="line">
-          <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="(data, index) in bubbles.filter(b => b.section === sections.center)" :key="data.id+index" />
+          <bubble
+            v-for="(data, index) in bubbles.filter((b) => b.section === sections.center)"
+            :key="data.id + index"
+            :data="data"
+            :selected="data.selected"
+            :edit-mode="editMode"
+            @click.native="clickBubble(data)"
+          />
         </div>
-        <div class="crystal-shape"></div>
+        <div class="crystal-shape" />
       </div>
       <div class="col rays right">
-        <div class="ray" v-for="i in [5,6,7,8]" :key="i" />
+        <div v-for="i in [5, 6, 7, 8]" :key="i" class="ray" />
       </div>
       <div class="col">
-        <bubble :data="data" :selected="data.selected" :editMode="editMode" @click.native="clickBubble(data)" v-for="(data, index) in bubbles.filter(b => b.section === sections.right)" :key="data.id+index" />
+        <bubble
+          v-for="(data, index) in bubbles.filter((b) => b.section === sections.right)"
+          :key="data.id + index"
+          :data="data"
+          :selected="data.selected"
+          :edit-mode="editMode"
+          @click.native="clickBubble(data)"
+        />
       </div>
     </div>
   </div>
@@ -125,44 +146,31 @@ export default class Chart extends Vue {
   margin-right: calc(var(--size) * 0.2);
 }
 .rays.left > div:nth-child(1) {
-  transform: rotate(var(--large-rotation))
-    translate(var(--large-x), var(--large-y)) scaleX(var(--large-scale));
+  transform: rotate(var(--large-rotation)) translate(var(--large-x), var(--large-y)) scaleX(var(--large-scale));
 }
 .rays.left > div:nth-child(2) {
-  transform: rotate(var(--small-rotation))
-    translate(var(--small-x), var(--small-y)) scaleX(var(--small-scale));
+  transform: rotate(var(--small-rotation)) translate(var(--small-x), var(--small-y)) scaleX(var(--small-scale));
 }
 .rays.left > div:nth-child(3) {
-  transform: rotate(calc(-1 * var(--small-rotation)))
-    translate(var(--small-x), calc(-1 * var(--small-y)))
-    scaleX(var(--small-scale));
+  transform: rotate(calc(-1 * var(--small-rotation))) translate(var(--small-x), calc(-1 * var(--small-y))) scaleX(var(--small-scale));
 }
 .rays.left > div:nth-child(4) {
-  transform: rotate(calc(-1 * var(--large-rotation)))
-    translate(var(--large-x), calc(-1 * var(--large-y)))
-    scaleX(var(--large-scale));
+  transform: rotate(calc(-1 * var(--large-rotation))) translate(var(--large-x), calc(-1 * var(--large-y))) scaleX(var(--large-scale));
 }
 .rays.right {
   margin-right: calc(var(--size) * 0.1);
   margin-left: calc(var(--size) * 0.2);
 }
 .rays.right div:nth-child(1) {
-  transform: rotate(calc(-1 * var(--large-rotation)))
-    translate(calc(-1 * var(--large-x)), var(--large-y))
-    scaleX(var(--large-scale));
+  transform: rotate(calc(-1 * var(--large-rotation))) translate(calc(-1 * var(--large-x)), var(--large-y)) scaleX(var(--large-scale));
 }
 .rays.right > div:nth-child(2) {
-  transform: rotate(calc(-1 * var(--small-rotation)))
-    translate(var(--small-x), var(--small-y)) scaleX(var(--small-scale));
+  transform: rotate(calc(-1 * var(--small-rotation))) translate(var(--small-x), var(--small-y)) scaleX(var(--small-scale));
 }
 .rays.right > div:nth-child(3) {
-  transform: rotate(var(--small-rotation))
-    translate(var(--small-x), calc(-1 * var(--small-y)))
-    scaleX(var(--small-scale));
+  transform: rotate(var(--small-rotation)) translate(var(--small-x), calc(-1 * var(--small-y))) scaleX(var(--small-scale));
 }
 .rays.right > div:nth-child(4) {
-  transform: rotate(var(--large-rotation))
-    translate(calc(-1 * var(--large-x)), calc(-1 * var(--large-y)))
-    scaleX(var(--large-scale));
+  transform: rotate(var(--large-rotation)) translate(calc(-1 * var(--large-x)), calc(-1 * var(--large-y))) scaleX(var(--large-scale));
 }
 </style>

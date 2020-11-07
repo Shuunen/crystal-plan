@@ -1,12 +1,12 @@
 <template>
   <div class="action line start" :class="{ 'button-mode': data.button }">
-    <div class="image" v-if="data.image">
-      <img :src="data.image" alt="action image" />
+    <div v-if="data.image" class="image">
+      <img :src="data.image" alt="action image">
     </div>
-    <div class="icon" v-if="data.icon">
+    <div v-if="data.icon" class="icon">
       <b-icon pack="far" :icon="data.icon" />
     </div>
-    <div class="text ellipsis" v-if="data.text">{{ data.text }}</div>
+    <div v-if="data.text" class="text ellipsis">{{ data.text }}</div>
     <div class="arrow">
       <b-icon pack="far" :icon="editMode ? 'edit' : 'arrow-alt-circle-right'" />
     </div>

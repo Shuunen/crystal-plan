@@ -1,8 +1,8 @@
 <template>
   <div class="header-wrapper" :class="{ editable: editMode }">
-    <h1 @click="clickHeader" v-show="content.text && content.text.length" class="header-text">{{ content.text }}</h1>
+    <h1 v-show="content.text && content.text.length" class="header-text" @click="clickHeader">{{ content.text }}</h1>
     <div v-show="editMode && content.image && content.image.length" class="header-id">header</div>
-    <div @click="clickHeader" v-show="content.image && content.image.length" class="header-image" :style="backgroundStyle" />
+    <div v-show="content.image && content.image.length" class="header-image" :style="backgroundStyle" @click="clickHeader" />
   </div>
 </template>
 

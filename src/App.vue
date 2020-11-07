@@ -4,24 +4,24 @@
     <section class="section top full-width">
       <background />
       <b-loading :active.sync="isLoading" />
-      <div class="container chart has-text-centered" v-if="!isLoading">
-        <app-header :content="header" @edit="editForm" :editMode="editMode" />
-        <edit-toggle @click.native="toggleEditMode" :editMode="editMode" />
-        <chart v-if="bubbles.length" :bubbles="bubbles" @select="selectBubble" @edit="editForm" :editMode="editMode" />
+      <div v-if="!isLoading" class="container chart has-text-centered">
+        <app-header :content="header" :edit-mode="editMode" @edit="editForm" />
+        <edit-toggle :edit-mode="editMode" @click.native="toggleEditMode" />
+        <chart v-if="bubbles.length" :bubbles="bubbles" :edit-mode="editMode" @select="selectBubble" @edit="editForm" />
       </div>
     </section>
     <section class="section bottom full-width grow">
       <div class="container">
-        <b-tabs class="ninja" v-model="activeTab">
+        <b-tabs v-model="activeTab" class="ninja">
           <b-tab-item label="actions">
-            <description :content="actionsDescription" @descriptionUpdate="updateActionDescription" :editMode="editMode" />
-            <actions :actions="actions" @select="selectAction" @edit="editForm" :editMode="editMode" />
-            <div class="line start" v-show="editMode" @click="addAction">
+            <description :content="actionsDescription" :edit-mode="editMode" @descriptionUpdate="updateActionDescription" />
+            <actions :actions="actions" :edit-mode="editMode" @select="selectAction" @edit="editForm" />
+            <div v-show="editMode" class="line start" @click="addAction">
               <action :data="actionAdd" />
             </div>
           </b-tab-item>
           <b-tab-item label="description">
-            <description :content="description" @descriptionUpdate="updateDescription" :editMode="editMode" />
+            <description :content="description" :edit-mode="editMode" @descriptionUpdate="updateDescription" />
             <div class="line start" @click="gotoActions">
               <action :data="actionBack" />
             </div>
@@ -51,7 +51,7 @@ import Header, { HeaderData } from '@/components/Header.vue'
 
 enum Tab {
   actions = 0,
-  description = 1
+  description = 1,
 }
 
 const DEFAULTS = {
@@ -97,7 +97,7 @@ DEFAULTS.bubblesCount *= DEFAULTS.bubblesPerSection
 
 enum Types {
   bubble = 'bubble',
-  action = 'action'
+  action = 'action',
 }
 
 interface DescriptionsData {
@@ -174,8 +174,7 @@ export default class App extends Vue {
   importData (data: AppData) {
     this.log('importing data : ' + data)
     this.actions = (data && data.actions) || DEFAULTS.actions
-    this.actionsDescription =
-      (data && data.actionsDescription) || DEFAULTS.actionsDescription
+    this.actionsDescription = (data && data.actionsDescription) || DEFAULTS.actionsDescription
     this.header = (data && data.header) || DEFAULTS.header
     this.bubbles = (data && data.bubbles) || DEFAULTS.bubbles
     this.descriptions = (data && data.descriptions) || DEFAULTS.descriptions
@@ -275,7 +274,7 @@ export default class App extends Vue {
 
   addRandomBubbles () {
     this.log('generating bubbles...')
-    Object.keys(Sections).forEach(section => {
+    Object.keys(Sections).forEach((section) => {
       for (let i = 0; i < DEFAULTS.bubblesPerSection; i++) {
         this.addRandomBubble(section as Sections)
       }
@@ -350,7 +349,7 @@ export default class App extends Vue {
       this.error('Unhandled type : "' + type + '"')
     }
     if (array) {
-      const index = array.findIndex(e => e.id === data.id)
+      const index = array.findIndex((e) => e.id === data.id)
       if (index > -1) {
         array.splice(index, 1)
         this.log(`Deleted "${data.id}" successfully`)
