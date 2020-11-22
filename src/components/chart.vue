@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import Bubble, { BubbleData, Sections } from './Bubble.vue'
+import Bubble, { BubbleData, Sections } from './bubble.vue'
 
 @Component({ components: { Bubble } })
 export default class Chart extends Vue {

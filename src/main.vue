@@ -51,7 +51,7 @@ import Header, { HeaderData } from '@/components/header.vue'
 
 enum Tab {
   actions = 0,
-  description = 1,
+  description = 1
 }
 
 interface DescriptionsData {
@@ -101,7 +101,7 @@ DEFAULTS.bubblesCount *= DEFAULTS.bubblesPerSection
 
 enum Types {
   bubble = 'bubble',
-  action = 'action',
+  action = 'action'
 }
 
 interface AppData {
@@ -197,7 +197,7 @@ export default class App extends Vue {
   }
 
   updateRemoteData () {
-    if (!this.remoteId || !this.remoteId.length > 0) {
+    if (!this.remoteId || this.remoteId.length === 0) {
       this.remoteId = prompt('What is the remote id ?') || ''
     }
     this.log('Updating remote data...')
@@ -274,7 +274,7 @@ export default class App extends Vue {
 
   addRandomBubbles () {
     this.log('generating bubbles...')
-    Object.keys(Sections).forEach((section) => {
+    Object.keys(Sections).forEach(section => {
       for (let index = 0; index < DEFAULTS.bubblesPerSection; index++) {
         this.addRandomBubble(section as Sections)
       }
@@ -340,7 +340,7 @@ export default class App extends Vue {
       return
     }
     this.log(`deleting ${type} with id ${data.id}`)
-    let array = null
+    let array
     if (type === Types.bubble) {
       array = this.bubbles as EditFormData[]
     } else if (type === Types.action) {
@@ -349,7 +349,7 @@ export default class App extends Vue {
       this.error('Unhandled type : "' + type + '"')
     }
     if (array) {
-      const index = array.findIndex((e) => e.id === data.id)
+      const index = array.findIndex(item => item.id === data.id)
       if (index > -1) {
         array.splice(index, 1)
         this.log(`Deleted "${data.id}" successfully`)
@@ -362,7 +362,7 @@ export default class App extends Vue {
 
   selectAction (action: ActionData) {
     this.selection = action.id || ''
-    if (this.selection.length) {
+    if (this.selection.length > 0) {
       this.log('selected action : ' + this.selection)
       if (this.descriptions[this.selection]) {
         this.description = this.descriptions[this.selection]

@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import Action, { ActionData } from './Action.vue'
+import Action, { ActionData } from './action.vue'
 
 @Component({
   components: { Action },
