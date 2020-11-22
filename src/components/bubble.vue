@@ -10,36 +10,10 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { getRandomImageUrl, getRandomString, slugify } from 'shuutils'
 
-@Component
-export default class Bubble extends Vue {
-  @Prop() private data!: BubbleData;
-  @Prop() private editMode!: boolean;
-
-  backgroundStyle = {};
-
-  get image () {
-    let path = getRandomImageUrl()
-    if (!this.data) {
-      console.warn('data not available, using default image...')
-      return path
-    }
-    if (this.data.image && this.data.image.length) {
-      path = this.data.image
-    } else {
-      console.warn('image not available, using default one...')
-    }
-    return path
-  }
-
-  created () {
-    this.backgroundStyle = { backgroundImage: 'url(' + this.image + ')' }
-  }
-}
-
 export enum Sections {
   left = 'left',
   center = 'center',
-  right = 'right',
+  right = 'right'
 }
 
 export class BubbleData {
@@ -54,6 +28,32 @@ export class BubbleData {
     this.id = data.id || slugify(this.text)
     this.section = data.section || Sections.left
     this.image = data.image || getRandomImageUrl()
+  }
+}
+
+@Component
+export default class Bubble extends Vue {
+  @Prop() private data!: BubbleData;
+  @Prop() private editMode!: boolean;
+
+  backgroundStyle = {};
+
+  get image () {
+    let path = getRandomImageUrl()
+    if (!this.data) {
+      console.warn('data not available, using default image...')
+      return path
+    }
+    if (this.data.image && this.data.image.length > 0) {
+      path = this.data.image
+    } else {
+      console.warn('image not available, using default one...')
+    }
+    return path
+  }
+
+  created () {
+    this.backgroundStyle = { backgroundImage: 'url(' + this.image + ')' }
   }
 }
 </script>
