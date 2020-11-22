@@ -7,21 +7,21 @@
       <div v-if="!isLoading" class="container chart has-text-centered">
         <app-header :content="header" :edit-mode="editMode" @edit="editForm" />
         <edit-toggle :edit-mode="editMode" @click.native="toggleEditMode" />
-        <chart v-if="bubbles.length" :bubbles="bubbles" :edit-mode="editMode" @select="selectBubble" @edit="editForm" />
+        <bubbles v-if="bubbles.length" :bubbles="bubbles" :edit-mode="editMode" @select="selectBubble" @edit="editForm" />
       </div>
     </section>
     <section class="section bottom full-width grow">
       <div class="container">
         <b-tabs v-model="activeTab" class="ninja">
           <b-tab-item label="actions">
-            <description :content="actionsDescription" :edit-mode="editMode" @descriptionUpdate="updateActionDescription" />
+            <description :content="actionsDescription" :edit-mode="editMode" @description-update="updateActionDescription" />
             <actions :actions="actions" :edit-mode="editMode" @select="selectAction" @edit="editForm" />
             <div v-show="editMode" class="line start" @click="addAction">
               <action :data="actionAdd" />
             </div>
           </b-tab-item>
           <b-tab-item label="description">
-            <description :content="description" :edit-mode="editMode" @descriptionUpdate="updateDescription" />
+            <description :content="description" :edit-mode="editMode" @description-update="updateDescription" />
             <div class="line start" @click="gotoActions">
               <action :data="actionBack" />
             </div>
@@ -36,22 +36,26 @@
 </template>
 
 <script lang="ts">
-import { BubbleData, Sections } from '@/components/Bubble.vue'
+import { BubbleData, Sections } from '@/components/bubble.vue'
 import { Component, Vue } from 'vue-property-decorator'
 import { copy, getRandomImageUrl, getRandomString } from 'shuutils'
-import Action, { ActionData } from '@/components/Action.vue'
-import Actions from '@/components/Actions.vue'
-import Background from '@/components/Background.vue'
-import Chart from '@/components/Chart.vue'
-import Description from '@/components/Description.vue'
-import EditForm, { EditFormData } from '@/components/EditForm.vue'
-import EditToggle from '@/components/EditToggle.vue'
+import Action, { ActionData } from '@/components/action.vue'
+import Actions from '@/components/actions.vue'
+import Background from '@/components/background.vue'
+import Bubbles from '@/components/bubbles.vue'
+import Description from '@/components/description.vue'
+import EditForm, { EditFormData } from '@/components/edit-form.vue'
+import EditToggle from '@/components/edit-toggle.vue'
 import GlobalEvents from 'vue-global-events'
-import Header, { HeaderData } from '@/components/Header.vue'
+import Header, { HeaderData } from '@/components/header.vue'
 
 enum Tab {
   actions = 0,
-  description = 1,
+  description = 1
+}
+
+interface DescriptionsData {
+  [key: string]: string;
 }
 
 const DEFAULTS = {
@@ -97,11 +101,7 @@ DEFAULTS.bubblesCount *= DEFAULTS.bubblesPerSection
 
 enum Types {
   bubble = 'bubble',
-  action = 'action',
-}
-
-interface DescriptionsData {
-  [key: string]: string;
+  action = 'action'
 }
 
 interface AppData {
@@ -119,7 +119,7 @@ interface AppData {
     Action,
     Actions,
     Background,
-    Chart,
+    Bubbles,
     Description,
     EditForm,
     EditToggle,
@@ -158,7 +158,7 @@ export default class App extends Vue {
         this.remoteId = matches[3] || ''
       }
     }
-    if (this.remoteId.length) {
+    if (this.remoteId.length > 0) {
       this.getRemoteData()
     } else {
       this.getLocalData()
@@ -183,35 +183,35 @@ export default class App extends Vue {
 
   getRemoteData () {
     this.log('trying to load remote data ' + this.remoteId + '"')
-    const req = new XMLHttpRequest()
-    req.onreadystatechange = () => {
-      if (req.readyState === XMLHttpRequest.DONE) {
+    const request = new XMLHttpRequest()
+    request.onreadystatechange = () => {
+      if (request.readyState === XMLHttpRequest.DONE) {
         this.log('got remote data')
-        const data = JSON.parse(req.responseText)
+        const data = JSON.parse(request.responseText)
         this.importData(data)
       }
     }
-    req.open('GET', `${DEFAULTS.apiUrl}${this.remoteId}`, true)
-    req.setRequestHeader('secret-key', DEFAULTS.apiKey)
-    req.send()
+    request.open('GET', `${DEFAULTS.apiUrl}${this.remoteId}`, true)
+    request.setRequestHeader('secret-key', DEFAULTS.apiKey)
+    request.send()
   }
 
   updateRemoteData () {
-    if (!this.remoteId || !this.remoteId.length) {
+    if (!this.remoteId || this.remoteId.length === 0) {
       this.remoteId = prompt('What is the remote id ?') || ''
     }
     this.log('Updating remote data...')
-    const req = new XMLHttpRequest()
-    req.onreadystatechange = () => {
-      if (req.readyState === XMLHttpRequest.DONE) {
+    const request = new XMLHttpRequest()
+    request.onreadystatechange = () => {
+      if (request.readyState === XMLHttpRequest.DONE) {
         this.log('Remote schame updated correctly!')
       }
     }
-    req.open('PUT', `${DEFAULTS.apiUrl}${this.remoteId}`, true)
-    req.setRequestHeader('Content-type', 'application/json')
-    req.setRequestHeader('secret-key', DEFAULTS.apiKey)
-    req.setRequestHeader('versioning', 'false')
-    req.send(JSON.stringify(this.getCurrentData()))
+    request.open('PUT', `${DEFAULTS.apiUrl}${this.remoteId}`, true)
+    request.setRequestHeader('Content-type', 'application/json')
+    request.setRequestHeader('secret-key', DEFAULTS.apiKey)
+    request.setRequestHeader('versioning', 'false')
+    request.send(JSON.stringify(this.getCurrentData()))
   }
 
   getCurrentData (): AppData {
@@ -258,7 +258,7 @@ export default class App extends Vue {
 
   addRandomActions () {
     this.log('generating actions...')
-    for (let i = 0; i < 8; i++) {
+    for (let index = 0; index < 8; index++) {
       this.actions.push({
         text: getRandomString(),
         image: getRandomImageUrl(),
@@ -274,8 +274,8 @@ export default class App extends Vue {
 
   addRandomBubbles () {
     this.log('generating bubbles...')
-    Object.keys(Sections).forEach((section) => {
-      for (let i = 0; i < DEFAULTS.bubblesPerSection; i++) {
+    Object.keys(Sections).forEach(section => {
+      for (let index = 0; index < DEFAULTS.bubblesPerSection; index++) {
         this.addRandomBubble(section as Sections)
       }
     })
@@ -340,7 +340,7 @@ export default class App extends Vue {
       return
     }
     this.log(`deleting ${type} with id ${data.id}`)
-    let array = null
+    let array
     if (type === Types.bubble) {
       array = this.bubbles as EditFormData[]
     } else if (type === Types.action) {
@@ -349,7 +349,7 @@ export default class App extends Vue {
       this.error('Unhandled type : "' + type + '"')
     }
     if (array) {
-      const index = array.findIndex((e) => e.id === data.id)
+      const index = array.findIndex(item => item.id === data.id)
       if (index > -1) {
         array.splice(index, 1)
         this.log(`Deleted "${data.id}" successfully`)
@@ -362,7 +362,7 @@ export default class App extends Vue {
 
   selectAction (action: ActionData) {
     this.selection = action.id || ''
-    if (this.selection.length) {
+    if (this.selection.length > 0) {
       this.log('selected action : ' + this.selection)
       if (this.descriptions[this.selection]) {
         this.description = this.descriptions[this.selection]

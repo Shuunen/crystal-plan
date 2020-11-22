@@ -3,7 +3,7 @@
     <div class="line">
       <div class="col">
         <bubble
-          v-for="(data, index) in bubbles.filter((b) => b.section === sections.left)"
+          v-for="(data, index) in bubbles.filter(b => b.section === sections.left)"
           :key="data.id + index"
           :data="data"
           :selected="data.selected"
@@ -17,7 +17,7 @@
       <div class="col crystal">
         <div class="line">
           <bubble
-            v-for="(data, index) in bubbles.filter((b) => b.section === sections.center)"
+            v-for="(data, index) in bubbles.filter(b => b.section === sections.center)"
             :key="data.id + index"
             :data="data"
             :selected="data.selected"
@@ -32,7 +32,7 @@
       </div>
       <div class="col">
         <bubble
-          v-for="(data, index) in bubbles.filter((b) => b.section === sections.right)"
+          v-for="(data, index) in bubbles.filter(b => b.section === sections.right)"
           :key="data.id + index"
           :data="data"
           :selected="data.selected"
@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import Bubble, { BubbleData, Sections } from './Bubble.vue'
+import Bubble, { BubbleData, Sections } from './bubble.vue'
 
 @Component({ components: { Bubble } })
 export default class Chart extends Vue {
@@ -86,27 +86,27 @@ export default class Chart extends Vue {
 
 <style>
 .chart {
-  --size: 12rem;
-  --thick: 0.2rem;
   --large-rotation: 39deg;
+  --large-scale: 1.45;
   --large-x: 3.4rem;
   --large-y: 5.2rem;
-  --large-scale: 1.45;
+  --size: 12rem;
   --small-rotation: 15deg;
+  --small-scale: 1.1;
   --small-x: 0rem;
   --small-y: 2.2rem;
-  --small-scale: 1.1;
+  --thick: 0.2rem;
 }
 .col.crystal {
-  width: var(--size);
-  position: relative;
-  justify-content: center;
   flex-shrink: 0;
+  justify-content: center;
+  position: relative;
+  width: var(--size);
 }
 .col.crystal .line {
+  flex-wrap: wrap;
   position: relative;
   z-index: 10;
-  flex-wrap: wrap;
 }
 .col.crystal .line > div:nth-child(1) {
   margin: 0 1rem 1rem -1rem;
@@ -121,25 +121,25 @@ export default class Chart extends Vue {
   margin: 1.5rem -1rem 0 1rem;
 }
 .col.crystal .crystal-shape {
-  z-index: 1;
-  display: block;
-  height: var(--size);
-  width: var(--size);
-  transform: rotate(45deg);
   border: var(--thick) solid currentColor;
   color: var(--color-accent);
+  display: block;
+  height: var(--size);
+  left: calc(50% - var(--size) / 2);
   position: absolute;
   top: calc(50% - var(--size) / 2);
-  left: calc(50% - var(--size) / 2);
+  transform: rotate(45deg);
+  width: var(--size);
+  z-index: 1;
 }
 .rays {
   justify-content: space-around;
 }
 .ray {
+  background-color: var(--color-accent);
   display: block;
   height: var(--thick);
   width: calc(var(--size) * 0.8);
-  background-color: var(--color-accent);
 }
 .rays.left {
   margin-left: calc(var(--size) * 0.1);
@@ -158,8 +158,8 @@ export default class Chart extends Vue {
   transform: rotate(calc(-1 * var(--large-rotation))) translate(var(--large-x), calc(-1 * var(--large-y))) scaleX(var(--large-scale));
 }
 .rays.right {
-  margin-right: calc(var(--size) * 0.1);
   margin-left: calc(var(--size) * 0.2);
+  margin-right: calc(var(--size) * 0.1);
 }
 .rays.right div:nth-child(1) {
   transform: rotate(calc(-1 * var(--large-rotation))) translate(calc(-1 * var(--large-x)), var(--large-y)) scaleX(var(--large-scale));

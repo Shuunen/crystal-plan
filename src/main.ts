@@ -3,13 +3,12 @@ import 'buefy/dist/buefy.css'
 import Vue from 'vue'
 import VuePellEditor from 'vue-pell-editor'
 import Vue2Storage from 'vue2-storage'
-import App from './App.vue'
 import './assets/fonts.css'
 import './assets/global.css'
 import './assets/highlight.css'
 import './assets/layout.css'
 import './assets/variables.css'
-import './registerServiceWorker'
+import Main from './main.vue'
 
 Vue.use(Buefy)
 
@@ -23,5 +22,5 @@ Vue.use(VuePellEditor)
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
+  render: h => h(Main),
 }).$mount('#app')

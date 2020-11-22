@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Types } from '@/App.vue'
+import { Types } from '@/main.vue'
 import { slugify } from 'shuutils'
 
 export interface ActionData {

@@ -20,7 +20,7 @@ export default class Header extends Vue {
   @Prop() private editMode!: boolean;
   backgroundStyle = {};
   created () {
-    if (this.content.image && this.content.image.length) {
+    if (this.content.image && this.content.image.length > 0) {
       this.backgroundStyle = {
         backgroundImage: 'url(' + this.content.image + ')',
       }

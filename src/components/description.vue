@@ -21,17 +21,18 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { debounce } from 'shuutils'
 
+const getSelection = () => window.getSelection() + ''
+
 function wrapWithClass (text: string, cls: string): string {
-  return text.replace(/^(\s)*([A-Za-zÀ-ÿ-_\s]+[A-Za-zÀ-ÿ-_])(\s)*$/, '$1<span class="' + cls + '">$2</span>$3')
+  return text.replace(/^(\s)*([\sA-Z_a-zÀ-ÿ-]+[A-Z_a-zÀ-ÿ-])(\s)*$/, '$1<span class="' + cls + '">$2</span>$3')
 }
 
-function validLink (str: string): string {
-  return (/^https?:\/\//.test(str) && str) || `https://${str}`
+function validLink (string: string): string {
+  return (/^https?:\/\//.test(string) && string) || `https://${string}`
 }
 
 function highlight (type: string) {
   const cls = 'highlight-' + type
-  const getSelection = () => window.getSelection() + ''
   return {
     name: cls,
     icon: `<div class="highlight ${cls}">A</div>`,
@@ -117,7 +118,7 @@ export default class HelloWorld extends Vue {
   }
 
   updateData () {
-    this.$emit('descriptionUpdate', this.newContent)
+    this.$emit('description-update', this.newContent)
   }
 }
 </script>
