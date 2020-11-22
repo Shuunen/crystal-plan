@@ -7,7 +7,7 @@
       <div v-if="!isLoading" class="container chart has-text-centered">
         <app-header :content="header" :edit-mode="editMode" @edit="editForm" />
         <edit-toggle :edit-mode="editMode" @click.native="toggleEditMode" />
-        <chart v-if="bubbles.length" :bubbles="bubbles" :edit-mode="editMode" @select="selectBubble" @edit="editForm" />
+        <bubbles v-if="bubbles.length" :bubbles="bubbles" :edit-mode="editMode" @select="selectBubble" @edit="editForm" />
       </div>
     </section>
     <section class="section bottom full-width grow">
@@ -42,7 +42,7 @@ import { copy, getRandomImageUrl, getRandomString } from 'shuutils'
 import Action, { ActionData } from '@/components/action.vue'
 import Actions from '@/components/actions.vue'
 import Background from '@/components/background.vue'
-import Chart from '@/components/chart.vue'
+import Bubbles from '@/components/bubbles.vue'
 import Description from '@/components/description.vue'
 import EditForm, { EditFormData } from '@/components/edit-form.vue'
 import EditToggle from '@/components/edit-toggle.vue'
@@ -119,7 +119,7 @@ interface AppData {
     Action,
     Actions,
     Background,
-    Chart,
+    Bubbles,
     Description,
     EditForm,
     EditToggle,

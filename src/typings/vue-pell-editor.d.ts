@@ -1,2 +1,7 @@
 declare module 'vue-pell-editor'
-declare const pell: any // eslint-disable-line
+
+interface PellInstance {
+  exec: (command: string, value?: string) => unknown
+}
+
+declare const pell: PellInstance

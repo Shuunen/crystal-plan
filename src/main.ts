@@ -9,7 +9,6 @@ import './assets/highlight.css'
 import './assets/layout.css'
 import './assets/variables.css'
 import Main from './main.vue'
-import './registerServiceWorker'
 
 Vue.use(Buefy)
 

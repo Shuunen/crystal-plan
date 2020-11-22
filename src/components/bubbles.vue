@@ -95,7 +95,7 @@ export default class Chart extends Vue {
   --small-scale: 1.1;
   --small-x: 0rem;
   --small-y: 2.2rem;
-  --thick: .2rem;
+  --thick: 0.2rem;
 }
 .col.crystal {
   flex-shrink: 0;
@@ -139,11 +139,11 @@ export default class Chart extends Vue {
   background-color: var(--color-accent);
   display: block;
   height: var(--thick);
-  width: calc(var(--size) * .8);
+  width: calc(var(--size) * 0.8);
 }
 .rays.left {
-  margin-left: calc(var(--size) * .1);
-  margin-right: calc(var(--size) * .2);
+  margin-left: calc(var(--size) * 0.1);
+  margin-right: calc(var(--size) * 0.2);
 }
 .rays.left > div:nth-child(1) {
   transform: rotate(var(--large-rotation)) translate(var(--large-x), var(--large-y)) scaleX(var(--large-scale));
@@ -158,8 +158,8 @@ export default class Chart extends Vue {
   transform: rotate(calc(-1 * var(--large-rotation))) translate(var(--large-x), calc(-1 * var(--large-y))) scaleX(var(--large-scale));
 }
 .rays.right {
-  margin-left: calc(var(--size) * .2);
-  margin-right: calc(var(--size) * .1);
+  margin-left: calc(var(--size) * 0.2);
+  margin-right: calc(var(--size) * 0.1);
 }
 .rays.right div:nth-child(1) {
   transform: rotate(calc(-1 * var(--large-rotation))) translate(calc(-1 * var(--large-x)), var(--large-y)) scaleX(var(--large-scale));
