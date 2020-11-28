@@ -1,5 +1,6 @@
 # Crystal Plan
 
+[![Website Up](https://img.shields.io/website/https/my-website.com.svg)](https://my-website.com)
 [![GitHub license](https://img.shields.io/github/license/shuunen/crystal-plan.svg?color=informational)](https://github.com/Shuunen/crystal-plan/blob/master/LICENSE)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FShuunen%2Fcrystal-plan.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FShuunen%2Fcrystal-plan?ref=badge_shield)
 
@@ -12,9 +13,9 @@
 
 ## Prerequisites
 
-* Node : version 12 ans above
-* Npm : version 6 and above
-* Install dependencies : `npm install`
+- Node : version 12 ans above
+- Npm : version 6 and above
+- Install dependencies : `npm install`
 
 ## Usage
 
@@ -28,9 +29,13 @@ npm run build
 
 ## Thanks
 
-* [Shields.io](https://shields.io) : nice badges on top of this readme
-* [Netlify](https://netlify.com) : awesome company that offers hosting for OSS
-* [Travis-ci.org](https://travis-ci.org) : for providing free continuous deployments
+- [Eslint](https://eslint.org) : super tool to find & fix problems
+- [Github](https://github.com) : for all their great work year after year, pushing OSS forward
+- [Netlify](https://netlify.com) : awesome company that offers hosting for OSS
+- [Repo-checker](https://github.com/Shuunen/repo-checker) : eslint cover /src code and this tool the rest ^^
+- [Shields.io](https://shields.io) : nice badges on top of this readme
+- [Travis-ci.org](https://travis-ci.org) : for providing free continuous deployments
+- [Vue](https://vuejs.org) : when I need a front framework, this is the one I choose <3
 
 ## License
 
