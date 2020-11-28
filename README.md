@@ -1,9 +1,9 @@
 # Crystal Plan
 
-[![Website Up](https://img.shields.io/website/https/my-website.com.svg)](https://my-website.com)
 [![GitHub license](https://img.shields.io/github/license/shuunen/crystal-plan.svg?color=informational)](https://github.com/Shuunen/crystal-plan/blob/master/LICENSE)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FShuunen%2Fcrystal-plan.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FShuunen%2Fcrystal-plan?ref=badge_shield)
 
+[![Website Up](https://img.shields.io/website/https/crystal-plan.netlify.app.svg)](https://crystal-plan.netlify.app)
 [![Build Status](https://travis-ci.org/Shuunen/crystal-plan.svg?branch=master)](https://travis-ci.org/Shuunen/crystal-plan)
 [![David](https://img.shields.io/david/shuunen/crystal-plan.svg)](https://david-dm.org/shuunen/crystal-plan)
 [![LGTM Grade](https://img.shields.io/lgtm/grade/javascript/github/Shuunen/crystal-plan.svg)](https://lgtm.com/projects/g/Shuunen/crystal-plan)
