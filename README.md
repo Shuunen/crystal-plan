@@ -34,7 +34,7 @@ npm run build
 - [Netlify](https://netlify.com) : awesome company that offers hosting for OSS
 - [Repo-checker](https://github.com/Shuunen/repo-checker) : eslint cover /src code and this tool the rest ^^
 - [Shields.io](https://shields.io) : nice badges on top of this readme
-- [travis-ci.com](https://travis-ci.com) : for providing free continuous deployments
+- [Travis-ci.com](https://travis-ci.com) : for providing free continuous deployments
 - [Vue](https://vuejs.org) : when I need a front framework, this is the one I choose <3
 
 ## License
