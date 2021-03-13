@@ -14,7 +14,7 @@
     "@vue/eslint-config-typescript": "7.0.0",
     "buefy": "0.9.4",
     "core-js": "3.9.1",
-    "eslint": "7.21.0",
+    "eslint": "7.22.0",
     "eslint-plugin-html": "6.1.2",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
