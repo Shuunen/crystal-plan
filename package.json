@@ -31,7 +31,7 @@
     "vue-pell-editor": "2.0.1",
     "vue-property-decorator": "9.1.2",
     "vue-template-compiler": "2.6.12",
-    "vue2-storage": "5.0.0"
+    "vue2-storage": "5.1.0"
   },
   "files": [
     "src",
