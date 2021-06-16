@@ -1,7 +1,6 @@
 <template>
   <div class="bubble-wrapper col" :class="{ editable: editMode, selected: data.selected, shaded: data.shaded }">
     <div class="bubble-image" :style="backgroundStyle" />
-    <div v-show="editMode" class="bubble-id">{{ data.id }}</div>
     <div class="bubble-text text ellipsis">{{ data.text }}</div>
   </div>
 </template>
@@ -20,6 +19,7 @@ export class BubbleData {
   id?: string
   text?: string
   section?: Sections
+  icon?: string
   image?: string
   selected?: boolean = false;
   shaded?: boolean = false;
@@ -28,6 +28,7 @@ export class BubbleData {
     this.id = data.id || slugify(this.text)
     this.section = data.section || Sections.left
     this.image = data.image || getRandomImageUrl()
+    this.icon = data.icon || ''
   }
 }
 
