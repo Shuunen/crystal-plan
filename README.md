@@ -9,7 +9,7 @@
 
 ![demo](docs/demo.gif)
 
-[Try online](https://crystal-plan.netlify.com/)
+[Try online](https://crystal-plan.netlify.app)
 
 ## Usage
 
