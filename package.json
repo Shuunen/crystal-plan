@@ -53,16 +53,16 @@
   },
   "scripts": {
     "build": "vue-cli-service build",
-    "check": "repo-check",
     "ci": "run-s build lint test",
     "dev": "npm run serve",
     "lint": "eslint --fix --ignore-path .gitignore --ext .js,.vue,.html,.ts .",
+    "postlint": "repo-check",
     "postversion": "git push && git push --tags",
     "preversion": "npm run ci",
     "serve": "vue-cli-service serve",
     "start": "npm run serve",
     "test": "echo no tests yet",
-    "update": "npx npm-check-updates -u"
+    "update": "stack update"
   },
   "version": "2.0.0"
 }
