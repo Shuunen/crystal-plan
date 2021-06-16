@@ -55,7 +55,7 @@ enum Tab {
 }
 
 interface DescriptionsData {
-  [key: string]: string;
+  [key: string]: string
 }
 
 const DEFAULTS = {
@@ -105,12 +105,12 @@ enum Types {
 }
 
 interface AppData {
-  id: string;
-  actionsDescription: string;
-  actions: ActionData[];
-  header: HeaderData;
-  bubbles: BubbleData[];
-  descriptions: DescriptionsData;
+  id: string
+  actionsDescription: string
+  actions: ActionData[]
+  header: HeaderData
+  bubbles: BubbleData[]
+  descriptions: DescriptionsData
 }
 
 @Component({
@@ -364,11 +364,7 @@ export default class App extends Vue {
     this.selection = action.id || ''
     if (this.selection.length > 0) {
       this.log('selected action : ' + this.selection)
-      if (this.descriptions[this.selection]) {
-        this.description = this.descriptions[this.selection]
-      } else {
-        this.description = DEFAULTS.noContentDescription
-      }
+      this.description = this.descriptions[this.selection] ? this.descriptions[this.selection] : DEFAULTS.noContentDescription
       this.activeTab = Tab.description
     } else {
       this.log('no action selected')

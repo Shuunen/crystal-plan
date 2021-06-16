@@ -17,10 +17,10 @@ export enum Sections {
 }
 
 export class BubbleData {
-  id?: string;
-  text?: string;
-  section?: Sections;
-  image?: string;
+  id?: string
+  text?: string
+  section?: Sections
+  image?: string
   selected?: boolean = false;
   shaded?: boolean = false;
   constructor (data: BubbleData) {
@@ -33,8 +33,8 @@ export class BubbleData {
 
 @Component
 export default class Bubble extends Vue {
-  @Prop() private data!: BubbleData;
-  @Prop() private editMode!: boolean;
+  @Prop() private data!: BubbleData
+  @Prop() private editMode!: boolean
 
   backgroundStyle = {};
 
@@ -61,35 +61,61 @@ export default class Bubble extends Vue {
 <style>
 .bubble-wrapper {
   --size: 5rem;
+
   position: relative;
   filter: grayscale(0);
   transition: all 0.4s;
   margin: calc(var(--size) / 4) 0;
   transform: scale(1);
 }
+
+.bubble-wrapper .bubble-text {
+  font-size: 110%;
+  background-color: var(--color-secondary);
+  padding: 0 5px;
+  position: absolute;
+  bottom: calc(-1 * var(--size) / 2);
+  max-width: calc(var(--size) * 1.8);
+  transition: all 0.4s;
+}
+
 .bubble-wrapper:hover .bubble-text {
   color: var(--color-secondary);
   background-color: var(--color-shade);
 }
+
+.bubble-wrapper .bubble-id {
+  z-index: 5;
+  position: absolute;
+  bottom: -2.5rem;
+  color: var(--color-shade);
+  font-style: italic;
+}
+
 .bubble-wrapper.selected {
   transform: scale(1.2);
   z-index: 10;
 }
+
 .bubble-wrapper.selected .bubble-text {
   color: var(--color-secondary);
   background-color: var(--color-accent);
 }
+
 .bubble-wrapper.selected .bubble-id {
   display: none;
 }
+
 .bubble-wrapper.shaded {
   opacity: 0.5;
   filter: grayscale(100%);
 }
+
 .bubble-wrapper.shaded:hover {
   opacity: 0.7;
   filter: grayscale(60%);
 }
+
 .bubble-wrapper .bubble-image {
   z-index: 10;
   border-radius: 50%;
@@ -100,20 +126,5 @@ export default class Bubble extends Vue {
   width: var(--size);
   cursor: pointer;
 }
-.bubble-wrapper .bubble-id {
-  z-index: 5;
-  position: absolute;
-  bottom: -2.5rem;
-  color: var(--color-shade);
-  font-style: italic;
-}
-.bubble-wrapper .bubble-text {
-  font-size: 110%;
-  background-color: var(--color-secondary);
-  padding: 0 5px;
-  position: absolute;
-  bottom: calc(-1 * var(--size) / 2);
-  max-width: calc(var(--size) * 1.8);
-  transition: all 0.4s;
-}
+
 </style>

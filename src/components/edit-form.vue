@@ -1,6 +1,6 @@
 <template>
   <form action="#" @submit.prevent="close">
-    <div class="modal-card" style="width: auto">
+    <div class="modal-card" style="width: auto;">
       <section v-if="data" class="modal-card-body">
         <b-input v-model="data.id" placeholder="Id" />
         <b-input v-model="data.text" placeholder="Text" />
@@ -24,16 +24,16 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { copy } from 'shuutils'
 
 export interface EditFormData {
-  id?: string;
-  text?: string;
-  image?: string;
-  icon?: string;
-  type?: string;
+  id?: string
+  text?: string
+  image?: string
+  icon?: string
+  type?: string
 }
 
 @Component
 export default class EditForm extends Vue {
-  @Prop() private data!: EditFormData;
+  @Prop() private data!: EditFormData
 
   originalData = {} as EditFormData;
   validateDelete = false;

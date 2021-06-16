@@ -1,0 +1,21 @@
+{
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "./node_modules/shuunen-stack/.eslintrc.json",
+    "plugin:vue/recommended",
+    "@vue/standard",
+    "@vue/typescript/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "vue/max-attributes-per-line": "off",
+    "vue/no-v-html": "off",
+    "vue/singleline-html-element-content-newline": "off",
+    "comma-dangle": ["error", "always-multiline"]
+  }
+}

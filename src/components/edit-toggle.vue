@@ -13,7 +13,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class EditToggle extends Vue {
-  @Prop() private editMode!: boolean;
+  @Prop() private editMode!: boolean
 }
 </script>
 
@@ -24,16 +24,20 @@ export default class EditToggle extends Vue {
   right: 2rem;
   z-index: 20;
 }
-.toggle-wrapper .tooltip.is-primary:after {
+
+.toggle-wrapper .tooltip.is-primary::after {
   background: var(--color-shade);
 }
-.toggle-wrapper .tooltip.is-left.is-primary:before {
+
+.toggle-wrapper .tooltip.is-left.is-primary::before {
   border-left: 0;
 }
+
 a.button-edit-mode {
   border-radius: 50%;
   outline: none;
-  padding: 20px 15px;
+  height: 2rem;
+  width: 2rem;
   display: flex;
   justify-content: center;
   transition: color 0.3s, transform 0.3s;
@@ -41,6 +45,7 @@ a.button-edit-mode {
   background-color: transparent;
   border: 0;
 }
+
 a.button-edit-mode.active {
   color: var(--color-secondary);
   background: var(--color-accent);

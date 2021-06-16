@@ -76,8 +76,8 @@ const features = {
 
 @Component
 export default class HelloWorld extends Vue {
-  @Prop() private content!: string;
-  @Prop() private editMode!: boolean;
+  @Prop() private content!: string
+  @Prop() private editMode!: boolean
 
   updateDataDebounced = {};
   newContent = '';
@@ -127,9 +127,11 @@ export default class HelloWorld extends Vue {
 .description-wrapper .description {
   margin-top: 1.1rem;
 }
+
 .description-wrapper .vp-editor {
   top: -1rem;
 }
+
 .description-wrapper .vp-editor .pell-content {
   height: inherit;
   min-height: 300px;
