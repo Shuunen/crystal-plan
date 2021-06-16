@@ -50,8 +50,8 @@ import Bubble, { BubbleData, Sections } from './bubble.vue'
 
 @Component({ components: { Bubble } })
 export default class Chart extends Vue {
-  @Prop() private bubbles!: BubbleData[];
-  @Prop() private editMode!: boolean;
+  @Prop() private bubbles!: BubbleData[]
+  @Prop() private editMode!: boolean
 
   sections = Sections;
 
@@ -93,33 +93,24 @@ export default class Chart extends Vue {
   --size: 12rem;
   --small-rotation: 15deg;
   --small-scale: 1.1;
-  --small-x: 0rem;
+  --small-x: 0;
   --small-y: 2.2rem;
   --thick: 0.2rem;
 }
+
 .col.crystal {
   flex-shrink: 0;
   justify-content: center;
   position: relative;
   width: var(--size);
 }
+
 .col.crystal .line {
   flex-wrap: wrap;
   position: relative;
   z-index: 10;
 }
-.col.crystal .line > div:nth-child(1) {
-  margin: 0 1rem 1rem -1rem;
-}
-.col.crystal .line > div:nth-child(2) {
-  margin: 0 -1rem 1rem 1rem;
-}
-.col.crystal .line > div:nth-child(3) {
-  margin: 1.5rem 1rem 0 -1rem;
-}
-.col.crystal .line > div:nth-child(4) {
-  margin: 1.5rem -1rem 0 1rem;
-}
+
 .col.crystal .crystal-shape {
   border: var(--thick) solid currentColor;
   color: var(--color-accent);
@@ -132,45 +123,73 @@ export default class Chart extends Vue {
   width: var(--size);
   z-index: 1;
 }
+
 .rays {
   justify-content: space-around;
 }
+
 .ray {
   background-color: var(--color-accent);
   display: block;
   height: var(--thick);
   width: calc(var(--size) * 0.8);
 }
+
 .rays.left {
   margin-left: calc(var(--size) * 0.1);
   margin-right: calc(var(--size) * 0.2);
 }
+
 .rays.left > div:nth-child(1) {
   transform: rotate(var(--large-rotation)) translate(var(--large-x), var(--large-y)) scaleX(var(--large-scale));
 }
+
 .rays.left > div:nth-child(2) {
   transform: rotate(var(--small-rotation)) translate(var(--small-x), var(--small-y)) scaleX(var(--small-scale));
 }
+
 .rays.left > div:nth-child(3) {
   transform: rotate(calc(-1 * var(--small-rotation))) translate(var(--small-x), calc(-1 * var(--small-y))) scaleX(var(--small-scale));
 }
+
 .rays.left > div:nth-child(4) {
   transform: rotate(calc(-1 * var(--large-rotation))) translate(var(--large-x), calc(-1 * var(--large-y))) scaleX(var(--large-scale));
 }
+
 .rays.right {
   margin-left: calc(var(--size) * 0.2);
   margin-right: calc(var(--size) * 0.1);
 }
+
 .rays.right div:nth-child(1) {
   transform: rotate(calc(-1 * var(--large-rotation))) translate(calc(-1 * var(--large-x)), var(--large-y)) scaleX(var(--large-scale));
 }
+
 .rays.right > div:nth-child(2) {
   transform: rotate(calc(-1 * var(--small-rotation))) translate(var(--small-x), var(--small-y)) scaleX(var(--small-scale));
 }
+
 .rays.right > div:nth-child(3) {
   transform: rotate(var(--small-rotation)) translate(var(--small-x), calc(-1 * var(--small-y))) scaleX(var(--small-scale));
 }
+
 .rays.right > div:nth-child(4) {
   transform: rotate(var(--large-rotation)) translate(calc(-1 * var(--large-x)), calc(-1 * var(--large-y))) scaleX(var(--large-scale));
+}
+
+.col.crystal .line > div:nth-child(1) {
+  margin: 0 1rem 1rem -1rem;
+}
+
+.col.crystal .line > div:nth-child(2) {
+  margin: 0 -1rem 1rem 1rem;
+}
+
+.col.crystal .line > div:nth-child(3) {
+  margin: 1.5rem 1rem 0 -1rem;
+}
+
+.col.crystal .line > div:nth-child(4) {
+  margin: 1.5rem -1rem 0 1rem;
 }
 </style>

@@ -10,14 +10,14 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 
 export interface HeaderData {
-  text?: string;
-  image?: string;
+  text?: string
+  image?: string
 }
 
 @Component
 export default class Header extends Vue {
-  @Prop() private content!: HeaderData;
-  @Prop() private editMode!: boolean;
+  @Prop() private content!: HeaderData
+  @Prop() private editMode!: boolean
   backgroundStyle = {};
   created () {
     if (this.content.image && this.content.image.length > 0) {
@@ -43,19 +43,7 @@ export default class Header extends Vue {
 .header-wrapper.editable {
   cursor: pointer;
 }
-.header-wrapper.editable:hover .header-text,
-.header-wrapper.editable:hover .header-id {
-  background-color: var(--color-shade);
-  color: var(--color-secondary);
-}
-.header-image {
-  width: 16rem;
-  height: 10rem;
-  margin: 0 auto -6rem;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
+
 .header-id {
   position: absolute;
   color: var(--color-shade);
@@ -65,5 +53,20 @@ export default class Header extends Vue {
   top: 1rem;
   background-color: var(--color-secondary);
   pointer-events: none;
+}
+
+.header-wrapper.editable:hover .header-text,
+.header-wrapper.editable:hover .header-id {
+  background-color: var(--color-shade);
+  color: var(--color-secondary);
+}
+
+.header-image {
+  width: 16rem;
+  height: 10rem;
+  margin: 0 auto -6rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 </style>

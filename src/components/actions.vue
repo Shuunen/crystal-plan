@@ -18,8 +18,8 @@ import Action, { ActionData } from './action.vue'
   components: { Action },
 })
 export default class HelloWorld extends Vue {
-  @Prop() private actions!: ActionData[];
-  @Prop() private editMode!: boolean;
+  @Prop() private actions!: ActionData[]
+  @Prop() private editMode!: boolean
 
   clickAction (action: ActionData) {
     if (this.editMode) return this.$emit('edit', action)
@@ -34,12 +34,15 @@ export default class HelloWorld extends Vue {
   display: inline-block;
   margin-bottom: 2rem;
 }
+
 .actions-wrapper > .columns {
   flex-wrap: wrap;
 }
+
 .actions-wrapper .background.fade-leave-active.fade-leave-to {
   display: none;
 }
+
 .actions-list {
   padding-top: 0.6rem;
 }
