@@ -6,7 +6,7 @@
         <b-input v-model="data.text" placeholder="Text" />
         <b-input v-model="data.image" placeholder="Image url" />
         <!-- https://fontawesome.com/icons?d=gallery&s=regular&m=free -->
-        <b-input v-model="data.icon" placeholder="Font-Awesome Icon" />
+        <!-- <b-input v-model="data.icon" placeholder="Font-Awesome Icon" /> -->
       </section>
       <footer class="modal-card-foot">
         <button class="button" type="reset" @click="cancel">Cancel</button>
