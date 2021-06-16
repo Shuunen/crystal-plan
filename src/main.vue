@@ -172,7 +172,7 @@ export default class App extends Vue {
   }
 
   importData (data: AppData) {
-    this.log('importing data : ' + data)
+    console.log('importing data :', data)
     this.actions = (data && data.actions) || DEFAULTS.actions
     this.actionsDescription = (data && data.actionsDescription) || DEFAULTS.actionsDescription
     this.header = (data && data.header) || DEFAULTS.header
@@ -182,11 +182,11 @@ export default class App extends Vue {
   }
 
   getRemoteData () {
-    this.log('trying to load remote data ' + this.remoteId + '"')
+    console.log('trying to load remote data ' + this.remoteId + '"')
     const request = new XMLHttpRequest()
     request.onreadystatechange = () => {
       if (request.readyState === XMLHttpRequest.DONE) {
-        this.log('got remote data')
+        console.log('got remote data')
         const data = JSON.parse(request.responseText)
         this.importData(data)
       }
@@ -200,11 +200,11 @@ export default class App extends Vue {
     if (!this.remoteId || this.remoteId.length === 0) {
       this.remoteId = prompt('What is the remote id ?') || ''
     }
-    this.log('Updating remote data...')
+    console.log('Updating remote data...')
     const request = new XMLHttpRequest()
     request.onreadystatechange = () => {
       if (request.readyState === XMLHttpRequest.DONE) {
-        this.log('Remote schame updated correctly!')
+        console.log('Remote schame updated correctly!')
       }
     }
     request.open('PUT', `${DEFAULTS.apiUrl}${this.remoteId}`, true)
@@ -215,7 +215,7 @@ export default class App extends Vue {
   }
 
   getCurrentData (): AppData {
-    this.log('getting current app data state')
+    console.log('getting current app data state')
     // deep clone then clean bubble states
     const bubbles = copy(this.bubbles).map((b: BubbleData) => {
       b.selected = false
@@ -234,7 +234,7 @@ export default class App extends Vue {
 
   getLocalData () {
     const data = Vue.$storage.get(this.id)
-    this.log(`found ${data ? '' : 'no'} data locally with id "${this.id}"`)
+    console.log(`found ${data ? '' : 'no'} data locally with id "${this.id}"`)
     this.importData(data)
   }
 
@@ -244,7 +244,7 @@ export default class App extends Vue {
   }
 
   checkDataIntegrity () {
-    // this.log('checking data integrity...')
+    // console.log('checking data integrity...')
     if (this.bubbles.length <= 0) {
       this.addRandomBubbles()
     } else if (this.bubbles.length < DEFAULTS.bubblesCount) {
@@ -257,29 +257,29 @@ export default class App extends Vue {
   }
 
   addRandomActions () {
-    this.log('generating actions...')
+    console.log('generating actions...')
     for (let index = 0; index < 8; index++) {
       this.actions.push({
         text: getRandomString(),
         image: getRandomImageUrl(),
       })
     }
-    this.log('generated : ' + this.actions.length + ' actions')
+    console.log('generated : ' + this.actions.length + ' actions')
   }
 
   addMissingBubbles () {
-    this.log('missing bubbles detected')
-    this.log('but this feature is not developed yet')
+    console.log('missing bubbles detected')
+    console.log('but this feature is not developed yet')
   }
 
   addRandomBubbles () {
-    this.log('generating bubbles...')
+    console.log('generating bubbles...')
     Object.keys(Sections).forEach(section => {
       for (let index = 0; index < DEFAULTS.bubblesPerSection; index++) {
         this.addRandomBubble(section as Sections)
       }
     })
-    this.log('generated : ' + this.bubbles.length + ' bubbles')
+    console.log('generated : ' + this.bubbles.length + ' bubbles')
   }
 
   addRandomBubble (section: Sections) {
@@ -297,37 +297,37 @@ export default class App extends Vue {
   }
 
   updateBubbles () {
-    this.log('saving bubbles to storage...')
+    console.log('saving bubbles to storage...')
     this.setLocalData()
   }
 
   updateDescription (description = '') {
-    this.log('saving updated selection description to storage...')
+    console.log('saving updated selection description to storage...')
     this.description = description
     this.descriptions[this.selection] = description
     this.setLocalData()
   }
 
   updateActionDescription (description = '') {
-    this.log('saving updated actions description to storage...')
+    console.log('saving updated actions description to storage...')
     this.actionsDescription = description
     this.setLocalData()
   }
 
   updateHeader (header: HeaderData) {
-    this.log('saving updated header to storage : ' + header)
+    console.log('saving updated header to storage : ' + header)
     this.header = header
     this.setLocalData()
   }
 
   editForm (data: EditFormData) {
-    this.log('user wants to edit data')
+    console.log('user wants to edit data')
     this.editFormData.data = data
     this.editFormOpened = true
   }
 
   closeForm () {
-    this.log('edit form closed')
+    console.log('edit form closed')
     this.editFormOpened = false
     this.setLocalData()
   }
@@ -336,25 +336,25 @@ export default class App extends Vue {
     const data = this.editFormData.data
     const type = data.type as Types
     if (!type) {
-      this.error('Cannot delete entry : no type provided')
+      console.error('Cannot delete entry : no type provided')
       return
     }
-    this.log(`deleting ${type} with id ${data.id}`)
+    console.log(`deleting ${type} with id ${data.id}`)
     let array
     if (type === Types.bubble) {
       array = this.bubbles as EditFormData[]
     } else if (type === Types.action) {
       array = this.actions as EditFormData[]
     } else {
-      this.error('Unhandled type : "' + type + '"')
+      console.error('Unhandled type : "' + type + '"')
     }
     if (array) {
       const index = array.findIndex(item => item.id === data.id)
       if (index > -1) {
         array.splice(index, 1)
-        this.log(`Deleted "${data.id}" successfully`)
+        console.log(`Deleted "${data.id}" successfully`)
       } else {
-        this.error('Failed deleting item : item not found via id')
+        console.error('Failed deleting item : item not found via id')
       }
     }
     this.editFormOpened = false
@@ -363,17 +363,31 @@ export default class App extends Vue {
   selectAction (action: ActionData) {
     this.selection = action.id || ''
     if (this.selection.length > 0) {
-      this.log('selected action : ' + this.selection)
+      console.log('selected action : ' + this.selection)
       this.description = this.descriptions[this.selection] ? this.descriptions[this.selection] : DEFAULTS.noContentDescription
       this.activeTab = Tab.description
+      const bubble = this.bubbles.find(b => (b.id === this.selection))
+      if (bubble) {
+        this.bubbles.forEach(b => (b.selected = false))
+        bubble.selected = true
+      }
     } else {
-      this.log('no action selected')
+      console.log('no action selected')
       this.activeTab = Tab.actions
     }
   }
 
   selectBubble (bubble: BubbleData) {
-    this.log('bubble selected : ' + bubble.id)
+    console.log('bubble selected :', bubble)
+    if (bubble.selected) {
+      bubble.selected = false
+      this.activeTab = Tab.actions
+      return
+    }
+    this.bubbles.forEach(b => (b.selected = false))
+    bubble.selected = true
+    const action = this.actions.find(a => a.id === bubble.id)
+    if (action) this.selectAction(action)
   }
 
   gotoActions () {
@@ -381,18 +395,10 @@ export default class App extends Vue {
   }
 
   addAction () {
-    this.log('Adding action...')
+    console.log('Adding action...')
     const action = copy(DEFAULTS.action)
     this.actions.push(action)
     this.editForm(action)
-  }
-
-  error (message: string) {
-    console.error(message)
-  }
-
-  log (message: string) {
-    console.log(message)
   }
 }
 
