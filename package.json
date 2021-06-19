@@ -19,7 +19,7 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-vue": "7.11.1",
     "npm-run-all": "*",
-    "shuunen-stack": "0.9.5",
+    "shuunen-stack": "0.9.6",
     "shuutils": "*",
     "typescript": "*",
     "vue": "2.6.14",
